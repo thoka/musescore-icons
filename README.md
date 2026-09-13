@@ -1,21 +1,23 @@
-# MuseScore UI-Icons
+# MuseScore UI Icons
 
-Holt die Icon-Font der MuseScore-Studio-Oberfläche und rendert **für jeden Glyph
-ein eigenes Icon** – als PNG (beliebige Größen) und optional als SVG,
-thematisch in Unterordner sortiert.
+*[Deutsche Fassung: README-de.md](README-de.md)*
 
-## Quellen
+Fetches the icon font of the MuseScore Studio user interface and renders
+**every glyph as a separate icon** – as PNG (any size) and optionally as SVG,
+sorted into thematic subfolders.
 
-| Datei | Herkunft |
+## Sources
+
+| File | Origin |
 |---|---|
 | `fonts/MusescoreIcon.ttf` | [`musescore/muse_framework`](https://github.com/musescore/muse_framework) → `framework/ui/data/MusescoreIcon.ttf` |
-| `fonts/iconcodes.h` | dasselbe Repo → `framework/ui/view/iconcodes.h` (liefert die sprechenden Namen wie `PLAY`, `NOTE_8TH`) |
+| `fonts/iconcodes.h` | same repository → `framework/ui/view/iconcodes.h` (provides the speaking names such as `PLAY`, `NOTE_8TH`) |
 
-Seit MuseScore Studio 4.6 liegt das UI-Framework im ausgelagerten Submodul
-`muse_framework`, nicht mehr im Hauptrepo.
+Since MuseScore Studio 4.6 the UI framework lives in the separate submodule
+`muse_framework`, no longer in the main repository.
 
-Die Font steht unter GPL-3.0 (MuseScore Limited). Die erzeugten Icons sind
-abgeleitete Werke – bei Weitergabe gilt dieselbe Lizenz.
+The font is licensed under GPL-3.0 (MuseScore Limited). The generated icons are
+derivative works – the same license applies when redistributing them.
 
 ## Installation
 
@@ -24,31 +26,31 @@ python3 -m venv .venv
 .venv/bin/pip install -r requirements.txt     # fonttools, pillow
 ```
 
-## Benutzung
+## Usage
 
 ```bash
-.venv/bin/python musescore_icons.py all              # Download + Rendern (128 px)
-.venv/bin/python musescore_icons.py fetch            # nur Font + Namen laden
+.venv/bin/python musescore_icons.py all              # download + render (128 px)
+.venv/bin/python musescore_icons.py fetch            # only fetch font + names
 .venv/bin/python musescore_icons.py render --sizes 16,24,32,48,128 --svg
-.venv/bin/python musescore_icons.py list             # Glyphen + Kategorien anzeigen
+.venv/bin/python musescore_icons.py list             # show glyphs + categories
 ```
 
-Wichtige Optionen von `render` / `all`:
+Important options of `render` / `all`:
 
-| Option | Bedeutung |
+| Option | Meaning |
 |---|---|
-| `-s, --sizes 24,128` | PNG-Kantenlängen in Pixel (mehrere möglich) |
-| `-c, --color "#ffffff"` | Icon-Farbe – z. B. Weiß für dunkle Oberflächen |
-| `-b, --background white` | Hintergrund (Standard: transparent) |
-| `-m, --margin 0.08` | Rand als Anteil der Kantenlänge |
-| `--mode fit \| em` | `fit`: jeder Glyph füllt das Icon aus (Standard). `em`: Größenverhältnisse wie im Font-Design, Überstände werden nur so weit verkleinert, dass nichts abgeschnitten wird |
-| `--svg` | zusätzlich saubere Vektor-SVGs (Konturen direkt aus der Font) |
-| `--flat` | alles in einen Ordner statt thematisch sortiert |
-| `--no-aliases` | keine Kopien für Zweitnamen desselben Codepoints |
-| `--no-gallery` | keine `index.html` erzeugen |
-| `--ref <tag>` | anderen Stand des Repos laden, z. B. `--ref v4.6.0` |
+| `-s, --sizes 24,128` | PNG edge lengths in pixels (several possible) |
+| `-c, --color "#ffffff"` | icon color – e.g. white for dark interfaces |
+| `-b, --background white` | background (default: transparent) |
+| `-m, --margin 0.08` | margin as a fraction of the edge length |
+| `--mode fit \| em` | `fit`: every glyph fills the icon (default). `em`: size relations as designed in the font, overhangs are scaled down only as far as needed so nothing gets cut off |
+| `--svg` | additionally export clean vector SVGs (outlines taken straight from the font) |
+| `--flat` | everything into one folder instead of thematically sorted |
+| `--no-aliases` | no copies for secondary names of the same codepoint |
+| `--no-gallery` | do not generate `index.html` |
+| `--ref <tag>` | load a different state of the repository, e.g. `--ref v4.6.0` |
 
-## Ergebnis
+## Result
 
 ```
 icons/
@@ -57,17 +59,17 @@ icons/
 │   ├── notes-rests-beams/    NOTE_8TH.png, TUPLET_NUMBER_ONLY.png …
 │   ├── …
 │   └── _unnamed/             U+F3A3.png …
-├── svg/                      gleiche Struktur
-├── index.html                durchsuchbare Galerie (Klick kopiert den Namen)
-└── manifest.json             Name, Codepoint, Kategorie, Aliase, Dateien
+├── svg/                      same structure
+├── index.html                searchable gallery (a click copies the name)
+└── manifest.json             name, codepoint, category, aliases, files
 ```
 
-Stand heute enthält die Font **553 Glyphen**; 397 davon haben über
-`iconcodes.h` einen sprechenden Namen, der Rest landet mit seinem Codepoint
-(`U+F3A3.png`) im Ordner `_unnamed` – das sind Icons, die in der Font schon
-vorhanden, im Enum aber noch nicht eingetragen sind.
+As of today the font contains **553 glyphs**; 397 of them have a speaking name
+via `iconcodes.h`, the rest ends up with its codepoint (`U+F3A3.png`) in the
+folder `_unnamed` – these are icons that already exist in the font but are not
+yet listed in the enum.
 
-### Thematische Ordner
+### Thematic folders
 
 `transport-playback`, `notes-rests-beams`, `pitch-accidentals-keys`,
 `articulations-ornaments`, `dynamics-expression`, `guitar-fretboard`,
@@ -75,17 +77,35 @@ vorhanden, im Enum aber noch nicht eingetragen sind.
 `arrows-navigation`, `view-zoom`, `file-cloud-online`, `edit-tools`,
 `audio-waveform`, `app-ui-status`, `shapes-misc`, `_unnamed`.
 
-Die Zuordnung steckt in `CATEGORY_RULES` in `musescore_icons.py`: eine
-geordnete Liste aus Ordnername + Regex-Mustern für den Icon-Namen, die erste
-passende Regel gewinnt. Eigene Themen lassen sich dort in wenigen Zeilen
-ergänzen; `list` zeigt sofort, wie sich die Verteilung ändert.
+The assignment lives in `CATEGORY_RULES` in `musescore_icons.py`: an ordered
+list of folder name + regex patterns matched against the icon name, the first
+matching rule wins. Own themes can be added there in a few lines; `list`
+immediately shows how the distribution changes.
 
-## Hinweise
+## ZIP packs
 
-* Die Namen im Dateisystem entsprechen exakt den `IconCode::Code`-Werten aus
-  MuseScore – so lässt sich ein Icon direkt einer UI-Stelle zuordnen.
-* Zwei Namen zeigen auf denselben Glyph (`TREMOLO_TWO_NOTES` /
-  `TREMOLO_STYLE_DEFAULT`, `LYRICS` / `LEARN`); dafür werden zwei identische
-  Dateien geschrieben, in `manifest.json` stehen sie als `aliases`.
-* `GRADUATION_CAP` (`U+F19D`) ist im Enum definiert, in der Font aber nicht
-  vorhanden, und wird deshalb übersprungen.
+`make_packs.py` bundles every folder that contains icons into its own archive
+under `packs/`. The archive name is made up of all path elements joined by
+dots:
+
+```bash
+python3 make_packs.py                       # packs/icons.128px.edit-tools.zip, …
+python3 make_packs.py --clean               # delete old archives beforehand
+python3 make_packs.py --root icons-light --suffixes .svg
+python3 make_packs.py --flat --dry-run      # files at the zip root / preview only
+```
+
+Inside the archive the files live in a folder of the same name, so several
+packs can be unpacked next to each other without colliding. The script only
+uses the standard library and writes with fixed timestamps, so an unchanged
+icon set produces byte-identical archives. `packs/` is not checked into git.
+
+## Notes
+
+* The names in the file system match the `IconCode::Code` values from MuseScore
+  exactly – this makes it easy to map an icon to its place in the UI.
+* Two names point to the same glyph (`TREMOLO_TWO_NOTES` /
+  `TREMOLO_STYLE_DEFAULT`, `LYRICS` / `LEARN`); two identical files are written
+  for those, and `manifest.json` lists them as `aliases`.
+* `GRADUATION_CAP` (`U+F19D`) is defined in the enum but missing from the font,
+  and is therefore skipped.
