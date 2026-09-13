@@ -113,6 +113,8 @@ on the development machine and the directory is trusted.
 
 Keep `make_packs.py` standard-library only. `musescore_icons.py` may use the
 packages listed in `requirements.txt` (fonttools, pillow) and nothing else.
+`make_deck.py` renders through `musescore_icons.Renderer` and therefore
+depends on those two as well — nothing beyond `requirements.txt`.
 
 ## Releasing
 

@@ -158,6 +158,37 @@ Also **vor** jedem Export-Code klären, was Macro Deck 3 tatsächlich frisst.
 * Ergebnisse in beiden READMEs festhalten; sie bestimmen die Export-Presets in
   Schritt 5.
 
+### Stand: gebaut — der Geraetetest bleibt beim Menschen
+
+* [x] `make_deck.py` baut aus einer Namensliste ein Pack-Verzeichnis
+      (`ExtensionManifest.json`, `ExtensionIcon.png`, flache Icon-Dateien) und
+      schreibt es als `.zip` **und** als `.macroPack`-Kopie. Gezippt wird mit
+      `make_packs.py:write_pack` (flach, feste Zeitstempel).
+* [x] `--pilot` erzeugt die drei Varianten mit denselben 10 Icons — `PLAY`,
+      `STOP`, `LOOP`, `METRONOME`, `UNDO`, `REDO`, `NOTE_QUARTER`, `NOTE_8TH`,
+      `REST`, `SHARP`: `packs/macrodeck-png256`, `-png128`, `-svg`, je
+      `.zip` + `.macroPack` (33,5 KB / 18,4 KB / 8,6 KB).
+* [x] Sichtprüfung: Kontaktbogen beider PNG-Varianten auf dunklem Grund
+      angesehen — weiss auf transparent, nichts abgeschnitten, 256 px sichtbar
+      schaerfer als 128 px.
+* [x] Die vier offenen Fragen stehen als Tabelle mit Stand `offen` in beiden
+      READMEs; die Antworten gehoeren dort hinein, nicht in eine neue Datei.
+* [ ] **Geraetetest** (nur der Mensch, Macro Deck 3 noetig): Fragen 1–4
+      beantworten und die Tabelle in beiden READMEs auf den Stand bringen.
+
+Beim Umsetzen dazugelernt:
+
+* Der Plan sah PIL nur zum **Umskalieren** der vorhandenen 128-px-PNGs vor. Das
+  haette Frage 3 verfaelscht: ein aus 128 px hochgerechnetes „256er" beweist
+  nichts ueber die Schaerfe auf dem Geraet. `make_deck.py` rendert deshalb
+  frisch ueber `musescore_icons.Renderer` — derselbe Code, der `icons/` erzeugt,
+  nur mit freier Groesse und Farbe. Damit haengt `make_deck.py` an fontTools +
+  Pillow statt an der Standardbibliothek; in `AGENTS.md` vermerkt.
+* Standardfarbe ist **weiss**, nicht das Schwarz der Galerie: Macro-Deck-Tasten
+  sind dunkel, schwarze Icons waeren dort unsichtbar.
+* `ExtensionIcon.png` bleibt auch in der SVG-Variante ein PNG — das Pack-Icon
+  zeigt die Store-Liste an, nicht das Geraet.
+
 ---
 
 ## Schritt 3 — Glyph-Daten erzeugen

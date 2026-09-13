@@ -100,6 +100,59 @@ Pakete nebeneinander auspacken lassen. Das Skript braucht nur die
 Standardbibliothek und schreibt feste Zeitstempel – ein unveraenderter
 Icon-Satz ergibt also bitgleiche Archive. `packs/` wird nicht eingecheckt.
 
+## Macro-Deck-Icon-Pakete (Pilot)
+
+`make_deck.py` buendelt eine Auswahl von Icons zu einem Icon-Pack fuer
+[Macro Deck 3](https://macro-deck.app). Das Pack hat die flache Struktur, die
+die App erwartet – Manifest, Pack-Icon und die Icon-Dateien nebeneinander in der
+Archivwurzel:
+
+```
+ExtensionManifest.json      type, name, author, packageId, version …
+ExtensionIcon.png           das Pack-Icon (immer PNG, 256 px)
+PLAY.png  STOP.png  NOTE_8TH.png …
+```
+
+```bash
+python3 make_deck.py --pilot                       # die drei Testvarianten
+python3 make_deck.py --icons PLAY,STOP,NOTE_8TH    # eigene Auswahl, PNG 256 px
+python3 make_deck.py --icons-file meine-icons.txt --format svg
+```
+
+| Option | Bedeutung |
+|---|---|
+| `--pilot` | alle drei Testvarianten auf einmal bauen (PNG 256, PNG 128, SVG) |
+| `--icons PLAY,STOP` | Icon-Namen, kommagetrennt (Aliase funktionieren auch) |
+| `--icons-file <Datei>` | ein Icon-Name je Zeile, `#` leitet einen Kommentar ein |
+| `-s, --size 256` | Kantenlaenge in Pixel (Standard: 256) |
+| `-f, --format png \| svg` | Dateiformat der Icons im Pack |
+| `-c, --color white` | Icon-Farbe – weiss als Standard, weil Macro-Deck-Tasten dunkel sind |
+| `--name`, `--author`, `--version`, `--package-id` | Manifest-Felder (`packageId` ist standardmaessig `Autor.PackName`) |
+| `-o, --out packs` | Zielordner (Standard: `packs/`, nicht eingecheckt) |
+| `--keep-dir` | das entpackte Pack-Verzeichnis neben den Archiven behalten |
+
+Die Icons werden **frisch aus der Font gerendert**, nicht aus `icons/` kopiert:
+ein 256-px-Icon muss echte 256 px haben, sonst waere die Groessenfrage unten mit
+einer hochskalierten 128-px-Datei beantwortet. Jede Variante wird doppelt
+geschrieben, als `.zip` und als bitgleiche `.macroPack`-Kopie – welches von
+beiden der Import-Dialog annimmt, ist eine der offenen Fragen.
+
+### Offene Fragen – am Geraet zu beantworten
+
+Der Pilot existiert, um herauszufinden, was Macro Deck 3 tatsaechlich frisst.
+Das kann nur ein Test an echter Hardware klaeren (Plugins-Tab → *Install From
+File* → im Dateidialog *Macro Deck icon pack* auswaehlen):
+
+| # | Frage | Stand |
+|---|---|---|
+| 1 | Nimmt „Install From File“ das `.zip` oder nur `.macroPack`? | offen |
+| 2 | Werden **SVG**-Dateien in einem Icon-Pack akzeptiert? Dokumentiert ist SVG nur fuer *Plugin*-Icons. | offen |
+| 3 | Welche Kantenlaenge sieht auf dem Geraet gut aus? 512 px macht [Probleme](https://github.com/Macro-Deck-App/Macro-Deck/issues/590), ~256 px gelten als sicher. | offen |
+| 4 | Laesst sich ein Pack **per URL** direkt von der Uebersichtsseite ziehen? Wenn ja, kann die Seite Packs ausliefern statt nur Downloads anzubieten. | offen |
+
+Die Antworten bestimmen die Export-Voreinstellungen des Icon-Builders, siehe
+[`docs/plans/0001-glyph-composer.md`](docs/plans/0001-glyph-composer.md).
+
 ## Uebersichtsseite (GitHub Pages)
 
 `make_pages.py` erzeugt aus `icons/manifest.json` die `index.html` im
