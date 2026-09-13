@@ -82,8 +82,10 @@ inverts the background as well. Icon boxes never get a fixed pixel width —
 The repository carries a `mise.toml`; [mise](https://mise.jdx.dev) is installed
 on the development machine and the directory is trusted.
 
-* `mise.toml` is the repository's tool list: `claude`, `node` (which brings
-  `npm`) and `uv`, each at `latest`.
+* `mise.toml` is the repository's tool list: `claude` at `latest`, `node` (which
+  brings `npm`) pinned to `24` and `uv` pinned to `0.11`. Keep the toolchain
+  pinned to a major — `claude` is the deliberate exception, it should follow
+  upstream. Raising a pin is a change of its own, not a side effect.
 * Tools that exist in the global mise installation but are **not** listed there
   (pnpm, go, …) are not on `PATH` here. Reach them either ad hoc with
   `mise exec pnpm -- pnpm --version`, or add them for good with

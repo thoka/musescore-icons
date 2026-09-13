@@ -1,4 +1,4 @@
 [tools]
 claude = "latest"
-node = "latest"
-uv = "latest"
+node = "24"
+uv = "0.11"
