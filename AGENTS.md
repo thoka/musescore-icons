@@ -25,6 +25,8 @@ Rules:
   (`README.md` → `README-de.md` and back).
 * If a user asks for a documentation change in one language only, apply it to
   both anyway and say so in the reply.
+* The rule covers these two files only. Everything under `docs/` exists once;
+  see *Plans* below.
 
 ## Language elsewhere
 
@@ -32,6 +34,22 @@ Rules:
   German, matching the existing style in `musescore_icons.py`.
 * Commit messages: English.
 * This file and any other agent instructions: English.
+
+## Plans
+
+Larger pieces of work get a written plan before the code exists, so that later
+sessions and third parties can follow the original brief.
+
+* Plans live in `docs/plans/` as `NNNN-slug.md`, numbered in the order they were
+  written — never in the repository root. `docs/plans/README.md` explains the
+  convention and indexes every plan.
+* Commit a new plan on its own, before the implementation starts, and add its
+  row to the table in `docs/plans/README.md` in the same commit.
+* Tick off progress inside the plan file itself, not in a separate note. When
+  the work is finished, set the plan's status to `done`; never delete a plan and
+  never reuse or renumber a number.
+* Plan prose may be German like the rest of the project documentation; file
+  names and the index table stay English.
 
 ## Generated content
 
