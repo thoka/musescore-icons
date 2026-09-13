@@ -20,6 +20,9 @@ below and this file stay English.
 ## Working with a plan
 
 * A plan is committed **before** the implementation starts, in its own commit.
+* The implementation happens on the branch `plan/NNNN-slug` and is merged with
+  `git merge --no-ff`. `main` is what GitHub Pages serves, so it stays
+  deployable at every commit — see *Plans* in `AGENTS.md`.
 * Progress is ticked off inside the plan file itself, not in a separate note.
 * When the work is done, set the status to `done`; do not delete the file.
 * This table is the index — add a row in the same commit that adds a plan.
