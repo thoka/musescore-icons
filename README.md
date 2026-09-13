@@ -143,7 +143,7 @@ be answered with an upscaled 128 px file. Each variant is written as a plain
 | 1 | Does “Install From File” take the `.zip`? | **Yes**, the `.zip` imports. `.macroPack`, the extension the documentation names, is unknown to the app – its own list of pack archives is `macrodeckiconpack`, `streamdeckiconpack`, `tpi`, `zip`. `make_deck.py` therefore writes a plain `.zip` and nothing else. |
 | 2 | Are **SVG** files accepted in an icon pack? | **Yes** – the SVG pack imports. `svg` is part of the icon extensions the app accepts, next to `png`, `jpg`, `jpeg`, `gif`, `webp`, `lottie`, `ico`, `icns`. |
 | 3 | Which edge length looks good on the device? | still open – the default stays 256 px; 512 px is known to cause [problems](https://github.com/Macro-Deck-App/Macro-Deck/issues/590). |
-| 4 | Can a pack be pulled **by URL** straight from the page? | **No.** Single icons can be dragged from the browser onto a key, packs cannot – see the next section. |
+| 4 | Can a pack be pulled **by URL** straight from the page? | Not as an archive. But **single icons drag from the page onto a key**, including icons the page generates in the browser – see the next section. |
 
 ### Dragging from the page into Macro Deck
 
@@ -153,14 +153,19 @@ as the app's own source puts it: *“Tauri owns WebView drag-and-drop and swallo
 the HTML5 drop event.”* A drop is understood only when the operating system hands
 over a file that already exists on disk.
 
-* **A dragged `<img>` works.** The browser has the bytes in its cache, writes them
-  to a temp file and passes the path along – which is why an icon from the gallery
-  can be dropped straight onto a key.
+* **A dragged `<img>` works** – tested with all four sources that matter: a PNG
+  and an SVG from the server, and a PNG and an SVG from a `blob:` URL, i.e. an
+  icon the page generated on the fly and never wrote to disk. The browser
+  materialises the image into a temp file and passes its path along.
 * **A dragged link does not** – not even with Chromium's `DownloadURL` drag
   format, which was tried on the device. It offers the target a file to fetch
   instead of a path on disk, and Macro Deck only ever looks at paths.
-* Packs therefore take the plain route: download, then *Install From File* – or
-  drag the downloaded file out of the file manager.
+* **One drag carries one file.** A web page cannot hand several files to the
+  operating system in a single drag. Macro Deck itself would take them: the icon
+  picker and the icon packs page are multi-drop targets (`[multiple]="true"`) and
+  accept whole folders and pack archives as well. So a whole matrix travels as a
+  ZIP – download, unpack, then drag the folder or a multiple selection out of the
+  file manager, or use *Install From File*.
 
 The results decide the export presets of the icon builder, see
 [`docs/plans/0001-glyph-composer.md`](docs/plans/0001-glyph-composer.md).

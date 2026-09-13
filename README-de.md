@@ -144,7 +144,7 @@ einer hochskalierten 128-px-Datei beantwortet. Jede Variante wird als schlichtes
 | 1 | Nimmt „Install From File“ das `.zip`? | **Ja**, das `.zip` wird importiert. `.macroPack`, die Endung aus der Dokumentation, kennt die App nicht – ihre eigene Liste der Pack-Archive lautet `macrodeckiconpack`, `streamdeckiconpack`, `tpi`, `zip`. `make_deck.py` schreibt deshalb nur noch ein schlichtes `.zip`. |
 | 2 | Werden **SVG**-Dateien in einem Icon-Pack akzeptiert? | **Ja** – das SVG-Pack laesst sich importieren. `svg` gehoert zu den Icon-Endungen der App, neben `png`, `jpg`, `jpeg`, `gif`, `webp`, `lottie`, `ico`, `icns`. |
 | 3 | Welche Kantenlaenge sieht auf dem Geraet gut aus? | noch offen – Standard bleibt 256 px; 512 px machen bekanntlich [Probleme](https://github.com/Macro-Deck-App/Macro-Deck/issues/590). |
-| 4 | Laesst sich ein Pack **per URL** direkt von der Seite ziehen? | **Nein.** Einzelne Icons lassen sich aus dem Browser auf eine Taste ziehen, Packs nicht – siehe naechster Abschnitt. |
+| 4 | Laesst sich ein Pack **per URL** direkt von der Seite ziehen? | Als Archiv nicht. Aber **einzelne Icons lassen sich von der Seite auf eine Taste ziehen**, auch solche, die die Seite erst im Browser erzeugt – siehe naechster Abschnitt. |
 
 ### Von der Seite ins Deck ziehen
 
@@ -154,15 +154,21 @@ ausschliesslich als **Dateipfade** an die Oberflaeche weiter (`forward_drag_drop
 drag-and-drop and swallows the HTML5 drop event."* Ein Drop wird also nur
 verstanden, wenn das Betriebssystem eine Datei uebergibt, die es schon gibt.
 
-* **Ein gezogenes `<img>` funktioniert.** Der Browser hat die Bytes im Cache,
-  legt sie in eine temporaere Datei und gibt deren Pfad weiter – deshalb laesst
-  sich ein Icon aus der Galerie direkt auf eine Taste ziehen.
+* **Ein gezogenes `<img>` funktioniert** – geprueft mit allen vier Quellen, auf
+  die es ankommt: PNG und SVG vom Server sowie PNG und SVG aus einer
+  `blob:`-URL, also ein Icon, das die Seite erst im Browser erzeugt und nie auf
+  die Platte geschrieben hat. Der Browser legt das Bild in eine temporaere Datei
+  und gibt deren Pfad weiter.
 * **Ein gezogener Link funktioniert nicht** – auch nicht mit dem
   Chromium-Format `DownloadURL`, das am Geraet ausprobiert wurde. Es bietet dem
   Ziel eine Datei zum Abholen an statt eines Pfads auf der Platte, und Macro Deck
   schaut nur auf Pfade.
-* Packs gehen deshalb den schlichten Weg: herunterladen, dann *Install From
-  File* – oder die heruntergeladene Datei aus dem Dateimanager ziehen.
+* **Ein Drag traegt eine Datei.** Eine Webseite kann dem Betriebssystem in einem
+  Zug nicht mehrere Dateien uebergeben. Macro Deck selbst wuerde sie nehmen: der
+  Icon-Picker und die Icon-Packs-Seite sind Mehrfach-Ziele (`[multiple]="true"`)
+  und akzeptieren auch ganze Ordner und Pack-Archive. Eine komplette Matrix
+  reist deshalb als ZIP – herunterladen, entpacken, dann den Ordner oder eine
+  Mehrfachauswahl aus dem Dateimanager ziehen, oder *Install From File*.
 
 Die Ergebnisse bestimmen die Export-Voreinstellungen des Icon-Builders, siehe
 [`docs/plans/0001-glyph-composer.md`](docs/plans/0001-glyph-composer.md).

@@ -199,9 +199,15 @@ Also **vor** jedem Export-Code klären, was Macro Deck 3 tatsächlich frisst.
 Folgen fuer die spaeteren Stufen:
 
 * **Schritt 4/5**: Jedes erzeugte Icon in der Vorschau muss ein echtes `<img>`
-  mit Bilddaten sein (Blob- oder Data-URL), damit es sich einzeln auf eine Taste
-  ziehen laesst — das ist der einzige Weg von der Seite direkt ins Deck und fuer
-  einzelne Icons bequemer als der Umweg ueber ein Pack.
+  mit Bilddaten sein — **bestaetigt**: PNG und SVG ziehen sowohl vom Server als
+  auch aus einer `blob:`-URL, ein im Browser erzeugtes Icon laesst sich also
+  direkt auf eine Taste ziehen. Das ist der Hauptweg fuer die Matrix: die Zellen
+  muessen ohnehin einzeln an ihren Platz.
+* **Ein Drag = eine Datei.** Mehrere Dateien kann eine Webseite nicht in einem
+  Zug uebergeben. Macro Deck selbst koennte es (`[multiple]="true"` am
+  Icon-Picker und an der Icon-Packs-Seite, inkl. Ordnern und Pack-Archiven) —
+  fuer viele Icons auf einmal bleibt also der Weg ZIP herunterladen, entpacken,
+  Ordner oder Mehrfachauswahl aus dem Dateimanager ziehen.
 * **Schritt 5**: Als Pack-Export genuegt ein `.zip` mit flacher Struktur; eine
   zweite Endung ist unnoetig. SVG ist als Icon-Format bestaetigt, ein
   PNG-Preset bleibt trotzdem Standard, solange Frage 3 offen ist.
