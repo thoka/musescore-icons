@@ -45,7 +45,11 @@ Installation nötig**:
 ```
 
 Ebenfalls vorhanden: `chromium-1228` (voller Browser) und `firefox-1532`.
-Node/npm/pnpm sind da. **Achtung**: Die Maschine ist **Arch**, nicht Debian —
+Node, pnpm und `uv` liegen in **mise** (Node 24.20.0, pnpm 11.13.0, uv 0.11.14),
+sind in diesem Verzeichnis aber **nicht aktiv**, weil `mise.toml` nur `claude`
+aufführt: entweder `mise exec node -- …` benutzen oder die benötigten Tools mit
+`mise use node uv` in `mise.toml` aufnehmen (siehe `AGENTS.md`, *Local
+toolchain*). **Achtung**: Die Maschine ist **Arch**, nicht Debian —
 `playwright install-deps` und `apt`/`dpkg` funktionieren nicht und werden nicht
 gebraucht.
 
