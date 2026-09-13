@@ -76,6 +76,37 @@ Umzusetzen:
 5. Screenshots gehören **nicht** ins Repo — in den Scratchpad schreiben; falls
    doch ein Ordner im Repo genutzt wird, `shots/` in `.gitignore`.
 
+### Stand: erledigt
+
+* [x] `tools/shot.sh` — findet die `chrome-headless-shell` per Glob im
+      Playwright-Cache, fällt auf `chromium-*/chrome-linux64/chrome
+      --headless=new` zurück und bricht ab, wenn die Zieldatei leer bleibt.
+* [x] `requirements-dev.txt` (`playwright>=1.49`) in `.venv` installiert, mit
+      `PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD=1`.
+* [x] `tools/check_page.py` — Konsolenfehler, fehlgeschlagene Requests,
+      HTTP ≥ 400, Screenshots ganzer Seiten und einzelner Elemente, `--js` für
+      spätere Canvas-Vergleiche. Exitcode 1 bei Befunden.
+* [x] Lokaler Server (`python3 -m http.server 8000`) geprüft.
+* [x] **Abnahme**: Screenshots von `http://localhost:8000/` und von
+      `https://thoka.github.io/musescore-icons/` erzeugt und angesehen — beide
+      Seiten identisch; dazu die Galerie `/icons/` lokal und live.
+      `check_page.py` meldet für beide Seiten **0** Konsolenfehler und **0**
+      fehlgeschlagene Requests (553 `<img>` auf der Übersicht).
+* [x] Negativtest: Seite mit `console.error` und fehlendem Bild wird als
+      3 Konsolenfehler + 1 fehlgeschlagener Request (HTTP 404) gemeldet,
+      Exitcode 1.
+
+Beim Umsetzen dazugelernt:
+
+* Playwright 1.62 erwartet Browser-Revision **1234**, im Cache liegt **1228**.
+  Der im Plan vorgesehene Ausweg greift: `executable_path` auf die vorhandene
+  `chrome-headless-shell`, kein Nachladen. `playwright install` wird nie
+  gebraucht.
+* `Locator.screenshot(timeout=…)` allein wirkt nicht — ohne
+  `page.set_default_timeout()` wartet ein Selektor weiter 30 s.
+* Ein Selektor, der nichts trifft, ist ein Befund der Seite und wird als
+  Konsolenfehler gezählt, statt das Werkzeug mit einem Traceback zu beenden.
+
 ---
 
 ## Schritt 1 — Plan im Repo ablegen (Nachverfolgbarkeit)
