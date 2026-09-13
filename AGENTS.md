@@ -82,12 +82,13 @@ inverts the background as well. Icon boxes never get a fixed pixel width —
 The repository carries a `mise.toml`; [mise](https://mise.jdx.dev) is installed
 on the development machine and the directory is trusted.
 
-* `mise.toml` is the repository's tool list. It currently pins `claude` only.
-* Tools that exist in the global mise installation (node, pnpm, uv, go, …) are
-  **not** on `PATH` here until they are listed in `mise.toml`. Reach them either
-  ad hoc with `mise exec node -- node --version`, or add them for good with
-  `mise use node uv` — which writes them into `mise.toml` and belongs in a
-  commit of its own.
+* `mise.toml` is the repository's tool list: `claude`, `node` (which brings
+  `npm`) and `uv`, each at `latest`.
+* Tools that exist in the global mise installation but are **not** listed there
+  (pnpm, go, …) are not on `PATH` here. Reach them either ad hoc with
+  `mise exec pnpm -- pnpm --version`, or add them for good with
+  `mise use <tool>` — which rewrites `mise.toml` and belongs in a commit of its
+  own.
 * Python for the scripts stays the system interpreter plus `.venv`, as both
   READMEs describe. If that ever moves to mise or `uv`, the install section of
   `README.md` **and** `README-de.md` changes with it.

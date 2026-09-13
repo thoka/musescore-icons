@@ -1,2 +1,4 @@
 [tools]
 claude = "latest"
+node = "latest"
+uv = "latest"
