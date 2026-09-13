@@ -133,24 +133,38 @@ python3 make_deck.py --icons-file meine-icons.txt --format svg
 
 Die Icons werden **frisch aus der Font gerendert**, nicht aus `icons/` kopiert:
 ein 256-px-Icon muss echte 256 px haben, sonst waere die Groessenfrage unten mit
-einer hochskalierten 128-px-Datei beantwortet. Jede Variante wird doppelt
-geschrieben, als `.zip` und als bitgleiche `.macroPack`-Kopie – welches von
-beiden der Import-Dialog annimmt, ist eine der offenen Fragen.
+einer hochskalierten 128-px-Datei beantwortet. Jede Variante wird als schlichtes
+`.zip` geschrieben – die Endung, die der Import-Dialog tatsaechlich annimmt
+(siehe unten).
 
-### Offene Fragen – am Geraet zu beantworten
+### Was Macro Deck 3 annimmt (Ergebnis des Piloten)
 
-Der Pilot existiert, um herauszufinden, was Macro Deck 3 tatsaechlich frisst.
-Das kann nur ein Test an echter Hardware klaeren (Plugins-Tab → *Install From
-File* → im Dateidialog *Macro Deck icon pack* auswaehlen):
-
-| # | Frage | Stand |
+| # | Frage | Antwort |
 |---|---|---|
-| 1 | Nimmt „Install From File“ das `.zip` oder nur `.macroPack`? | offen |
-| 2 | Werden **SVG**-Dateien in einem Icon-Pack akzeptiert? Dokumentiert ist SVG nur fuer *Plugin*-Icons. | offen |
-| 3 | Welche Kantenlaenge sieht auf dem Geraet gut aus? 512 px macht [Probleme](https://github.com/Macro-Deck-App/Macro-Deck/issues/590), ~256 px gelten als sicher. | offen |
-| 4 | Laesst sich ein Pack **per URL** direkt von der Uebersichtsseite ziehen? Wenn ja, kann die Seite Packs ausliefern statt nur Downloads anzubieten. | offen |
+| 1 | Nimmt „Install From File“ das `.zip`? | **Ja**, das `.zip` wird importiert. `.macroPack`, die Endung aus der Dokumentation, kennt die App nicht – ihre eigene Liste der Pack-Archive lautet `macrodeckiconpack`, `streamdeckiconpack`, `tpi`, `zip`. `make_deck.py` schreibt deshalb nur noch ein schlichtes `.zip`. |
+| 2 | Werden **SVG**-Dateien in einem Icon-Pack akzeptiert? | **Ja** – das SVG-Pack laesst sich importieren. `svg` gehoert zu den Icon-Endungen der App, neben `png`, `jpg`, `jpeg`, `gif`, `webp`, `lottie`, `ico`, `icns`. |
+| 3 | Welche Kantenlaenge sieht auf dem Geraet gut aus? | noch offen – Standard bleibt 256 px; 512 px machen bekanntlich [Probleme](https://github.com/Macro-Deck-App/Macro-Deck/issues/590). |
+| 4 | Laesst sich ein Pack **per URL** direkt von der Seite ziehen? | **Nein.** Einzelne Icons lassen sich aus dem Browser auf eine Taste ziehen, Packs nicht – siehe naechster Abschnitt. |
 
-Die Antworten bestimmen die Export-Voreinstellungen des Icon-Builders, siehe
+### Von der Seite ins Deck ziehen
+
+Macro Deck 3 ist eine Tauri-Anwendung. Die Rust-Shell reicht `WindowEvent::DragDrop`
+ausschliesslich als **Dateipfade** an die Oberflaeche weiter (`forward_drag_drop`
+→ `paths`), und im Quelltext der App steht es selbst: *„Tauri owns WebView
+drag-and-drop and swallows the HTML5 drop event."* Ein Drop wird also nur
+verstanden, wenn das Betriebssystem eine Datei uebergibt, die es schon gibt.
+
+* **Ein gezogenes `<img>` funktioniert.** Der Browser hat die Bytes im Cache,
+  legt sie in eine temporaere Datei und gibt deren Pfad weiter – deshalb laesst
+  sich ein Icon aus der Galerie direkt auf eine Taste ziehen.
+* **Ein gezogener Link funktioniert nicht** – auch nicht mit dem
+  Chromium-Format `DownloadURL`, das am Geraet ausprobiert wurde. Es bietet dem
+  Ziel eine Datei zum Abholen an statt eines Pfads auf der Platte, und Macro Deck
+  schaut nur auf Pfade.
+* Packs gehen deshalb den schlichten Weg: herunterladen, dann *Install From
+  File* – oder die heruntergeladene Datei aus dem Dateimanager ziehen.
+
+Die Ergebnisse bestimmen die Export-Voreinstellungen des Icon-Builders, siehe
 [`docs/plans/0001-glyph-composer.md`](docs/plans/0001-glyph-composer.md).
 
 ## Uebersichtsseite (GitHub Pages)

@@ -11,9 +11,10 @@ flachen Struktur ab, die Macro Deck 3 fuer ein Icon-Pack erwartet:
     NOTE_8TH.png
     ...
 
-Das Verzeichnis wird zusaetzlich als .zip und als gleichnamige .macroPack-Kopie
-geschrieben -- welches der beiden Macro Deck beim Import annimmt, ist der
-offene Punkt, den der Pilot klaeren soll (siehe docs/plans/0001-glyph-composer.md).
+Gepackt wird als .zip -- die Endung, die "Install From File" nachweislich
+annimmt (Pilot, siehe docs/plans/0001-glyph-composer.md). Macro Deck kennt als
+Pack-Archiv ausserdem .macrodeckiconpack, .streamdeckiconpack und .tpi; eine
+.macroPack-Datei, wie sie die Doku nennt, kennt es nicht.
 
 Beispiele:
     python make_deck.py --pilot
@@ -103,13 +104,11 @@ def build_dir(renderer, by_name, names: list[str], dest: Path,
     return files
 
 
-def bundle(dest: Path, files: list[Path], out: Path) -> list[Path]:
-    """Verzeichnis flach als .zip packen und als .macroPack danebenlegen."""
+def bundle(dest: Path, files: list[Path], out: Path) -> Path:
+    """Verzeichnis flach als .zip packen -- Unterordner mag Macro Deck nicht."""
     zip_path = out / f"{dest.name}.zip"
-    write_pack(zip_path, files, "")          # flach -- Macro Deck will keine Unterordner
-    pack_path = zip_path.with_suffix(".macroPack")
-    shutil.copyfile(zip_path, pack_path)
-    return [zip_path, pack_path]
+    write_pack(zip_path, files, "")
+    return zip_path
 
 
 def build_variant(args, renderer, by_name, names: list[str],
@@ -126,12 +125,11 @@ def build_variant(args, renderer, by_name, names: list[str],
     }
     dest = Path(args.out) / f"macrodeck-{label}"
     files = build_dir(renderer, by_name, names, dest, fmt, size, meta)
-    written = bundle(dest, files, Path(args.out))
+    archive = bundle(dest, files, Path(args.out))
     if not args.keep_dir:
         shutil.rmtree(dest)
-    for path in written:
-        print(f"  {path}  {len(names)} Icons ({fmt}, {size} px)  "
-              f"{human(path.stat().st_size)}")
+    print(f"  {archive}  {len(names)} Icons ({fmt}, {size} px)  "
+          f"{human(archive.stat().st_size)}")
 
 
 def main(argv=None) -> None:

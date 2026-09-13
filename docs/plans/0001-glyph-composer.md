@@ -173,8 +173,38 @@ Also **vor** jedem Export-Code klären, was Macro Deck 3 tatsächlich frisst.
       schaerfer als 128 px.
 * [x] Die vier offenen Fragen stehen als Tabelle mit Stand `offen` in beiden
       READMEs; die Antworten gehoeren dort hinein, nicht in eine neue Datei.
-* [ ] **Geraetetest** (nur der Mensch, Macro Deck 3 noetig): Fragen 1–4
-      beantworten und die Tabelle in beiden READMEs auf den Stand bringen.
+* [x] **Geraetetest** am Macro Deck 3: Fragen 1, 2 und 4 beantwortet, die
+      Tabelle in beiden READMEs steht. Frage 3 (Kantenlaenge) bleibt offen —
+      getestet wurde das SVG-Pack, die PNG-Varianten warten noch auf dem Geraet.
+
+### Ergebnis des Geraetetests
+
+* **Frage 1 — Import**: `.zip` wird von „Install From File" angenommen.
+  `.macroPack`, die Endung aus der Doku, kennt die App gar nicht; ihre Liste
+  (`domain/icon-drop.util.ts`) lautet `macrodeckiconpack`, `streamdeckiconpack`,
+  `tpi`, `zip`. `make_deck.py` schreibt seitdem nur noch das `.zip`.
+* **Frage 2 — SVG**: ja. Das SVG-Pack importiert; `svg` steht in den
+  `ICON_DROP_EXTENSIONS` neben `png`, `jpg`, `gif`, `webp`, `lottie`, `ico`,
+  `icns`. Der Vorbehalt aus *Risiken* ist damit erledigt.
+* **Frage 4 — per URL ziehen**: nein, aber mit einer wichtigen Ausnahme.
+  Macro Deck 3 ist eine **Tauri**-App: die Rust-Shell reicht
+  `WindowEvent::DragDrop` nur als **Dateipfade** weiter (`forward_drag_drop` →
+  `paths`), und im Quelltext steht ausdruecklich „Tauri owns WebView
+  drag-and-drop and swallows the HTML5 drop event". Ein gezogenes `<img>`
+  funktioniert deshalb (der Browser legt die Bytes in eine temporaere Datei und
+  gibt deren Pfad weiter), ein gezogener Link nicht — auch nicht mit dem
+  Chromium-Format `DownloadURL`, das mit einer Testseite in `packs/` geprueft
+  wurde. Packs gehen also den Weg herunterladen → *Install From File*.
+
+Folgen fuer die spaeteren Stufen:
+
+* **Schritt 4/5**: Jedes erzeugte Icon in der Vorschau muss ein echtes `<img>`
+  mit Bilddaten sein (Blob- oder Data-URL), damit es sich einzeln auf eine Taste
+  ziehen laesst — das ist der einzige Weg von der Seite direkt ins Deck und fuer
+  einzelne Icons bequemer als der Umweg ueber ein Pack.
+* **Schritt 5**: Als Pack-Export genuegt ein `.zip` mit flacher Struktur; eine
+  zweite Endung ist unnoetig. SVG ist als Icon-Format bestaetigt, ein
+  PNG-Preset bleibt trotzdem Standard, solange Frage 3 offen ist.
 
 Beim Umsetzen dazugelernt:
 
@@ -336,7 +366,8 @@ Em-Einheiten (gemessen, Anhang A).
 
 ## Risiken
 
-* **SVG in Icon-Packs ist unbestätigt** — deshalb Pilot vor Export-Code.
+* ~~**SVG in Icon-Packs ist unbestätigt** — deshalb Pilot vor Export-Code.~~
+  Erledigt: der Pilot hat SVG am Gerät bestätigt (Schritt 2).
 * `glyphs.json` wächst mit Leland → kuratierte Teilmenge, Nachladen erst bei
   Auswahl der Leland-Quelle.
 * Leland-Glyphnamen sind SMuFL-technisch (`restQuarter`), nicht sprechend wie
