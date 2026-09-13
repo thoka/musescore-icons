@@ -116,6 +116,22 @@ entsteht, damit spätere Sessions und Dritte den Auftrag nachvollziehen können.
 In `AGENTS.md` einen Verweis darauf aufnehmen. Fortschritt wird in derselben
 Datei abgehakt (Checkliste je Stufe), nicht in einer separaten Notiz.
 
+### Stand: hinfällig — war schon erledigt, bevor die Umsetzung begann
+
+Der Schritt wurde nicht abgearbeitet, weil es nichts mehr zu tun gab:
+
+* [x] Der Plan liegt seit `cc64c0b` („Add numbered plans folder with the glyph
+      composer plan") im Repo, mit seiner Zeile in `docs/plans/README.md`.
+* [x] `AGENTS.md` verweist im Abschnitt *Plans* auf `docs/plans/` und auf
+      `docs/plans/README.md`, wo dieser Plan indiziert ist. Ein zusätzlicher
+      Verweis auf genau diese Datei wäre eine zweite Stelle zum Pflegen —
+      absichtlich weggelassen.
+* [x] Die Checkliste je Stufe steht in dieser Datei (siehe Schritt 0), nicht
+      in einer separaten Notiz.
+
+Zu tun bleibt nur der Abschluss: den Status in `docs/plans/README.md` von
+`open` auf `done` setzen, wenn die letzte Stufe fertig ist.
+
 ---
 
 ## Schritt 2 — Pilot zuerst (klein, entscheidet den Rest)
