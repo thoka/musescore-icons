@@ -369,17 +369,17 @@ def write_gallery(out: Path, glyphs: list[Glyph], preview_size: int, meta: dict)
     for g in glyphs:
         by_cat.setdefault(g.category, []).append(g)
 
+    # Mindestbreite einer Karte: Icon + Innenabstand, aber nie unter 96 px,
+    # damit die Namen unter kleinen Icons noch lesbar umbrechen.
+    cell_min = max(96, min(preview_size, 128) + 24)
+
     parts = [f"""<!doctype html>
 <html lang="de"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>MuseScore UI-Icons</title>
 <style>
-  :root {{ color-scheme: light dark; --bg:#fbfbfa; --fg:#1b1b18; --muted:#6b6b60;
-           --card:#fff; --line:#e4e4dd; --accent:#2b6cb0; }}
-  @media (prefers-color-scheme: dark) {{
-    :root {{ --bg:#16161a; --fg:#f0f0ea; --muted:#9a9a90; --card:#1f1f24;
-             --line:#32323a; --accent:#7cb3ec; }}
-  }}
+  :root {{ color-scheme: dark; --bg:#25252b; --fg:#ffffff; --muted:#b0b0ba;
+           --card:#32323a; --line:#43434e; --accent:#8cc0f0; }}
   * {{ box-sizing:border-box; }}
   body {{ margin:0; padding:24px 16px 64px; background:var(--bg); color:var(--fg);
          font:14px/1.5 system-ui,-apple-system,"Segoe UI",sans-serif; }}
@@ -391,12 +391,16 @@ def write_gallery(out: Path, glyphs: list[Glyph], preview_size: int, meta: dict)
         color:var(--muted); margin:32px 0 12px; padding-bottom:6px;
         border-bottom:1px solid var(--line); }}
   .grid {{ display:grid; gap:10px;
-           grid-template-columns:repeat(auto-fill,minmax(112px,1fr)); }}
+           grid-template-columns:repeat(auto-fill,minmax({cell_min}px,1fr)); }}
   .cell {{ background:var(--card); border:1px solid var(--line); border-radius:8px;
-           padding:10px 6px; text-align:center; cursor:pointer; }}
+           padding:12px 10px; text-align:center; cursor:pointer;
+           overflow:hidden; }}
   .cell:hover {{ border-color:var(--accent); }}
-  .cell img {{ width:{preview_size}px; height:{preview_size}px; display:block;
-               margin:0 auto 8px; image-rendering:auto; }}
+  /* Die PNGs sind schwarz -- auf dunklem Grund invertiert dargestellt.
+     Breite nie fest, sonst laufen die Icons aus der Karte heraus. */
+  .cell img {{ width:100%; max-width:{preview_size}px; height:auto;
+               aspect-ratio:1/1; display:block; margin:0 auto 8px;
+               image-rendering:auto; filter:invert(1); }}
   .n {{ font-size:10px; word-break:break-all; line-height:1.3; }}
   .c {{ font-size:10px; color:var(--muted); font-family:ui-monospace,monospace; }}
   #q {{ width:100%; max-width:420px; padding:8px 10px; border-radius:8px;

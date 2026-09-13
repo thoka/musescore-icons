@@ -109,8 +109,12 @@ Download-Links auf die ZIP-Pakete des neuesten GitHub-Releases.
 ```bash
 python3 make_pages.py                       # schreibt index.html
 python3 make_pages.py --tag v1.0.0          # auf ein festes Release verlinken
-python3 make_pages.py --preview 16          # mehr Vorschau-Icons je Kategorie
+python3 make_pages.py --preview 12          # nur die ersten 12 Icons je Kategorie
 ```
+
+Standardmaessig zeigt die Seite alle Icons einer Kategorie; `--preview N`
+begrenzt auf die ersten N. Beide Seiten nutzen ein einziges dunkles Thema
+(weiss auf grau) und stellen die schwarzen PNGs invertiert, also weiss, dar.
 
 Die Seite liegt unter <https://thoka.github.io/musescore-icons/> und verlinkt
 die vollstaendige, durchsuchbare Galerie in `icons/index.html`. Die leere Datei

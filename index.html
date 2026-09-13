@@ -3,12 +3,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>MuseScore UI Icons</title>
 <style>
-  :root { color-scheme: light dark; --bg:#fbfbfa; --fg:#1b1b18; --muted:#6b6b60;
-           --card:#fff; --line:#e4e4dd; --accent:#2b6cb0; }
-  @media (prefers-color-scheme: dark) {
-    :root { --bg:#16161a; --fg:#f0f0ea; --muted:#9a9a90; --card:#1f1f24;
-             --line:#32323a; --accent:#7cb3ec; }
-  }
+  :root { color-scheme: dark; --bg:#25252b; --fg:#ffffff; --muted:#b0b0ba;
+           --card:#32323a; --line:#43434e; --accent:#8cc0f0; }
   * { box-sizing:border-box; }
   body { margin:0; padding:24px 16px 64px; background:var(--bg); color:var(--fg);
          font:14px/1.55 system-ui,-apple-system,"Segoe UI",sans-serif; }
@@ -44,9 +40,19 @@
           white-space:nowrap; }
   .dl a:hover { border-color:var(--accent); color:var(--accent); }
   .dl a .s { color:var(--muted); }
-  .preview { display:flex; flex-wrap:wrap; gap:8px; margin-top:12px; }
-  .preview img { width:32px; height:32px; }
-  .preview .more { color:var(--muted); font-size:12px; align-self:center; }
+  .preview { display:grid; gap:6px; margin-top:14px;
+             grid-template-columns:repeat(auto-fill,minmax(46px,1fr)); }
+  /* Kachel und Bild getrennt: filter wirkt auf das ganze Element, ein
+     Hover-Hintergrund direkt am <img> wuerde also mit invertiert. */
+  .t { display:flex; align-items:center; justify-content:center; width:100%;
+       max-width:46px; aspect-ratio:1/1; margin:0 auto; padding:5px;
+       border-radius:6px; }
+  .t:hover { background:var(--line); }
+  /* Die PNGs sind schwarz -- auf dunklem Grund invertiert dargestellt. */
+  .t img { width:100%; height:auto; aspect-ratio:1/1; display:block;
+           filter:invert(1); }
+  .preview .more { color:var(--muted); font-size:12px; align-self:center;
+                   grid-column:1/-1; }
   footer { margin-top:40px; padding-top:16px; border-top:1px solid var(--line);
            color:var(--muted); font-size:12px; }
   footer a { color:var(--accent); }
@@ -56,7 +62,7 @@
 <p class="sub">Every glyph of the MuseScore Studio interface font <code>MusescoreIcon.ttf</code> rendered as a single icon &ndash; PNG and SVG, sorted into thematic folders.</p>
 <ul class="links">
 <li><a class="primary" href="icons/index.html">Browse all icons</a></li>
-<li><a href="https://github.com/thoka/musescore-icons/releases/latest/download">Download all packs</a></li>
+<li><a href="https://github.com/thoka/musescore-icons/releases/latest">All downloads (release)</a></li>
 <li><a href="https://github.com/thoka/musescore-icons">Repository</a></li>
 <li><a href="https://github.com/thoka/musescore-icons/blob/main/README.md">README (EN)</a></li>
 <li><a href="https://github.com/thoka/musescore-icons/blob/main/README-de.md">README (DE)</a></li>
@@ -80,19 +86,35 @@
 <a href="https://github.com/thoka/musescore-icons/releases/latest/download/icons.svg.app-ui-status.zip">SVG <span class="s">18.1 KB</span></a>
 </div></div>
 <div class="preview">
-<img src="icons/128px/app-ui-status/APP_CLOSE.png" alt="APP_CLOSE" title="APP_CLOSE &middot; U+F41F" loading="lazy">
-<img src="icons/128px/app-ui-status/APP_MAXIMIZE.png" alt="APP_MAXIMIZE" title="APP_MAXIMIZE &middot; U+F41D" loading="lazy">
-<img src="icons/128px/app-ui-status/APP_MINIMIZE.png" alt="APP_MINIMIZE" title="APP_MINIMIZE &middot; U+F41C" loading="lazy">
-<img src="icons/128px/app-ui-status/APP_UNMAXIMIZE.png" alt="APP_UNMAXIMIZE" title="APP_UNMAXIMIZE &middot; U+F41E" loading="lazy">
-<img src="icons/128px/app-ui-status/BRAILLE.png" alt="BRAILLE" title="BRAILLE &middot; U+F455" loading="lazy">
-<img src="icons/128px/app-ui-status/CLOSE_X_ROUNDED.png" alt="CLOSE_X_ROUNDED" title="CLOSE_X_ROUNDED &middot; U+EF14" loading="lazy">
-<img src="icons/128px/app-ui-status/CONFIGURE.png" alt="CONFIGURE" title="CONFIGURE &middot; U+EF28" loading="lazy">
-<img src="icons/128px/app-ui-status/CROSS.png" alt="CROSS" title="CROSS &middot; U+EF30" loading="lazy">
-<img src="icons/128px/app-ui-status/ERROR.png" alt="ERROR" title="ERROR &middot; U+F3D0" loading="lazy">
-<img src="icons/128px/app-ui-status/FEEDBACK.png" alt="FEEDBACK" title="FEEDBACK &middot; U+EF2D" loading="lazy">
-<img src="icons/128px/app-ui-status/INFO.png" alt="INFO" title="INFO &middot; U+F3CF" loading="lazy">
-<img src="icons/128px/app-ui-status/INSIGHT.png" alt="INSIGHT" title="INSIGHT &middot; U+F3B5" loading="lazy">
-<span class="more">+17 more</span>
+<span class="t" title="APP_CLOSE · U+F41F"><img src="icons/128px/app-ui-status/APP_CLOSE.png" alt="APP_CLOSE" loading="lazy"></span>
+<span class="t" title="APP_MAXIMIZE · U+F41D"><img src="icons/128px/app-ui-status/APP_MAXIMIZE.png" alt="APP_MAXIMIZE" loading="lazy"></span>
+<span class="t" title="APP_MINIMIZE · U+F41C"><img src="icons/128px/app-ui-status/APP_MINIMIZE.png" alt="APP_MINIMIZE" loading="lazy"></span>
+<span class="t" title="APP_UNMAXIMIZE · U+F41E"><img src="icons/128px/app-ui-status/APP_UNMAXIMIZE.png" alt="APP_UNMAXIMIZE" loading="lazy"></span>
+<span class="t" title="BRAILLE · U+F455"><img src="icons/128px/app-ui-status/BRAILLE.png" alt="BRAILLE" loading="lazy"></span>
+<span class="t" title="CLOSE_X_ROUNDED · U+EF14"><img src="icons/128px/app-ui-status/CLOSE_X_ROUNDED.png" alt="CLOSE_X_ROUNDED" loading="lazy"></span>
+<span class="t" title="CONFIGURE · U+EF28"><img src="icons/128px/app-ui-status/CONFIGURE.png" alt="CONFIGURE" loading="lazy"></span>
+<span class="t" title="CROSS · U+EF30"><img src="icons/128px/app-ui-status/CROSS.png" alt="CROSS" loading="lazy"></span>
+<span class="t" title="ERROR · U+F3D0"><img src="icons/128px/app-ui-status/ERROR.png" alt="ERROR" loading="lazy"></span>
+<span class="t" title="FEEDBACK · U+EF2D"><img src="icons/128px/app-ui-status/FEEDBACK.png" alt="FEEDBACK" loading="lazy"></span>
+<span class="t" title="INFO · U+F3CF"><img src="icons/128px/app-ui-status/INFO.png" alt="INFO" loading="lazy"></span>
+<span class="t" title="INSIGHT · U+F3B5"><img src="icons/128px/app-ui-status/INSIGHT.png" alt="INSIGHT" loading="lazy"></span>
+<span class="t" title="LOCK_CLOSED · U+EF5C"><img src="icons/128px/app-ui-status/LOCK_CLOSED.png" alt="LOCK_CLOSED" loading="lazy"></span>
+<span class="t" title="LOCK_OPEN · U+EF5D"><img src="icons/128px/app-ui-status/LOCK_OPEN.png" alt="LOCK_OPEN" loading="lazy"></span>
+<span class="t" title="MENU_THREE_DOTS · U+EF13"><img src="icons/128px/app-ui-status/MENU_THREE_DOTS.png" alt="MENU_THREE_DOTS" loading="lazy"></span>
+<span class="t" title="MORTAR_BOARD · U+EF74"><img src="icons/128px/app-ui-status/MORTAR_BOARD.png" alt="MORTAR_BOARD" loading="lazy"></span>
+<span class="t" title="PLUGIN · U+F440"><img src="icons/128px/app-ui-status/PLUGIN.png" alt="PLUGIN" loading="lazy"></span>
+<span class="t" title="QUESTION · U+F3D1"><img src="icons/128px/app-ui-status/QUESTION.png" alt="QUESTION" loading="lazy"></span>
+<span class="t" title="QUESTION_MARK · U+F340"><img src="icons/128px/app-ui-status/QUESTION_MARK.png" alt="QUESTION_MARK" loading="lazy"></span>
+<span class="t" title="SETTINGS_COG · U+EF55"><img src="icons/128px/app-ui-status/SETTINGS_COG.png" alt="SETTINGS_COG" loading="lazy"></span>
+<span class="t" title="SHORTCUTS · U+F35D"><img src="icons/128px/app-ui-status/SHORTCUTS.png" alt="SHORTCUTS" loading="lazy"></span>
+<span class="t" title="STAR · U+EF9A"><img src="icons/128px/app-ui-status/STAR.png" alt="STAR" loading="lazy"></span>
+<span class="t" title="TICK · U+EF2F"><img src="icons/128px/app-ui-status/TICK.png" alt="TICK" loading="lazy"></span>
+<span class="t" title="TICK_RIGHT_ANGLE · U+EF31"><img src="icons/128px/app-ui-status/TICK_RIGHT_ANGLE.png" alt="TICK_RIGHT_ANGLE" loading="lazy"></span>
+<span class="t" title="TICK_RIGHT_ANGLE_THICK · U+F477"><img src="icons/128px/app-ui-status/TICK_RIGHT_ANGLE_THICK.png" alt="TICK_RIGHT_ANGLE_THICK" loading="lazy"></span>
+<span class="t" title="TOOLBAR_GRIP · U+F3A2"><img src="icons/128px/app-ui-status/TOOLBAR_GRIP.png" alt="TOOLBAR_GRIP" loading="lazy"></span>
+<span class="t" title="WARNING · U+F3CE"><img src="icons/128px/app-ui-status/WARNING.png" alt="WARNING" loading="lazy"></span>
+<span class="t" title="WARNING_SMALL · U+F493"><img src="icons/128px/app-ui-status/WARNING_SMALL.png" alt="WARNING_SMALL" loading="lazy"></span>
+<span class="t" title="WORKSPACE · U+F46B"><img src="icons/128px/app-ui-status/WORKSPACE.png" alt="WORKSPACE" loading="lazy"></span>
 </div>
 </section>
 <section class="cat">
@@ -104,19 +126,22 @@
 <a href="https://github.com/thoka/musescore-icons/releases/latest/download/icons.svg.arrows-navigation.zip">SVG <span class="s">7.5 KB</span></a>
 </div></div>
 <div class="preview">
-<img src="icons/128px/arrows-navigation/ARROW_DOWN.png" alt="ARROW_DOWN" title="ARROW_DOWN &middot; U+EF36" loading="lazy">
-<img src="icons/128px/arrows-navigation/ARROW_LEFT.png" alt="ARROW_LEFT" title="ARROW_LEFT &middot; U+EF35" loading="lazy">
-<img src="icons/128px/arrows-navigation/ARROW_RIGHT.png" alt="ARROW_RIGHT" title="ARROW_RIGHT &middot; U+EF34" loading="lazy">
-<img src="icons/128px/arrows-navigation/ARROW_UP.png" alt="ARROW_UP" title="ARROW_UP &middot; U+EF37" loading="lazy">
-<img src="icons/128px/arrows-navigation/CHEVRON_LEFT.png" alt="CHEVRON_LEFT" title="CHEVRON_LEFT &middot; U+F39C" loading="lazy">
-<img src="icons/128px/arrows-navigation/CHEVRON_RIGHT.png" alt="CHEVRON_RIGHT" title="CHEVRON_RIGHT &middot; U+F39B" loading="lazy">
-<img src="icons/128px/arrows-navigation/DOWN.png" alt="DOWN" title="DOWN &middot; U+F3C1" loading="lazy">
-<img src="icons/128px/arrows-navigation/FILLED_ARROW_LEFT.png" alt="FILLED_ARROW_LEFT" title="FILLED_ARROW_LEFT &middot; U+F4BE" loading="lazy">
-<img src="icons/128px/arrows-navigation/FILLED_ARROW_RIGHT.png" alt="FILLED_ARROW_RIGHT" title="FILLED_ARROW_RIGHT &middot; U+F4BF" loading="lazy">
-<img src="icons/128px/arrows-navigation/POSITION_ARROWS.png" alt="POSITION_ARROWS" title="POSITION_ARROWS &middot; U+EF38" loading="lazy">
-<img src="icons/128px/arrows-navigation/SMALL_ARROW_DOWN.png" alt="SMALL_ARROW_DOWN" title="SMALL_ARROW_DOWN &middot; U+EF12" loading="lazy">
-<img src="icons/128px/arrows-navigation/SMALL_ARROW_LEFT.png" alt="SMALL_ARROW_LEFT" title="SMALL_ARROW_LEFT &middot; U+EF0F" loading="lazy">
-<span class="more">+4 more</span>
+<span class="t" title="ARROW_DOWN · U+EF36"><img src="icons/128px/arrows-navigation/ARROW_DOWN.png" alt="ARROW_DOWN" loading="lazy"></span>
+<span class="t" title="ARROW_LEFT · U+EF35"><img src="icons/128px/arrows-navigation/ARROW_LEFT.png" alt="ARROW_LEFT" loading="lazy"></span>
+<span class="t" title="ARROW_RIGHT · U+EF34"><img src="icons/128px/arrows-navigation/ARROW_RIGHT.png" alt="ARROW_RIGHT" loading="lazy"></span>
+<span class="t" title="ARROW_UP · U+EF37"><img src="icons/128px/arrows-navigation/ARROW_UP.png" alt="ARROW_UP" loading="lazy"></span>
+<span class="t" title="CHEVRON_LEFT · U+F39C"><img src="icons/128px/arrows-navigation/CHEVRON_LEFT.png" alt="CHEVRON_LEFT" loading="lazy"></span>
+<span class="t" title="CHEVRON_RIGHT · U+F39B"><img src="icons/128px/arrows-navigation/CHEVRON_RIGHT.png" alt="CHEVRON_RIGHT" loading="lazy"></span>
+<span class="t" title="DOWN · U+F3C1"><img src="icons/128px/arrows-navigation/DOWN.png" alt="DOWN" loading="lazy"></span>
+<span class="t" title="FILLED_ARROW_LEFT · U+F4BE"><img src="icons/128px/arrows-navigation/FILLED_ARROW_LEFT.png" alt="FILLED_ARROW_LEFT" loading="lazy"></span>
+<span class="t" title="FILLED_ARROW_RIGHT · U+F4BF"><img src="icons/128px/arrows-navigation/FILLED_ARROW_RIGHT.png" alt="FILLED_ARROW_RIGHT" loading="lazy"></span>
+<span class="t" title="POSITION_ARROWS · U+EF38"><img src="icons/128px/arrows-navigation/POSITION_ARROWS.png" alt="POSITION_ARROWS" loading="lazy"></span>
+<span class="t" title="SMALL_ARROW_DOWN · U+EF12"><img src="icons/128px/arrows-navigation/SMALL_ARROW_DOWN.png" alt="SMALL_ARROW_DOWN" loading="lazy"></span>
+<span class="t" title="SMALL_ARROW_LEFT · U+EF0F"><img src="icons/128px/arrows-navigation/SMALL_ARROW_LEFT.png" alt="SMALL_ARROW_LEFT" loading="lazy"></span>
+<span class="t" title="SMALL_ARROW_RIGHT · U+EF11"><img src="icons/128px/arrows-navigation/SMALL_ARROW_RIGHT.png" alt="SMALL_ARROW_RIGHT" loading="lazy"></span>
+<span class="t" title="SMALL_ARROW_UP · U+EF10"><img src="icons/128px/arrows-navigation/SMALL_ARROW_UP.png" alt="SMALL_ARROW_UP" loading="lazy"></span>
+<span class="t" title="SPLIT_OUT_ARROWS · U+EF15"><img src="icons/128px/arrows-navigation/SPLIT_OUT_ARROWS.png" alt="SPLIT_OUT_ARROWS" loading="lazy"></span>
+<span class="t" title="UP · U+F3C2"><img src="icons/128px/arrows-navigation/UP.png" alt="UP" loading="lazy"></span>
 </div>
 </section>
 <section class="cat">
@@ -128,19 +153,24 @@
 <a href="https://github.com/thoka/musescore-icons/releases/latest/download/icons.svg.articulations-ornaments.zip">SVG <span class="s">11.7 KB</span></a>
 </div></div>
 <div class="preview">
-<img src="icons/128px/articulations-ornaments/ACCENT.png" alt="ACCENT" title="ACCENT &middot; U+F38C" loading="lazy">
-<img src="icons/128px/articulations-ornaments/ARTICULATION.png" alt="ARTICULATION" title="ARTICULATION &middot; U+EF70" loading="lazy">
-<img src="icons/128px/articulations-ornaments/FERMATA.png" alt="FERMATA" title="FERMATA &middot; U+EF69" loading="lazy">
-<img src="icons/128px/articulations-ornaments/GLISSANDO.png" alt="GLISSANDO" title="GLISSANDO &middot; U+EF62" loading="lazy">
-<img src="icons/128px/articulations-ornaments/LV_CHORD_INSIDE.png" alt="LV_CHORD_INSIDE" title="LV_CHORD_INSIDE &middot; U+F480" loading="lazy">
-<img src="icons/128px/articulations-ornaments/LV_CHORD_OUTSIDE.png" alt="LV_CHORD_OUTSIDE" title="LV_CHORD_OUTSIDE &middot; U+F47F" loading="lazy">
-<img src="icons/128px/articulations-ornaments/LV_INSIDE.png" alt="LV_INSIDE" title="LV_INSIDE &middot; U+F47E" loading="lazy">
-<img src="icons/128px/articulations-ornaments/LV_OUTSIDE.png" alt="LV_OUTSIDE" title="LV_OUTSIDE &middot; U+F47D" loading="lazy">
-<img src="icons/128px/articulations-ornaments/MARCATO.png" alt="MARCATO" title="MARCATO &middot; U+F38B" loading="lazy">
-<img src="icons/128px/articulations-ornaments/ORNAMENT.png" alt="ORNAMENT" title="ORNAMENT &middot; U+EF6F" loading="lazy">
-<img src="icons/128px/articulations-ornaments/SLUR.png" alt="SLUR" title="SLUR &middot; U+EF46" loading="lazy">
-<img src="icons/128px/articulations-ornaments/STACCATO.png" alt="STACCATO" title="STACCATO &middot; U+F38E" loading="lazy">
-<span class="more">+6 more</span>
+<span class="t" title="ACCENT · U+F38C"><img src="icons/128px/articulations-ornaments/ACCENT.png" alt="ACCENT" loading="lazy"></span>
+<span class="t" title="ARTICULATION · U+EF70"><img src="icons/128px/articulations-ornaments/ARTICULATION.png" alt="ARTICULATION" loading="lazy"></span>
+<span class="t" title="FERMATA · U+EF69"><img src="icons/128px/articulations-ornaments/FERMATA.png" alt="FERMATA" loading="lazy"></span>
+<span class="t" title="GLISSANDO · U+EF62"><img src="icons/128px/articulations-ornaments/GLISSANDO.png" alt="GLISSANDO" loading="lazy"></span>
+<span class="t" title="LV_CHORD_INSIDE · U+F480"><img src="icons/128px/articulations-ornaments/LV_CHORD_INSIDE.png" alt="LV_CHORD_INSIDE" loading="lazy"></span>
+<span class="t" title="LV_CHORD_OUTSIDE · U+F47F"><img src="icons/128px/articulations-ornaments/LV_CHORD_OUTSIDE.png" alt="LV_CHORD_OUTSIDE" loading="lazy"></span>
+<span class="t" title="LV_INSIDE · U+F47E"><img src="icons/128px/articulations-ornaments/LV_INSIDE.png" alt="LV_INSIDE" loading="lazy"></span>
+<span class="t" title="LV_OUTSIDE · U+F47D"><img src="icons/128px/articulations-ornaments/LV_OUTSIDE.png" alt="LV_OUTSIDE" loading="lazy"></span>
+<span class="t" title="MARCATO · U+F38B"><img src="icons/128px/articulations-ornaments/MARCATO.png" alt="MARCATO" loading="lazy"></span>
+<span class="t" title="ORNAMENT · U+EF6F"><img src="icons/128px/articulations-ornaments/ORNAMENT.png" alt="ORNAMENT" loading="lazy"></span>
+<span class="t" title="SLUR · U+EF46"><img src="icons/128px/articulations-ornaments/SLUR.png" alt="SLUR" loading="lazy"></span>
+<span class="t" title="STACCATO · U+F38E"><img src="icons/128px/articulations-ornaments/STACCATO.png" alt="STACCATO" loading="lazy"></span>
+<span class="t" title="TENUTO · U+F38D"><img src="icons/128px/articulations-ornaments/TENUTO.png" alt="TENUTO" loading="lazy"></span>
+<span class="t" title="TIE_CHORD_INSIDE · U+F467"><img src="icons/128px/articulations-ornaments/TIE_CHORD_INSIDE.png" alt="TIE_CHORD_INSIDE" loading="lazy"></span>
+<span class="t" title="TIE_CHORD_OUTSIDE · U+F466"><img src="icons/128px/articulations-ornaments/TIE_CHORD_OUTSIDE.png" alt="TIE_CHORD_OUTSIDE" loading="lazy"></span>
+<span class="t" title="TIE_INSIDE · U+F45E"><img src="icons/128px/articulations-ornaments/TIE_INSIDE.png" alt="TIE_INSIDE" loading="lazy"></span>
+<span class="t" title="TIE_OUTSIDE · U+F45D"><img src="icons/128px/articulations-ornaments/TIE_OUTSIDE.png" alt="TIE_OUTSIDE" loading="lazy"></span>
+<span class="t" title="VIBRATO · U+F411"><img src="icons/128px/articulations-ornaments/VIBRATO.png" alt="VIBRATO" loading="lazy"></span>
 </div>
 </section>
 <section class="cat">
@@ -152,18 +182,18 @@
 <a href="https://github.com/thoka/musescore-icons/releases/latest/download/icons.svg.audio-waveform.zip">SVG <span class="s">9.3 KB</span></a>
 </div></div>
 <div class="preview">
-<img src="icons/128px/audio-waveform/AUDIO.png" alt="AUDIO" title="AUDIO &middot; U+EF4E" loading="lazy">
-<img src="icons/128px/audio-waveform/AUTOMATION.png" alt="AUTOMATION" title="AUTOMATION &middot; U+F45C" loading="lazy">
-<img src="icons/128px/audio-waveform/MICROPHONE.png" alt="MICROPHONE" title="MICROPHONE &middot; U+F41B" loading="lazy">
-<img src="icons/128px/audio-waveform/SILENCE_AUDIO_SELECTION.png" alt="SILENCE_AUDIO_SELECTION" title="SILENCE_AUDIO_SELECTION &middot; U+F43A" loading="lazy">
-<img src="icons/128px/audio-waveform/SPECTROGRAM.png" alt="SPECTROGRAM" title="SPECTROGRAM &middot; U+F442" loading="lazy">
-<img src="icons/128px/audio-waveform/SPECTROGRAM_BOX_SELECTION.png" alt="SPECTROGRAM_BOX_SELECTION" title="SPECTROGRAM_BOX_SELECTION &middot; U+F443" loading="lazy">
-<img src="icons/128px/audio-waveform/TRIM_AUDIO_OUTSIDE_SELECTION.png" alt="TRIM_AUDIO_OUTSIDE_SELECTION" title="TRIM_AUDIO_OUTSIDE_SELECTION &middot; U+F43B" loading="lazy">
-<img src="icons/128px/audio-waveform/TRIM_HANDLE_LEFT.png" alt="TRIM_HANDLE_LEFT" title="TRIM_HANDLE_LEFT &middot; U+F4B1" loading="lazy">
-<img src="icons/128px/audio-waveform/TRIM_HANDLE_RIGHT.png" alt="TRIM_HANDLE_RIGHT" title="TRIM_HANDLE_RIGHT &middot; U+F4B0" loading="lazy">
-<img src="icons/128px/audio-waveform/WAVEFORM.png" alt="WAVEFORM" title="WAVEFORM &middot; U+F43C" loading="lazy">
-<img src="icons/128px/audio-waveform/WAVEFORM_HALFWAVE.png" alt="WAVEFORM_HALFWAVE" title="WAVEFORM_HALFWAVE &middot; U+F4C1" loading="lazy">
-<img src="icons/128px/audio-waveform/WAVEFORM_MULTIVIEW.png" alt="WAVEFORM_MULTIVIEW" title="WAVEFORM_MULTIVIEW &middot; U+F4C0" loading="lazy">
+<span class="t" title="AUDIO · U+EF4E"><img src="icons/128px/audio-waveform/AUDIO.png" alt="AUDIO" loading="lazy"></span>
+<span class="t" title="AUTOMATION · U+F45C"><img src="icons/128px/audio-waveform/AUTOMATION.png" alt="AUTOMATION" loading="lazy"></span>
+<span class="t" title="MICROPHONE · U+F41B"><img src="icons/128px/audio-waveform/MICROPHONE.png" alt="MICROPHONE" loading="lazy"></span>
+<span class="t" title="SILENCE_AUDIO_SELECTION · U+F43A"><img src="icons/128px/audio-waveform/SILENCE_AUDIO_SELECTION.png" alt="SILENCE_AUDIO_SELECTION" loading="lazy"></span>
+<span class="t" title="SPECTROGRAM · U+F442"><img src="icons/128px/audio-waveform/SPECTROGRAM.png" alt="SPECTROGRAM" loading="lazy"></span>
+<span class="t" title="SPECTROGRAM_BOX_SELECTION · U+F443"><img src="icons/128px/audio-waveform/SPECTROGRAM_BOX_SELECTION.png" alt="SPECTROGRAM_BOX_SELECTION" loading="lazy"></span>
+<span class="t" title="TRIM_AUDIO_OUTSIDE_SELECTION · U+F43B"><img src="icons/128px/audio-waveform/TRIM_AUDIO_OUTSIDE_SELECTION.png" alt="TRIM_AUDIO_OUTSIDE_SELECTION" loading="lazy"></span>
+<span class="t" title="TRIM_HANDLE_LEFT · U+F4B1"><img src="icons/128px/audio-waveform/TRIM_HANDLE_LEFT.png" alt="TRIM_HANDLE_LEFT" loading="lazy"></span>
+<span class="t" title="TRIM_HANDLE_RIGHT · U+F4B0"><img src="icons/128px/audio-waveform/TRIM_HANDLE_RIGHT.png" alt="TRIM_HANDLE_RIGHT" loading="lazy"></span>
+<span class="t" title="WAVEFORM · U+F43C"><img src="icons/128px/audio-waveform/WAVEFORM.png" alt="WAVEFORM" loading="lazy"></span>
+<span class="t" title="WAVEFORM_HALFWAVE · U+F4C1"><img src="icons/128px/audio-waveform/WAVEFORM_HALFWAVE.png" alt="WAVEFORM_HALFWAVE" loading="lazy"></span>
+<span class="t" title="WAVEFORM_MULTIVIEW · U+F4C0"><img src="icons/128px/audio-waveform/WAVEFORM_MULTIVIEW.png" alt="WAVEFORM_MULTIVIEW" loading="lazy"></span>
 </div>
 </section>
 <section class="cat">
@@ -175,19 +205,19 @@
 <a href="https://github.com/thoka/musescore-icons/releases/latest/download/icons.svg.dynamics-expression.zip">SVG <span class="s">14.6 KB</span></a>
 </div></div>
 <div class="preview">
-<img src="icons/128px/dynamics-expression/CRESCENDO.png" alt="CRESCENDO" title="CRESCENDO &middot; U+F415" loading="lazy">
-<img src="icons/128px/dynamics-expression/CRESCENDO_LINE.png" alt="CRESCENDO_LINE" title="CRESCENDO_LINE &middot; U+EF48" loading="lazy">
-<img src="icons/128px/dynamics-expression/DIMINUENDO.png" alt="DIMINUENDO" title="DIMINUENDO &middot; U+F414" loading="lazy">
-<img src="icons/128px/dynamics-expression/DYNAMIC_CENTER_1.png" alt="DYNAMIC_CENTER_1" title="DYNAMIC_CENTER_1 &middot; U+F451" loading="lazy">
-<img src="icons/128px/dynamics-expression/DYNAMIC_CENTER_2.png" alt="DYNAMIC_CENTER_2" title="DYNAMIC_CENTER_2 &middot; U+F452" loading="lazy">
-<img src="icons/128px/dynamics-expression/DYNAMIC_FORTE.png" alt="DYNAMIC_FORTE" title="DYNAMIC_FORTE &middot; U+EF47" loading="lazy">
-<img src="icons/128px/dynamics-expression/EXPRESSION.png" alt="EXPRESSION" title="EXPRESSION &middot; U+F453" loading="lazy">
-<img src="icons/128px/dynamics-expression/HAIRPIN.png" alt="HAIRPIN" title="HAIRPIN &middot; U+EF44" loading="lazy">
-<img src="icons/128px/dynamics-expression/LET_RING.png" alt="LET_RING" title="LET_RING &middot; U+F40F" loading="lazy">
-<img src="icons/128px/dynamics-expression/OTTAVA.png" alt="OTTAVA" title="OTTAVA &middot; U+F40D" loading="lazy">
-<img src="icons/128px/dynamics-expression/PALM_MUTE.png" alt="PALM_MUTE" title="PALM_MUTE &middot; U+F40E" loading="lazy">
-<img src="icons/128px/dynamics-expression/PEDAL_MARKING.png" alt="PEDAL_MARKING" title="PEDAL_MARKING &middot; U+EF65" loading="lazy">
-<span class="more">+1 more</span>
+<span class="t" title="CRESCENDO · U+F415"><img src="icons/128px/dynamics-expression/CRESCENDO.png" alt="CRESCENDO" loading="lazy"></span>
+<span class="t" title="CRESCENDO_LINE · U+EF48"><img src="icons/128px/dynamics-expression/CRESCENDO_LINE.png" alt="CRESCENDO_LINE" loading="lazy"></span>
+<span class="t" title="DIMINUENDO · U+F414"><img src="icons/128px/dynamics-expression/DIMINUENDO.png" alt="DIMINUENDO" loading="lazy"></span>
+<span class="t" title="DYNAMIC_CENTER_1 · U+F451"><img src="icons/128px/dynamics-expression/DYNAMIC_CENTER_1.png" alt="DYNAMIC_CENTER_1" loading="lazy"></span>
+<span class="t" title="DYNAMIC_CENTER_2 · U+F452"><img src="icons/128px/dynamics-expression/DYNAMIC_CENTER_2.png" alt="DYNAMIC_CENTER_2" loading="lazy"></span>
+<span class="t" title="DYNAMIC_FORTE · U+EF47"><img src="icons/128px/dynamics-expression/DYNAMIC_FORTE.png" alt="DYNAMIC_FORTE" loading="lazy"></span>
+<span class="t" title="EXPRESSION · U+F453"><img src="icons/128px/dynamics-expression/EXPRESSION.png" alt="EXPRESSION" loading="lazy"></span>
+<span class="t" title="HAIRPIN · U+EF44"><img src="icons/128px/dynamics-expression/HAIRPIN.png" alt="HAIRPIN" loading="lazy"></span>
+<span class="t" title="LET_RING · U+F40F"><img src="icons/128px/dynamics-expression/LET_RING.png" alt="LET_RING" loading="lazy"></span>
+<span class="t" title="OTTAVA · U+F40D"><img src="icons/128px/dynamics-expression/OTTAVA.png" alt="OTTAVA" loading="lazy"></span>
+<span class="t" title="PALM_MUTE · U+F40E"><img src="icons/128px/dynamics-expression/PALM_MUTE.png" alt="PALM_MUTE" loading="lazy"></span>
+<span class="t" title="PEDAL_MARKING · U+EF65"><img src="icons/128px/dynamics-expression/PEDAL_MARKING.png" alt="PEDAL_MARKING" loading="lazy"></span>
+<span class="t" title="VOLTA · U+F410"><img src="icons/128px/dynamics-expression/VOLTA.png" alt="VOLTA" loading="lazy"></span>
 </div>
 </section>
 <section class="cat">
@@ -199,19 +229,23 @@
 <a href="https://github.com/thoka/musescore-icons/releases/latest/download/icons.svg.edit-tools.zip">SVG <span class="s">10.4 KB</span></a>
 </div></div>
 <div class="preview">
-<img src="icons/128px/edit-tools/APPLY_GLOBAL_STYLE.png" alt="APPLY_GLOBAL_STYLE" title="APPLY_GLOBAL_STYLE &middot; U+EF43" loading="lazy">
-<img src="icons/128px/edit-tools/BRUSH.png" alt="BRUSH" title="BRUSH &middot; U+F444" loading="lazy">
-<img src="icons/128px/edit-tools/BYPASS.png" alt="BYPASS" title="BYPASS &middot; U+F38F" loading="lazy">
-<img src="icons/128px/edit-tools/COPY.png" alt="COPY" title="COPY &middot; U+F398" loading="lazy">
-<img src="icons/128px/edit-tools/CUT.png" alt="CUT" title="CUT &middot; U+F39A" loading="lazy">
-<img src="icons/128px/edit-tools/DELETE_TANK.png" alt="DELETE_TANK" title="DELETE_TANK &middot; U+EF2C" loading="lazy">
-<img src="icons/128px/edit-tools/EDIT.png" alt="EDIT" title="EDIT &middot; U+EF63" loading="lazy">
-<img src="icons/128px/edit-tools/MAGNET.png" alt="MAGNET" title="MAGNET &middot; U+F43E" loading="lazy">
-<img src="icons/128px/edit-tools/MINUS.png" alt="MINUS" title="MINUS &middot; U+EF2B" loading="lazy">
-<img src="icons/128px/edit-tools/PASTE.png" alt="PASTE" title="PASTE &middot; U+F399" loading="lazy">
-<img src="icons/128px/edit-tools/PLUS.png" alt="PLUS" title="PLUS &middot; U+EF2A" loading="lazy">
-<img src="icons/128px/edit-tools/REDO.png" alt="REDO" title="REDO &middot; U+EF1A" loading="lazy">
-<span class="more">+5 more</span>
+<span class="t" title="APPLY_GLOBAL_STYLE · U+EF43"><img src="icons/128px/edit-tools/APPLY_GLOBAL_STYLE.png" alt="APPLY_GLOBAL_STYLE" loading="lazy"></span>
+<span class="t" title="BRUSH · U+F444"><img src="icons/128px/edit-tools/BRUSH.png" alt="BRUSH" loading="lazy"></span>
+<span class="t" title="BYPASS · U+F38F"><img src="icons/128px/edit-tools/BYPASS.png" alt="BYPASS" loading="lazy"></span>
+<span class="t" title="COPY · U+F398"><img src="icons/128px/edit-tools/COPY.png" alt="COPY" loading="lazy"></span>
+<span class="t" title="CUT · U+F39A"><img src="icons/128px/edit-tools/CUT.png" alt="CUT" loading="lazy"></span>
+<span class="t" title="DELETE_TANK · U+EF2C"><img src="icons/128px/edit-tools/DELETE_TANK.png" alt="DELETE_TANK" loading="lazy"></span>
+<span class="t" title="EDIT · U+EF63"><img src="icons/128px/edit-tools/EDIT.png" alt="EDIT" loading="lazy"></span>
+<span class="t" title="MAGNET · U+F43E"><img src="icons/128px/edit-tools/MAGNET.png" alt="MAGNET" loading="lazy"></span>
+<span class="t" title="MINUS · U+EF2B"><img src="icons/128px/edit-tools/MINUS.png" alt="MINUS" loading="lazy"></span>
+<span class="t" title="PASTE · U+F399"><img src="icons/128px/edit-tools/PASTE.png" alt="PASTE" loading="lazy"></span>
+<span class="t" title="PLUS · U+EF2A"><img src="icons/128px/edit-tools/PLUS.png" alt="PLUS" loading="lazy"></span>
+<span class="t" title="REDO · U+EF1A"><img src="icons/128px/edit-tools/REDO.png" alt="REDO" loading="lazy"></span>
+<span class="t" title="RE_PITCH · U+F3A0"><img src="icons/128px/edit-tools/RE_PITCH.png" alt="RE_PITCH" loading="lazy"></span>
+<span class="t" title="RHYTHM_ONLY · U+F39F"><img src="icons/128px/edit-tools/RHYTHM_ONLY.png" alt="RHYTHM_ONLY" loading="lazy"></span>
+<span class="t" title="SEARCH · U+EF17"><img src="icons/128px/edit-tools/SEARCH.png" alt="SEARCH" loading="lazy"></span>
+<span class="t" title="SPLIT_TOOL · U+F494"><img src="icons/128px/edit-tools/SPLIT_TOOL.png" alt="SPLIT_TOOL" loading="lazy"></span>
+<span class="t" title="UNDO · U+EF19"><img src="icons/128px/edit-tools/UNDO.png" alt="UNDO" loading="lazy"></span>
 </div>
 </section>
 <section class="cat">
@@ -223,19 +257,25 @@
 <a href="https://github.com/thoka/musescore-icons/releases/latest/download/icons.svg.file-cloud-online.zip">SVG <span class="s">13.1 KB</span></a>
 </div></div>
 <div class="preview">
-<img src="icons/128px/file-cloud-online/ACCOUNT.png" alt="ACCOUNT" title="ACCOUNT &middot; U+EF99" loading="lazy">
-<img src="icons/128px/file-cloud-online/AUDIO_COM_LOGO.png" alt="AUDIO_COM_LOGO" title="AUDIO_COM_LOGO &middot; U+F4A2" loading="lazy">
-<img src="icons/128px/file-cloud-online/CLOUD.png" alt="CLOUD" title="CLOUD &middot; U+F435" loading="lazy">
-<img src="icons/128px/file-cloud-online/CLOUD_FILE.png" alt="CLOUD_FILE" title="CLOUD_FILE &middot; U+EF25" loading="lazy">
-<img src="icons/128px/file-cloud-online/CLOUD_FILL.png" alt="CLOUD_FILL" title="CLOUD_FILL &middot; U+F454" loading="lazy">
-<img src="icons/128px/file-cloud-online/GLOBE.png" alt="GLOBE" title="GLOBE &middot; U+F3B6" loading="lazy">
-<img src="icons/128px/file-cloud-online/IMAGE_MOUNTAINS.png" alt="IMAGE_MOUNTAINS" title="IMAGE_MOUNTAINS &middot; U+EFA1" loading="lazy">
-<img src="icons/128px/file-cloud-online/IMPORT.png" alt="IMPORT" title="IMPORT &middot; U+F357" loading="lazy">
-<img src="icons/128px/file-cloud-online/LINK.png" alt="LINK" title="LINK &middot; U+EF2E" loading="lazy">
-<img src="icons/128px/file-cloud-online/MUSESCORE_COM_LOGO.png" alt="MUSESCORE_COM_LOGO" title="MUSESCORE_COM_LOGO &middot; U+F4A0" loading="lazy">
-<img src="icons/128px/file-cloud-online/NEW_FILE.png" alt="NEW_FILE" title="NEW_FILE &middot; U+EF22" loading="lazy">
-<img src="icons/128px/file-cloud-online/OPEN_FILE.png" alt="OPEN_FILE" title="OPEN_FILE &middot; U+EF23" loading="lazy">
-<span class="more">+7 more</span>
+<span class="t" title="ACCOUNT · U+EF99"><img src="icons/128px/file-cloud-online/ACCOUNT.png" alt="ACCOUNT" loading="lazy"></span>
+<span class="t" title="AUDIO_COM_LOGO · U+F4A2"><img src="icons/128px/file-cloud-online/AUDIO_COM_LOGO.png" alt="AUDIO_COM_LOGO" loading="lazy"></span>
+<span class="t" title="CLOUD · U+F435"><img src="icons/128px/file-cloud-online/CLOUD.png" alt="CLOUD" loading="lazy"></span>
+<span class="t" title="CLOUD_FILE · U+EF25"><img src="icons/128px/file-cloud-online/CLOUD_FILE.png" alt="CLOUD_FILE" loading="lazy"></span>
+<span class="t" title="CLOUD_FILL · U+F454"><img src="icons/128px/file-cloud-online/CLOUD_FILL.png" alt="CLOUD_FILL" loading="lazy"></span>
+<span class="t" title="GLOBE · U+F3B6"><img src="icons/128px/file-cloud-online/GLOBE.png" alt="GLOBE" loading="lazy"></span>
+<span class="t" title="IMAGE_MOUNTAINS · U+EFA1"><img src="icons/128px/file-cloud-online/IMAGE_MOUNTAINS.png" alt="IMAGE_MOUNTAINS" loading="lazy"></span>
+<span class="t" title="IMPORT · U+F357"><img src="icons/128px/file-cloud-online/IMPORT.png" alt="IMPORT" loading="lazy"></span>
+<span class="t" title="LINK · U+EF2E"><img src="icons/128px/file-cloud-online/LINK.png" alt="LINK" loading="lazy"></span>
+<span class="t" title="MUSESCORE_COM_LOGO · U+F4A0"><img src="icons/128px/file-cloud-online/MUSESCORE_COM_LOGO.png" alt="MUSESCORE_COM_LOGO" loading="lazy"></span>
+<span class="t" title="NEW_FILE · U+EF22"><img src="icons/128px/file-cloud-online/NEW_FILE.png" alt="NEW_FILE" loading="lazy"></span>
+<span class="t" title="OPEN_FILE · U+EF23"><img src="icons/128px/file-cloud-online/OPEN_FILE.png" alt="OPEN_FILE" loading="lazy"></span>
+<span class="t" title="OPEN_LINK · U+F359"><img src="icons/128px/file-cloud-online/OPEN_LINK.png" alt="OPEN_LINK" loading="lazy"></span>
+<span class="t" title="PRINT · U+F3B7"><img src="icons/128px/file-cloud-online/PRINT.png" alt="PRINT" loading="lazy"></span>
+<span class="t" title="SAVE · U+EF29"><img src="icons/128px/file-cloud-online/SAVE.png" alt="SAVE" loading="lazy"></span>
+<span class="t" title="SHARE_AUDIO · U+F44F"><img src="icons/128px/file-cloud-online/SHARE_AUDIO.png" alt="SHARE_AUDIO" loading="lazy"></span>
+<span class="t" title="SHARE_FILE · U+EF24"><img src="icons/128px/file-cloud-online/SHARE_FILE.png" alt="SHARE_FILE" loading="lazy"></span>
+<span class="t" title="UPDATE · U+F358"><img src="icons/128px/file-cloud-online/UPDATE.png" alt="UPDATE" loading="lazy"></span>
+<span class="t" title="VIDEO · U+F4C2"><img src="icons/128px/file-cloud-online/VIDEO.png" alt="VIDEO" loading="lazy"></span>
 </div>
 </section>
 <section class="cat">
@@ -247,19 +287,33 @@
 <a href="https://github.com/thoka/musescore-icons/releases/latest/download/icons.svg.guitar-fretboard.zip">SVG <span class="s">17.0 KB</span></a>
 </div></div>
 <div class="preview">
-<img src="icons/128px/guitar-fretboard/FRETBOARD_BARRE_LINE.png" alt="FRETBOARD_BARRE_LINE" title="FRETBOARD_BARRE_LINE &middot; U+F472" loading="lazy">
-<img src="icons/128px/guitar-fretboard/FRETBOARD_BARRE_SLUR.png" alt="FRETBOARD_BARRE_SLUR" title="FRETBOARD_BARRE_SLUR &middot; U+F473" loading="lazy">
-<img src="icons/128px/guitar-fretboard/FRETBOARD_DIAGRAM.png" alt="FRETBOARD_DIAGRAM" title="FRETBOARD_DIAGRAM &middot; U+EF75" loading="lazy">
-<img src="icons/128px/guitar-fretboard/FRETBOARD_EXTENDED.png" alt="FRETBOARD_EXTENDED" title="FRETBOARD_EXTENDED &middot; U+F470" loading="lazy">
-<img src="icons/128px/guitar-fretboard/FRETBOARD_HORIZONTAL.png" alt="FRETBOARD_HORIZONTAL" title="FRETBOARD_HORIZONTAL &middot; U+F471" loading="lazy">
-<img src="icons/128px/guitar-fretboard/FRETBOARD_MARKER_CIRCLE_FILLED.png" alt="FRETBOARD_MARKER_CIRCLE_FILLED" title="FRETBOARD_MARKER_CIRCLE_FILLED &middot; U+EF78" loading="lazy">
-<img src="icons/128px/guitar-fretboard/FRETBOARD_MARKER_CIRCLE_OUTLINE.png" alt="FRETBOARD_MARKER_CIRCLE_OUTLINE" title="FRETBOARD_MARKER_CIRCLE_OUTLINE &middot; U+EF77" loading="lazy">
-<img src="icons/128px/guitar-fretboard/FRETBOARD_MARKER_TRIANGLE.png" alt="FRETBOARD_MARKER_TRIANGLE" title="FRETBOARD_MARKER_TRIANGLE &middot; U+EF76" loading="lazy">
-<img src="icons/128px/guitar-fretboard/FRETBOARD_VERTICAL.png" alt="FRETBOARD_VERTICAL" title="FRETBOARD_VERTICAL &middot; U+F46F" loading="lazy">
-<img src="icons/128px/guitar-fretboard/FRET_FRAME.png" alt="FRET_FRAME" title="FRET_FRAME &middot; U+F491" loading="lazy">
-<img src="icons/128px/guitar-fretboard/GUITAR_BEND.png" alt="GUITAR_BEND" title="GUITAR_BEND &middot; U+F353" loading="lazy">
-<img src="icons/128px/guitar-fretboard/GUITAR_BEND_REGULAR.png" alt="GUITAR_BEND_REGULAR" title="GUITAR_BEND_REGULAR &middot; U+F45F" loading="lazy">
-<span class="more">+15 more</span>
+<span class="t" title="FRETBOARD_BARRE_LINE · U+F472"><img src="icons/128px/guitar-fretboard/FRETBOARD_BARRE_LINE.png" alt="FRETBOARD_BARRE_LINE" loading="lazy"></span>
+<span class="t" title="FRETBOARD_BARRE_SLUR · U+F473"><img src="icons/128px/guitar-fretboard/FRETBOARD_BARRE_SLUR.png" alt="FRETBOARD_BARRE_SLUR" loading="lazy"></span>
+<span class="t" title="FRETBOARD_DIAGRAM · U+EF75"><img src="icons/128px/guitar-fretboard/FRETBOARD_DIAGRAM.png" alt="FRETBOARD_DIAGRAM" loading="lazy"></span>
+<span class="t" title="FRETBOARD_EXTENDED · U+F470"><img src="icons/128px/guitar-fretboard/FRETBOARD_EXTENDED.png" alt="FRETBOARD_EXTENDED" loading="lazy"></span>
+<span class="t" title="FRETBOARD_HORIZONTAL · U+F471"><img src="icons/128px/guitar-fretboard/FRETBOARD_HORIZONTAL.png" alt="FRETBOARD_HORIZONTAL" loading="lazy"></span>
+<span class="t" title="FRETBOARD_MARKER_CIRCLE_FILLED · U+EF78"><img src="icons/128px/guitar-fretboard/FRETBOARD_MARKER_CIRCLE_FILLED.png" alt="FRETBOARD_MARKER_CIRCLE_FILLED" loading="lazy"></span>
+<span class="t" title="FRETBOARD_MARKER_CIRCLE_OUTLINE · U+EF77"><img src="icons/128px/guitar-fretboard/FRETBOARD_MARKER_CIRCLE_OUTLINE.png" alt="FRETBOARD_MARKER_CIRCLE_OUTLINE" loading="lazy"></span>
+<span class="t" title="FRETBOARD_MARKER_TRIANGLE · U+EF76"><img src="icons/128px/guitar-fretboard/FRETBOARD_MARKER_TRIANGLE.png" alt="FRETBOARD_MARKER_TRIANGLE" loading="lazy"></span>
+<span class="t" title="FRETBOARD_VERTICAL · U+F46F"><img src="icons/128px/guitar-fretboard/FRETBOARD_VERTICAL.png" alt="FRETBOARD_VERTICAL" loading="lazy"></span>
+<span class="t" title="FRET_FRAME · U+F491"><img src="icons/128px/guitar-fretboard/FRET_FRAME.png" alt="FRET_FRAME" loading="lazy"></span>
+<span class="t" title="GUITAR_BEND · U+F353"><img src="icons/128px/guitar-fretboard/GUITAR_BEND.png" alt="GUITAR_BEND" loading="lazy"></span>
+<span class="t" title="GUITAR_BEND_REGULAR · U+F45F"><img src="icons/128px/guitar-fretboard/GUITAR_BEND_REGULAR.png" alt="GUITAR_BEND_REGULAR" loading="lazy"></span>
+<span class="t" title="GUITAR_BEND_STYLE_1 · U+F463"><img src="icons/128px/guitar-fretboard/GUITAR_BEND_STYLE_1.png" alt="GUITAR_BEND_STYLE_1" loading="lazy"></span>
+<span class="t" title="GUITAR_BEND_STYLE_FULL · U+F464"><img src="icons/128px/guitar-fretboard/GUITAR_BEND_STYLE_FULL.png" alt="GUITAR_BEND_STYLE_FULL" loading="lazy"></span>
+<span class="t" title="GUITAR_DIP_DOWN · U+F4B5"><img src="icons/128px/guitar-fretboard/GUITAR_DIP_DOWN.png" alt="GUITAR_DIP_DOWN" loading="lazy"></span>
+<span class="t" title="GUITAR_DIP_UP · U+F4B6"><img src="icons/128px/guitar-fretboard/GUITAR_DIP_UP.png" alt="GUITAR_DIP_UP" loading="lazy"></span>
+<span class="t" title="GUITAR_DIVE_REGULAR · U+F4B3"><img src="icons/128px/guitar-fretboard/GUITAR_DIVE_REGULAR.png" alt="GUITAR_DIVE_REGULAR" loading="lazy"></span>
+<span class="t" title="GUITAR_GRACE_NOTE_BEND · U+F461"><img src="icons/128px/guitar-fretboard/GUITAR_GRACE_NOTE_BEND.png" alt="GUITAR_GRACE_NOTE_BEND" loading="lazy"></span>
+<span class="t" title="GUITAR_PRE_BEND · U+F460"><img src="icons/128px/guitar-fretboard/GUITAR_PRE_BEND.png" alt="GUITAR_PRE_BEND" loading="lazy"></span>
+<span class="t" title="GUITAR_PRE_DIVE · U+F4B4"><img src="icons/128px/guitar-fretboard/GUITAR_PRE_DIVE.png" alt="GUITAR_PRE_DIVE" loading="lazy"></span>
+<span class="t" title="GUITAR_SCOOP · U+F4B7"><img src="icons/128px/guitar-fretboard/GUITAR_SCOOP.png" alt="GUITAR_SCOOP" loading="lazy"></span>
+<span class="t" title="GUITAR_SLIGHT_BEND · U+F462"><img src="icons/128px/guitar-fretboard/GUITAR_SLIGHT_BEND.png" alt="GUITAR_SLIGHT_BEND" loading="lazy"></span>
+<span class="t" title="GUITAR_TREMOLO_BAR · U+F35C"><img src="icons/128px/guitar-fretboard/GUITAR_TREMOLO_BAR.png" alt="GUITAR_TREMOLO_BAR" loading="lazy"></span>
+<span class="t" title="TAPPING_DOT · U+F49B"><img src="icons/128px/guitar-fretboard/TAPPING_DOT.png" alt="TAPPING_DOT" loading="lazy"></span>
+<span class="t" title="TAPPING_ENCIRCLED_T · U+F49A"><img src="icons/128px/guitar-fretboard/TAPPING_ENCIRCLED_T.png" alt="TAPPING_ENCIRCLED_T" loading="lazy"></span>
+<span class="t" title="TAPPING_PLUS · U+F49C"><img src="icons/128px/guitar-fretboard/TAPPING_PLUS.png" alt="TAPPING_PLUS" loading="lazy"></span>
+<span class="t" title="TAPPING_T · U+F49D"><img src="icons/128px/guitar-fretboard/TAPPING_T.png" alt="TAPPING_T" loading="lazy"></span>
 </div>
 </section>
 <section class="cat">
@@ -271,19 +325,36 @@
 <a href="https://github.com/thoka/musescore-icons/releases/latest/download/icons.svg.layout-breaks-frames.zip">SVG <span class="s">24.5 KB</span></a>
 </div></div>
 <div class="preview">
-<img src="icons/128px/layout-breaks-frames/BOTTOM_MARGIN.png" alt="BOTTOM_MARGIN" title="BOTTOM_MARGIN &middot; U+EF96" loading="lazy">
-<img src="icons/128px/layout-breaks-frames/FRAME_CIRCLE.png" alt="FRAME_CIRCLE" title="FRAME_CIRCLE &middot; U+EF4A" loading="lazy">
-<img src="icons/128px/layout-breaks-frames/FRAME_SQUARE.png" alt="FRAME_SQUARE" title="FRAME_SQUARE &middot; U+EF49" loading="lazy">
-<img src="icons/128px/layout-breaks-frames/GAP_ABOVE.png" alt="GAP_ABOVE" title="GAP_ABOVE &middot; U+EF93" loading="lazy">
-<img src="icons/128px/layout-breaks-frames/GAP_BELOW.png" alt="GAP_BELOW" title="GAP_BELOW &middot; U+EF92" loading="lazy">
-<img src="icons/128px/layout-breaks-frames/HIDE_EMPTY_STAVES.png" alt="HIDE_EMPTY_STAVES" title="HIDE_EMPTY_STAVES &middot; U+F497" loading="lazy">
-<img src="icons/128px/layout-breaks-frames/HORIZONTAL.png" alt="HORIZONTAL" title="HORIZONTAL &middot; U+EF32" loading="lazy">
-<img src="icons/128px/layout-breaks-frames/HORIZONTAL_FRAME.png" alt="HORIZONTAL_FRAME" title="HORIZONTAL_FRAME &middot; U+EF6D" loading="lazy">
-<img src="icons/128px/layout-breaks-frames/LEFT_GAP.png" alt="LEFT_GAP" title="LEFT_GAP &middot; U+EF91" loading="lazy">
-<img src="icons/128px/layout-breaks-frames/LEFT_MARGIN.png" alt="LEFT_MARGIN" title="LEFT_MARGIN &middot; U+EF94" loading="lazy">
-<img src="icons/128px/layout-breaks-frames/LINE_BREAK.png" alt="LINE_BREAK" title="LINE_BREAK &middot; U+F483" loading="lazy">
-<img src="icons/128px/layout-breaks-frames/NO_BREAK.png" alt="NO_BREAK" title="NO_BREAK &middot; U+F486" loading="lazy">
-<span class="more">+18 more</span>
+<span class="t" title="BOTTOM_MARGIN · U+EF96"><img src="icons/128px/layout-breaks-frames/BOTTOM_MARGIN.png" alt="BOTTOM_MARGIN" loading="lazy"></span>
+<span class="t" title="FRAME_CIRCLE · U+EF4A"><img src="icons/128px/layout-breaks-frames/FRAME_CIRCLE.png" alt="FRAME_CIRCLE" loading="lazy"></span>
+<span class="t" title="FRAME_SQUARE · U+EF49"><img src="icons/128px/layout-breaks-frames/FRAME_SQUARE.png" alt="FRAME_SQUARE" loading="lazy"></span>
+<span class="t" title="GAP_ABOVE · U+EF93"><img src="icons/128px/layout-breaks-frames/GAP_ABOVE.png" alt="GAP_ABOVE" loading="lazy"></span>
+<span class="t" title="GAP_BELOW · U+EF92"><img src="icons/128px/layout-breaks-frames/GAP_BELOW.png" alt="GAP_BELOW" loading="lazy"></span>
+<span class="t" title="HIDE_EMPTY_STAVES · U+F497"><img src="icons/128px/layout-breaks-frames/HIDE_EMPTY_STAVES.png" alt="HIDE_EMPTY_STAVES" loading="lazy"></span>
+<span class="t" title="HORIZONTAL · U+EF32"><img src="icons/128px/layout-breaks-frames/HORIZONTAL.png" alt="HORIZONTAL" loading="lazy"></span>
+<span class="t" title="HORIZONTAL_FRAME · U+EF6D"><img src="icons/128px/layout-breaks-frames/HORIZONTAL_FRAME.png" alt="HORIZONTAL_FRAME" loading="lazy"></span>
+<span class="t" title="LEFT_GAP · U+EF91"><img src="icons/128px/layout-breaks-frames/LEFT_GAP.png" alt="LEFT_GAP" loading="lazy"></span>
+<span class="t" title="LEFT_MARGIN · U+EF94"><img src="icons/128px/layout-breaks-frames/LEFT_MARGIN.png" alt="LEFT_MARGIN" loading="lazy"></span>
+<span class="t" title="LINE_BREAK · U+F483"><img src="icons/128px/layout-breaks-frames/LINE_BREAK.png" alt="LINE_BREAK" loading="lazy"></span>
+<span class="t" title="NO_BREAK · U+F486"><img src="icons/128px/layout-breaks-frames/NO_BREAK.png" alt="NO_BREAK" loading="lazy"></span>
+<span class="t" title="ORIENTATION_LANDSCAPE · U+F351"><img src="icons/128px/layout-breaks-frames/ORIENTATION_LANDSCAPE.png" alt="ORIENTATION_LANDSCAPE" loading="lazy"></span>
+<span class="t" title="ORIENTATION_PORTRAIT · U+F350"><img src="icons/128px/layout-breaks-frames/ORIENTATION_PORTRAIT.png" alt="ORIENTATION_PORTRAIT" loading="lazy"></span>
+<span class="t" title="PAGE_BREAK · U+F484"><img src="icons/128px/layout-breaks-frames/PAGE_BREAK.png" alt="PAGE_BREAK" loading="lazy"></span>
+<span class="t" title="PAGE_LOCK · U+F4C3"><img src="icons/128px/layout-breaks-frames/PAGE_LOCK.png" alt="PAGE_LOCK" loading="lazy"></span>
+<span class="t" title="RIGHT_GAP · U+EF90"><img src="icons/128px/layout-breaks-frames/RIGHT_GAP.png" alt="RIGHT_GAP" loading="lazy"></span>
+<span class="t" title="RIGHT_MARGIN · U+EF95"><img src="icons/128px/layout-breaks-frames/RIGHT_MARGIN.png" alt="RIGHT_MARGIN" loading="lazy"></span>
+<span class="t" title="SECTION_BREAK · U+EF6A"><img src="icons/128px/layout-breaks-frames/SECTION_BREAK.png" alt="SECTION_BREAK" loading="lazy"></span>
+<span class="t" title="SECTION_BREAK2 · U+F485"><img src="icons/128px/layout-breaks-frames/SECTION_BREAK2.png" alt="SECTION_BREAK2" loading="lazy"></span>
+<span class="t" title="SHOW_EMPTY_STAVES · U+F498"><img src="icons/128px/layout-breaks-frames/SHOW_EMPTY_STAVES.png" alt="SHOW_EMPTY_STAVES" loading="lazy"></span>
+<span class="t" title="SPACER · U+EF6B"><img src="icons/128px/layout-breaks-frames/SPACER.png" alt="SPACER" loading="lazy"></span>
+<span class="t" title="STAFF_TYPE_CHANGE · U+F433"><img src="icons/128px/layout-breaks-frames/STAFF_TYPE_CHANGE.png" alt="STAFF_TYPE_CHANGE" loading="lazy"></span>
+<span class="t" title="SYSTEM_LOCK · U+F487"><img src="icons/128px/layout-breaks-frames/SYSTEM_LOCK.png" alt="SYSTEM_LOCK" loading="lazy"></span>
+<span class="t" title="SYSTEM_LOCK_END · U+F482"><img src="icons/128px/layout-breaks-frames/SYSTEM_LOCK_END.png" alt="SYSTEM_LOCK_END" loading="lazy"></span>
+<span class="t" title="SYSTEM_LOCK_START · U+F481"><img src="icons/128px/layout-breaks-frames/SYSTEM_LOCK_START.png" alt="SYSTEM_LOCK_START" loading="lazy"></span>
+<span class="t" title="TEXT_FRAME · U+EF6E"><img src="icons/128px/layout-breaks-frames/TEXT_FRAME.png" alt="TEXT_FRAME" loading="lazy"></span>
+<span class="t" title="TOP_MARGIN · U+EF97"><img src="icons/128px/layout-breaks-frames/TOP_MARGIN.png" alt="TOP_MARGIN" loading="lazy"></span>
+<span class="t" title="VERTICAL · U+EF33"><img src="icons/128px/layout-breaks-frames/VERTICAL.png" alt="VERTICAL" loading="lazy"></span>
+<span class="t" title="VERTICAL_FRAME · U+EF6C"><img src="icons/128px/layout-breaks-frames/VERTICAL_FRAME.png" alt="VERTICAL_FRAME" loading="lazy"></span>
 </div>
 </section>
 <section class="cat">
@@ -295,19 +366,21 @@
 <a href="https://github.com/thoka/musescore-icons/releases/latest/download/icons.svg.lines.zip">SVG <span class="s">7.2 KB</span></a>
 </div></div>
 <div class="preview">
-<img src="icons/128px/lines/LINE_ARROW_LEFT.png" alt="LINE_ARROW_LEFT" title="LINE_ARROW_LEFT &middot; U+F4BC" loading="lazy">
-<img src="icons/128px/lines/LINE_ARROW_RIGHT.png" alt="LINE_ARROW_RIGHT" title="LINE_ARROW_RIGHT &middot; U+F4BD" loading="lazy">
-<img src="icons/128px/lines/LINE_DASHED.png" alt="LINE_DASHED" title="LINE_DASHED &middot; U+EF82" loading="lazy">
-<img src="icons/128px/lines/LINE_DOTTED.png" alt="LINE_DOTTED" title="LINE_DOTTED &middot; U+EF83" loading="lazy">
-<img src="icons/128px/lines/LINE_NORMAL.png" alt="LINE_NORMAL" title="LINE_NORMAL &middot; U+EF84" loading="lazy">
-<img src="icons/128px/lines/LINE_PEDAL_STAR_ENDING.png" alt="LINE_PEDAL_STAR_ENDING" title="LINE_PEDAL_STAR_ENDING &middot; U+EF87" loading="lazy">
-<img src="icons/128px/lines/LINE_WIDE_DASHED.png" alt="LINE_WIDE_DASHED" title="LINE_WIDE_DASHED &middot; U+F434" loading="lazy">
-<img src="icons/128px/lines/LINE_WITH_ANGLED_END_HOOK.png" alt="LINE_WITH_ANGLED_END_HOOK" title="LINE_WITH_ANGLED_END_HOOK &middot; U+EF86" loading="lazy">
-<img src="icons/128px/lines/LINE_WITH_ANGLED_START_HOOK.png" alt="LINE_WITH_ANGLED_START_HOOK" title="LINE_WITH_ANGLED_START_HOOK &middot; U+EF9F" loading="lazy">
-<img src="icons/128px/lines/LINE_WITH_END_HOOK.png" alt="LINE_WITH_END_HOOK" title="LINE_WITH_END_HOOK &middot; U+EF85" loading="lazy">
-<img src="icons/128px/lines/LINE_WITH_INVERTED_START_HOOK.png" alt="LINE_WITH_INVERTED_START_HOOK" title="LINE_WITH_INVERTED_START_HOOK &middot; U+EFA0" loading="lazy">
-<img src="icons/128px/lines/LINE_WITH_START_HOOK.png" alt="LINE_WITH_START_HOOK" title="LINE_WITH_START_HOOK &middot; U+EF9E" loading="lazy">
-<span class="more">+3 more</span>
+<span class="t" title="LINE_ARROW_LEFT · U+F4BC"><img src="icons/128px/lines/LINE_ARROW_LEFT.png" alt="LINE_ARROW_LEFT" loading="lazy"></span>
+<span class="t" title="LINE_ARROW_RIGHT · U+F4BD"><img src="icons/128px/lines/LINE_ARROW_RIGHT.png" alt="LINE_ARROW_RIGHT" loading="lazy"></span>
+<span class="t" title="LINE_DASHED · U+EF82"><img src="icons/128px/lines/LINE_DASHED.png" alt="LINE_DASHED" loading="lazy"></span>
+<span class="t" title="LINE_DOTTED · U+EF83"><img src="icons/128px/lines/LINE_DOTTED.png" alt="LINE_DOTTED" loading="lazy"></span>
+<span class="t" title="LINE_NORMAL · U+EF84"><img src="icons/128px/lines/LINE_NORMAL.png" alt="LINE_NORMAL" loading="lazy"></span>
+<span class="t" title="LINE_PEDAL_STAR_ENDING · U+EF87"><img src="icons/128px/lines/LINE_PEDAL_STAR_ENDING.png" alt="LINE_PEDAL_STAR_ENDING" loading="lazy"></span>
+<span class="t" title="LINE_WIDE_DASHED · U+F434"><img src="icons/128px/lines/LINE_WIDE_DASHED.png" alt="LINE_WIDE_DASHED" loading="lazy"></span>
+<span class="t" title="LINE_WITH_ANGLED_END_HOOK · U+EF86"><img src="icons/128px/lines/LINE_WITH_ANGLED_END_HOOK.png" alt="LINE_WITH_ANGLED_END_HOOK" loading="lazy"></span>
+<span class="t" title="LINE_WITH_ANGLED_START_HOOK · U+EF9F"><img src="icons/128px/lines/LINE_WITH_ANGLED_START_HOOK.png" alt="LINE_WITH_ANGLED_START_HOOK" loading="lazy"></span>
+<span class="t" title="LINE_WITH_END_HOOK · U+EF85"><img src="icons/128px/lines/LINE_WITH_END_HOOK.png" alt="LINE_WITH_END_HOOK" loading="lazy"></span>
+<span class="t" title="LINE_WITH_INVERTED_START_HOOK · U+EFA0"><img src="icons/128px/lines/LINE_WITH_INVERTED_START_HOOK.png" alt="LINE_WITH_INVERTED_START_HOOK" loading="lazy"></span>
+<span class="t" title="LINE_WITH_START_HOOK · U+EF9E"><img src="icons/128px/lines/LINE_WITH_START_HOOK.png" alt="LINE_WITH_START_HOOK" loading="lazy"></span>
+<span class="t" title="LINE_WITH_TWO_INVERTED_HOOKS · U+EF9B"><img src="icons/128px/lines/LINE_WITH_TWO_INVERTED_HOOKS.png" alt="LINE_WITH_TWO_INVERTED_HOOKS" loading="lazy"></span>
+<span class="t" title="LINE_WITH_T_LIKE_END_HOOK · U+EF9C"><img src="icons/128px/lines/LINE_WITH_T_LIKE_END_HOOK.png" alt="LINE_WITH_T_LIKE_END_HOOK" loading="lazy"></span>
+<span class="t" title="LINE_WITH_T_LINE_START_HOOK · U+EF9D"><img src="icons/128px/lines/LINE_WITH_T_LINE_START_HOOK.png" alt="LINE_WITH_T_LINE_START_HOOK" loading="lazy"></span>
 </div>
 </section>
 <section class="cat">
@@ -319,19 +392,82 @@
 <a href="https://github.com/thoka/musescore-icons/releases/latest/download/icons.svg.notes-rests-beams.zip">SVG <span class="s">54.0 KB</span></a>
 </div></div>
 <div class="preview">
-<img src="icons/128px/notes-rests-beams/ACCIACCATURA.png" alt="ACCIACCATURA" title="ACCIACCATURA &middot; U+F427" loading="lazy">
-<img src="icons/128px/notes-rests-beams/APPOGGIATURA.png" alt="APPOGGIATURA" title="APPOGGIATURA &middot; U+F428" loading="lazy">
-<img src="icons/128px/notes-rests-beams/BEAM_BREAK_INNER_16TH.png" alt="BEAM_BREAK_INNER_16TH" title="BEAM_BREAK_INNER_16TH &middot; U+F33F" loading="lazy">
-<img src="icons/128px/notes-rests-beams/BEAM_BREAK_INNER_8TH.png" alt="BEAM_BREAK_INNER_8TH" title="BEAM_BREAK_INNER_8TH &middot; U+F33E" loading="lazy">
-<img src="icons/128px/notes-rests-beams/BEAM_BREAK_LEFT.png" alt="BEAM_BREAK_LEFT" title="BEAM_BREAK_LEFT &middot; U+F33B" loading="lazy">
-<img src="icons/128px/notes-rests-beams/BEAM_FEATHERED_ACCELERATE.png" alt="BEAM_FEATHERED_ACCELERATE" title="BEAM_FEATHERED_ACCELERATE &middot; U+EF88" loading="lazy">
-<img src="icons/128px/notes-rests-beams/BEAM_FEATHERED_DECELERATE.png" alt="BEAM_FEATHERED_DECELERATE" title="BEAM_FEATHERED_DECELERATE &middot; U+EF89" loading="lazy">
-<img src="icons/128px/notes-rests-beams/BEAM_FEATHERING_LEFT_HEIGHT.png" alt="BEAM_FEATHERING_LEFT_HEIGHT" title="BEAM_FEATHERING_LEFT_HEIGHT &middot; U+EF57" loading="lazy">
-<img src="icons/128px/notes-rests-beams/BEAM_FEATHERING_RIGHT_HEIGHT.png" alt="BEAM_FEATHERING_RIGHT_HEIGHT" title="BEAM_FEATHERING_RIGHT_HEIGHT &middot; U+EF56" loading="lazy">
-<img src="icons/128px/notes-rests-beams/BEAM_HEIGHT_LEFT.png" alt="BEAM_HEIGHT_LEFT" title="BEAM_HEIGHT_LEFT &middot; U+EF5A" loading="lazy">
-<img src="icons/128px/notes-rests-beams/BEAM_HEIGHT_RIGHT.png" alt="BEAM_HEIGHT_RIGHT" title="BEAM_HEIGHT_RIGHT &middot; U+EF5B" loading="lazy">
-<img src="icons/128px/notes-rests-beams/BEAM_JOIN.png" alt="BEAM_JOIN" title="BEAM_JOIN &middot; U+F33D" loading="lazy">
-<span class="more">+64 more</span>
+<span class="t" title="ACCIACCATURA · U+F427"><img src="icons/128px/notes-rests-beams/ACCIACCATURA.png" alt="ACCIACCATURA" loading="lazy"></span>
+<span class="t" title="APPOGGIATURA · U+F428"><img src="icons/128px/notes-rests-beams/APPOGGIATURA.png" alt="APPOGGIATURA" loading="lazy"></span>
+<span class="t" title="BEAM_BREAK_INNER_16TH · U+F33F"><img src="icons/128px/notes-rests-beams/BEAM_BREAK_INNER_16TH.png" alt="BEAM_BREAK_INNER_16TH" loading="lazy"></span>
+<span class="t" title="BEAM_BREAK_INNER_8TH · U+F33E"><img src="icons/128px/notes-rests-beams/BEAM_BREAK_INNER_8TH.png" alt="BEAM_BREAK_INNER_8TH" loading="lazy"></span>
+<span class="t" title="BEAM_BREAK_LEFT · U+F33B"><img src="icons/128px/notes-rests-beams/BEAM_BREAK_LEFT.png" alt="BEAM_BREAK_LEFT" loading="lazy"></span>
+<span class="t" title="BEAM_FEATHERED_ACCELERATE · U+EF88"><img src="icons/128px/notes-rests-beams/BEAM_FEATHERED_ACCELERATE.png" alt="BEAM_FEATHERED_ACCELERATE" loading="lazy"></span>
+<span class="t" title="BEAM_FEATHERED_DECELERATE · U+EF89"><img src="icons/128px/notes-rests-beams/BEAM_FEATHERED_DECELERATE.png" alt="BEAM_FEATHERED_DECELERATE" loading="lazy"></span>
+<span class="t" title="BEAM_FEATHERING_LEFT_HEIGHT · U+EF57"><img src="icons/128px/notes-rests-beams/BEAM_FEATHERING_LEFT_HEIGHT.png" alt="BEAM_FEATHERING_LEFT_HEIGHT" loading="lazy"></span>
+<span class="t" title="BEAM_FEATHERING_RIGHT_HEIGHT · U+EF56"><img src="icons/128px/notes-rests-beams/BEAM_FEATHERING_RIGHT_HEIGHT.png" alt="BEAM_FEATHERING_RIGHT_HEIGHT" loading="lazy"></span>
+<span class="t" title="BEAM_HEIGHT_LEFT · U+EF5A"><img src="icons/128px/notes-rests-beams/BEAM_HEIGHT_LEFT.png" alt="BEAM_HEIGHT_LEFT" loading="lazy"></span>
+<span class="t" title="BEAM_HEIGHT_RIGHT · U+EF5B"><img src="icons/128px/notes-rests-beams/BEAM_HEIGHT_RIGHT.png" alt="BEAM_HEIGHT_RIGHT" loading="lazy"></span>
+<span class="t" title="BEAM_JOIN · U+F33D"><img src="icons/128px/notes-rests-beams/BEAM_JOIN.png" alt="BEAM_JOIN" loading="lazy"></span>
+<span class="t" title="BEAM_NONE · U+F33A"><img src="icons/128px/notes-rests-beams/BEAM_NONE.png" alt="BEAM_NONE" loading="lazy"></span>
+<span class="t" title="CROSS_STAFF_BEAMING · U+F43D"><img src="icons/128px/notes-rests-beams/CROSS_STAFF_BEAMING.png" alt="CROSS_STAFF_BEAMING" loading="lazy"></span>
+<span class="t" title="DURATION_CURSOR · U+F492"><img src="icons/128px/notes-rests-beams/DURATION_CURSOR.png" alt="DURATION_CURSOR" loading="lazy"></span>
+<span class="t" title="GRACE16 · U+F42A"><img src="icons/128px/notes-rests-beams/GRACE16.png" alt="GRACE16" loading="lazy"></span>
+<span class="t" title="GRACE16_AFTER · U+F42D"><img src="icons/128px/notes-rests-beams/GRACE16_AFTER.png" alt="GRACE16_AFTER" loading="lazy"></span>
+<span class="t" title="GRACE32 · U+F42B"><img src="icons/128px/notes-rests-beams/GRACE32.png" alt="GRACE32" loading="lazy"></span>
+<span class="t" title="GRACE32_AFTER · U+F42E"><img src="icons/128px/notes-rests-beams/GRACE32_AFTER.png" alt="GRACE32_AFTER" loading="lazy"></span>
+<span class="t" title="GRACE4 · U+F429"><img src="icons/128px/notes-rests-beams/GRACE4.png" alt="GRACE4" loading="lazy"></span>
+<span class="t" title="GRACE8_AFTER · U+F42C"><img src="icons/128px/notes-rests-beams/GRACE8_AFTER.png" alt="GRACE8_AFTER" loading="lazy"></span>
+<span class="t" title="IBEAM · U+F418"><img src="icons/128px/notes-rests-beams/IBEAM.png" alt="IBEAM" loading="lazy"></span>
+<span class="t" title="LONGO · U+F364"><img src="icons/128px/notes-rests-beams/LONGO.png" alt="LONGO" loading="lazy"></span>
+<span class="t" title="MUSIC_NOTES · U+EF4B"><img src="icons/128px/notes-rests-beams/MUSIC_NOTES.png" alt="MUSIC_NOTES" loading="lazy"></span>
+<span class="t" title="NOTEFLAGS_STRAIGHT · U+F421"><img src="icons/128px/notes-rests-beams/NOTEFLAGS_STRAIGHT.png" alt="NOTEFLAGS_STRAIGHT" loading="lazy"></span>
+<span class="t" title="NOTEFLAGS_TRADITIONAL · U+F420"><img src="icons/128px/notes-rests-beams/NOTEFLAGS_TRADITIONAL.png" alt="NOTEFLAGS_TRADITIONAL" loading="lazy"></span>
+<span class="t" title="NOTE_1024TH · U+F370"><img src="icons/128px/notes-rests-beams/NOTE_1024TH.png" alt="NOTE_1024TH" loading="lazy"></span>
+<span class="t" title="NOTE_128TH · U+F36D"><img src="icons/128px/notes-rests-beams/NOTE_128TH.png" alt="NOTE_128TH" loading="lazy"></span>
+<span class="t" title="NOTE_16TH · U+F36A"><img src="icons/128px/notes-rests-beams/NOTE_16TH.png" alt="NOTE_16TH" loading="lazy"></span>
+<span class="t" title="NOTE_256TH · U+F36E"><img src="icons/128px/notes-rests-beams/NOTE_256TH.png" alt="NOTE_256TH" loading="lazy"></span>
+<span class="t" title="NOTE_32ND · U+F36B"><img src="icons/128px/notes-rests-beams/NOTE_32ND.png" alt="NOTE_32ND" loading="lazy"></span>
+<span class="t" title="NOTE_512TH · U+F36F"><img src="icons/128px/notes-rests-beams/NOTE_512TH.png" alt="NOTE_512TH" loading="lazy"></span>
+<span class="t" title="NOTE_64TH · U+F36C"><img src="icons/128px/notes-rests-beams/NOTE_64TH.png" alt="NOTE_64TH" loading="lazy"></span>
+<span class="t" title="NOTE_8TH · U+F369"><img src="icons/128px/notes-rests-beams/NOTE_8TH.png" alt="NOTE_8TH" loading="lazy"></span>
+<span class="t" title="NOTE_ALIGN_CENTER · U+F4A4"><img src="icons/128px/notes-rests-beams/NOTE_ALIGN_CENTER.png" alt="NOTE_ALIGN_CENTER" loading="lazy"></span>
+<span class="t" title="NOTE_ALIGN_LEFT · U+F4A3"><img src="icons/128px/notes-rests-beams/NOTE_ALIGN_LEFT.png" alt="NOTE_ALIGN_LEFT" loading="lazy"></span>
+<span class="t" title="NOTE_ALIGN_RIGHT · U+F4A5"><img src="icons/128px/notes-rests-beams/NOTE_ALIGN_RIGHT.png" alt="NOTE_ALIGN_RIGHT" loading="lazy"></span>
+<span class="t" title="NOTE_ANCHORED_LINE · U+F47B"><img src="icons/128px/notes-rests-beams/NOTE_ANCHORED_LINE.png" alt="NOTE_ANCHORED_LINE" loading="lazy"></span>
+<span class="t" title="NOTE_DOTTED · U+F372"><img src="icons/128px/notes-rests-beams/NOTE_DOTTED.png" alt="NOTE_DOTTED" loading="lazy"></span>
+<span class="t" title="NOTE_DOTTED_2 · U+F395"><img src="icons/128px/notes-rests-beams/NOTE_DOTTED_2.png" alt="NOTE_DOTTED_2" loading="lazy"></span>
+<span class="t" title="NOTE_DOTTED_3 · U+F396"><img src="icons/128px/notes-rests-beams/NOTE_DOTTED_3.png" alt="NOTE_DOTTED_3" loading="lazy"></span>
+<span class="t" title="NOTE_DOTTED_4 · U+F397"><img src="icons/128px/notes-rests-beams/NOTE_DOTTED_4.png" alt="NOTE_DOTTED_4" loading="lazy"></span>
+<span class="t" title="NOTE_FLIP · U+F374"><img src="icons/128px/notes-rests-beams/NOTE_FLIP.png" alt="NOTE_FLIP" loading="lazy"></span>
+<span class="t" title="NOTE_HALF · U+F367"><img src="icons/128px/notes-rests-beams/NOTE_HALF.png" alt="NOTE_HALF" loading="lazy"></span>
+<span class="t" title="NOTE_HEAD · U+F42F"><img src="icons/128px/notes-rests-beams/NOTE_HEAD.png" alt="NOTE_HEAD" loading="lazy"></span>
+<span class="t" title="NOTE_HEAD_BREVIS · U+F344"><img src="icons/128px/notes-rests-beams/NOTE_HEAD_BREVIS.png" alt="NOTE_HEAD_BREVIS" loading="lazy"></span>
+<span class="t" title="NOTE_HEAD_HALF · U+F342"><img src="icons/128px/notes-rests-beams/NOTE_HEAD_HALF.png" alt="NOTE_HEAD_HALF" loading="lazy"></span>
+<span class="t" title="NOTE_HEAD_PARENTHESES · U+F430"><img src="icons/128px/notes-rests-beams/NOTE_HEAD_PARENTHESES.png" alt="NOTE_HEAD_PARENTHESES" loading="lazy"></span>
+<span class="t" title="NOTE_HEAD_QUARTER · U+F341"><img src="icons/128px/notes-rests-beams/NOTE_HEAD_QUARTER.png" alt="NOTE_HEAD_QUARTER" loading="lazy"></span>
+<span class="t" title="NOTE_HEAD_WHOLE · U+F343"><img src="icons/128px/notes-rests-beams/NOTE_HEAD_WHOLE.png" alt="NOTE_HEAD_WHOLE" loading="lazy"></span>
+<span class="t" title="NOTE_LV · U+F47C"><img src="icons/128px/notes-rests-beams/NOTE_LV.png" alt="NOTE_LV" loading="lazy"></span>
+<span class="t" title="NOTE_PLUS · U+F39D"><img src="icons/128px/notes-rests-beams/NOTE_PLUS.png" alt="NOTE_PLUS" loading="lazy"></span>
+<span class="t" title="NOTE_QUARTER · U+F368"><img src="icons/128px/notes-rests-beams/NOTE_QUARTER.png" alt="NOTE_QUARTER" loading="lazy"></span>
+<span class="t" title="NOTE_SLUR · U+F375"><img src="icons/128px/notes-rests-beams/NOTE_SLUR.png" alt="NOTE_SLUR" loading="lazy"></span>
+<span class="t" title="NOTE_TIE · U+F373"><img src="icons/128px/notes-rests-beams/NOTE_TIE.png" alt="NOTE_TIE" loading="lazy"></span>
+<span class="t" title="NOTE_TO_RIGHT · U+F39E"><img src="icons/128px/notes-rests-beams/NOTE_TO_RIGHT.png" alt="NOTE_TO_RIGHT" loading="lazy"></span>
+<span class="t" title="NOTE_TUPLET · U+F376"><img src="icons/128px/notes-rests-beams/NOTE_TUPLET.png" alt="NOTE_TUPLET" loading="lazy"></span>
+<span class="t" title="NOTE_WHOLE · U+F366"><img src="icons/128px/notes-rests-beams/NOTE_WHOLE.png" alt="NOTE_WHOLE" loading="lazy"></span>
+<span class="t" title="NOTE_WHOLE_DOUBLE · U+F365"><img src="icons/128px/notes-rests-beams/NOTE_WHOLE_DOUBLE.png" alt="NOTE_WHOLE_DOUBLE" loading="lazy"></span>
+<span class="t" title="REST · U+F371"><img src="icons/128px/notes-rests-beams/REST.png" alt="REST" loading="lazy"></span>
+<span class="t" title="REST_8TH · U+F44C"><img src="icons/128px/notes-rests-beams/REST_8TH.png" alt="REST_8TH" loading="lazy"></span>
+<span class="t" title="SINGLE_NOTE · U+F46C"><img src="icons/128px/notes-rests-beams/SINGLE_NOTE.png" alt="SINGLE_NOTE" loading="lazy"></span>
+<span class="t" title="TREMOLO_ONE_NOTE · U+F361"><img src="icons/128px/notes-rests-beams/TREMOLO_ONE_NOTE.png" alt="TREMOLO_ONE_NOTE" loading="lazy"></span>
+<span class="t" title="TREMOLO_STYLE_TRADITIONAL · U+F360"><img src="icons/128px/notes-rests-beams/TREMOLO_STYLE_TRADITIONAL.png" alt="TREMOLO_STYLE_TRADITIONAL" loading="lazy"></span>
+<span class="t" title="TREMOLO_STYLE_TRADITIONAL_ALTERNATE · U+F362"><img src="icons/128px/notes-rests-beams/TREMOLO_STYLE_TRADITIONAL_ALTERNATE.png" alt="TREMOLO_STYLE_TRADITIONAL_ALTERNATE" loading="lazy"></span>
+<span class="t" title="TREMOLO_TWO_NOTES · U+F35F"><img src="icons/128px/notes-rests-beams/TREMOLO_TWO_NOTES.png" alt="TREMOLO_TWO_NOTES" loading="lazy"></span>
+<span class="t" title="TUPLET_GRAPHICAL_CENTER · U+F4AC"><img src="icons/128px/notes-rests-beams/TUPLET_GRAPHICAL_CENTER.png" alt="TUPLET_GRAPHICAL_CENTER" loading="lazy"></span>
+<span class="t" title="TUPLET_NUMBER_ONLY · U+F423"><img src="icons/128px/notes-rests-beams/TUPLET_NUMBER_ONLY.png" alt="TUPLET_NUMBER_ONLY" loading="lazy"></span>
+<span class="t" title="TUPLET_NUMBER_WITH_BRACKETS · U+F422"><img src="icons/128px/notes-rests-beams/TUPLET_NUMBER_WITH_BRACKETS.png" alt="TUPLET_NUMBER_WITH_BRACKETS" loading="lazy"></span>
+<span class="t" title="TUPLET_RYTHMIC_CENTER · U+F4AD"><img src="icons/128px/notes-rests-beams/TUPLET_RYTHMIC_CENTER.png" alt="TUPLET_RYTHMIC_CENTER" loading="lazy"></span>
+<span class="t" title="USE_WIDE_BEAMS_REGULAR · U+F425"><img src="icons/128px/notes-rests-beams/USE_WIDE_BEAMS_REGULAR.png" alt="USE_WIDE_BEAMS_REGULAR" loading="lazy"></span>
+<span class="t" title="USE_WIDE_BEAMS_WIDE · U+F426"><img src="icons/128px/notes-rests-beams/USE_WIDE_BEAMS_WIDE.png" alt="USE_WIDE_BEAMS_WIDE" loading="lazy"></span>
+<span class="t" title="VOICE_1 · U+F391"><img src="icons/128px/notes-rests-beams/VOICE_1.png" alt="VOICE_1" loading="lazy"></span>
+<span class="t" title="VOICE_2 · U+F392"><img src="icons/128px/notes-rests-beams/VOICE_2.png" alt="VOICE_2" loading="lazy"></span>
+<span class="t" title="VOICE_3 · U+F393"><img src="icons/128px/notes-rests-beams/VOICE_3.png" alt="VOICE_3" loading="lazy"></span>
+<span class="t" title="VOICE_4 · U+F394"><img src="icons/128px/notes-rests-beams/VOICE_4.png" alt="VOICE_4" loading="lazy"></span>
 </div>
 </section>
 <section class="cat">
@@ -343,19 +479,33 @@
 <a href="https://github.com/thoka/musescore-icons/releases/latest/download/icons.svg.pitch-accidentals-keys.zip">SVG <span class="s">36.8 KB</span></a>
 </div></div>
 <div class="preview">
-<img src="icons/128px/pitch-accidentals-keys/ACCIDENTAL_SHARP.png" alt="ACCIDENTAL_SHARP" title="ACCIDENTAL_SHARP &middot; U+EF45" loading="lazy">
-<img src="icons/128px/pitch-accidentals-keys/AMBITUS.png" alt="AMBITUS" title="AMBITUS &middot; U+EF79" loading="lazy">
-<img src="icons/128px/pitch-accidentals-keys/AMBITUS_LEANING_LEFT.png" alt="AMBITUS_LEANING_LEFT" title="AMBITUS_LEANING_LEFT &middot; U+EF7A" loading="lazy">
-<img src="icons/128px/pitch-accidentals-keys/AMBITUS_LEANING_RIGHT.png" alt="AMBITUS_LEANING_RIGHT" title="AMBITUS_LEANING_RIGHT &middot; U+EF7B" loading="lazy">
-<img src="icons/128px/pitch-accidentals-keys/CLEF_BASS.png" alt="CLEF_BASS" title="CLEF_BASS &middot; U+EF73" loading="lazy">
-<img src="icons/128px/pitch-accidentals-keys/CLEF_TREBLE.png" alt="CLEF_TREBLE" title="CLEF_TREBLE &middot; U+F31A" loading="lazy">
-<img src="icons/128px/pitch-accidentals-keys/FLAT.png" alt="FLAT" title="FLAT &middot; U+F388" loading="lazy">
-<img src="icons/128px/pitch-accidentals-keys/FLAT_DOUBLE.png" alt="FLAT_DOUBLE" title="FLAT_DOUBLE &middot; U+F389" loading="lazy">
-<img src="icons/128px/pitch-accidentals-keys/KEY_SIGNATURE.png" alt="KEY_SIGNATURE" title="KEY_SIGNATURE &middot; U+EF81" loading="lazy">
-<img src="icons/128px/pitch-accidentals-keys/KEY_SIGNATURE_1_FLAT.png" alt="KEY_SIGNATURE_1_FLAT" title="KEY_SIGNATURE_1_FLAT &middot; U+F37F" loading="lazy">
-<img src="icons/128px/pitch-accidentals-keys/KEY_SIGNATURE_1_SHARP.png" alt="KEY_SIGNATURE_1_SHARP" title="KEY_SIGNATURE_1_SHARP &middot; U+F378" loading="lazy">
-<img src="icons/128px/pitch-accidentals-keys/KEY_SIGNATURE_2_FLAT.png" alt="KEY_SIGNATURE_2_FLAT" title="KEY_SIGNATURE_2_FLAT &middot; U+F380" loading="lazy">
-<span class="more">+15 more</span>
+<span class="t" title="ACCIDENTAL_SHARP · U+EF45"><img src="icons/128px/pitch-accidentals-keys/ACCIDENTAL_SHARP.png" alt="ACCIDENTAL_SHARP" loading="lazy"></span>
+<span class="t" title="AMBITUS · U+EF79"><img src="icons/128px/pitch-accidentals-keys/AMBITUS.png" alt="AMBITUS" loading="lazy"></span>
+<span class="t" title="AMBITUS_LEANING_LEFT · U+EF7A"><img src="icons/128px/pitch-accidentals-keys/AMBITUS_LEANING_LEFT.png" alt="AMBITUS_LEANING_LEFT" loading="lazy"></span>
+<span class="t" title="AMBITUS_LEANING_RIGHT · U+EF7B"><img src="icons/128px/pitch-accidentals-keys/AMBITUS_LEANING_RIGHT.png" alt="AMBITUS_LEANING_RIGHT" loading="lazy"></span>
+<span class="t" title="CLEF_BASS · U+EF73"><img src="icons/128px/pitch-accidentals-keys/CLEF_BASS.png" alt="CLEF_BASS" loading="lazy"></span>
+<span class="t" title="CLEF_TREBLE · U+F31A"><img src="icons/128px/pitch-accidentals-keys/CLEF_TREBLE.png" alt="CLEF_TREBLE" loading="lazy"></span>
+<span class="t" title="FLAT · U+F388"><img src="icons/128px/pitch-accidentals-keys/FLAT.png" alt="FLAT" loading="lazy"></span>
+<span class="t" title="FLAT_DOUBLE · U+F389"><img src="icons/128px/pitch-accidentals-keys/FLAT_DOUBLE.png" alt="FLAT_DOUBLE" loading="lazy"></span>
+<span class="t" title="KEY_SIGNATURE · U+EF81"><img src="icons/128px/pitch-accidentals-keys/KEY_SIGNATURE.png" alt="KEY_SIGNATURE" loading="lazy"></span>
+<span class="t" title="KEY_SIGNATURE_1_FLAT · U+F37F"><img src="icons/128px/pitch-accidentals-keys/KEY_SIGNATURE_1_FLAT.png" alt="KEY_SIGNATURE_1_FLAT" loading="lazy"></span>
+<span class="t" title="KEY_SIGNATURE_1_SHARP · U+F378"><img src="icons/128px/pitch-accidentals-keys/KEY_SIGNATURE_1_SHARP.png" alt="KEY_SIGNATURE_1_SHARP" loading="lazy"></span>
+<span class="t" title="KEY_SIGNATURE_2_FLAT · U+F380"><img src="icons/128px/pitch-accidentals-keys/KEY_SIGNATURE_2_FLAT.png" alt="KEY_SIGNATURE_2_FLAT" loading="lazy"></span>
+<span class="t" title="KEY_SIGNATURE_2_SHARPS · U+F379"><img src="icons/128px/pitch-accidentals-keys/KEY_SIGNATURE_2_SHARPS.png" alt="KEY_SIGNATURE_2_SHARPS" loading="lazy"></span>
+<span class="t" title="KEY_SIGNATURE_3_FLAT · U+F381"><img src="icons/128px/pitch-accidentals-keys/KEY_SIGNATURE_3_FLAT.png" alt="KEY_SIGNATURE_3_FLAT" loading="lazy"></span>
+<span class="t" title="KEY_SIGNATURE_3_SHARPS · U+F37A"><img src="icons/128px/pitch-accidentals-keys/KEY_SIGNATURE_3_SHARPS.png" alt="KEY_SIGNATURE_3_SHARPS" loading="lazy"></span>
+<span class="t" title="KEY_SIGNATURE_4_FLAT · U+F382"><img src="icons/128px/pitch-accidentals-keys/KEY_SIGNATURE_4_FLAT.png" alt="KEY_SIGNATURE_4_FLAT" loading="lazy"></span>
+<span class="t" title="KEY_SIGNATURE_4_SHARPS · U+F37B"><img src="icons/128px/pitch-accidentals-keys/KEY_SIGNATURE_4_SHARPS.png" alt="KEY_SIGNATURE_4_SHARPS" loading="lazy"></span>
+<span class="t" title="KEY_SIGNATURE_5_FLAT · U+F383"><img src="icons/128px/pitch-accidentals-keys/KEY_SIGNATURE_5_FLAT.png" alt="KEY_SIGNATURE_5_FLAT" loading="lazy"></span>
+<span class="t" title="KEY_SIGNATURE_5_SHARPS · U+F37C"><img src="icons/128px/pitch-accidentals-keys/KEY_SIGNATURE_5_SHARPS.png" alt="KEY_SIGNATURE_5_SHARPS" loading="lazy"></span>
+<span class="t" title="KEY_SIGNATURE_6_FLAT · U+F384"><img src="icons/128px/pitch-accidentals-keys/KEY_SIGNATURE_6_FLAT.png" alt="KEY_SIGNATURE_6_FLAT" loading="lazy"></span>
+<span class="t" title="KEY_SIGNATURE_6_SHARPS · U+F37D"><img src="icons/128px/pitch-accidentals-keys/KEY_SIGNATURE_6_SHARPS.png" alt="KEY_SIGNATURE_6_SHARPS" loading="lazy"></span>
+<span class="t" title="KEY_SIGNATURE_7_FLAT · U+F385"><img src="icons/128px/pitch-accidentals-keys/KEY_SIGNATURE_7_FLAT.png" alt="KEY_SIGNATURE_7_FLAT" loading="lazy"></span>
+<span class="t" title="KEY_SIGNATURE_7_SHARPS · U+F37E"><img src="icons/128px/pitch-accidentals-keys/KEY_SIGNATURE_7_SHARPS.png" alt="KEY_SIGNATURE_7_SHARPS" loading="lazy"></span>
+<span class="t" title="KEY_SIGNATURE_NONE · U+F377"><img src="icons/128px/pitch-accidentals-keys/KEY_SIGNATURE_NONE.png" alt="KEY_SIGNATURE_NONE" loading="lazy"></span>
+<span class="t" title="NATURAL · U+F387"><img src="icons/128px/pitch-accidentals-keys/NATURAL.png" alt="NATURAL" loading="lazy"></span>
+<span class="t" title="SHARP · U+F386"><img src="icons/128px/pitch-accidentals-keys/SHARP.png" alt="SHARP" loading="lazy"></span>
+<span class="t" title="SHARP_DOUBLE · U+F38A"><img src="icons/128px/pitch-accidentals-keys/SHARP_DOUBLE.png" alt="SHARP_DOUBLE" loading="lazy"></span>
 </div>
 </section>
 <section class="cat">
@@ -367,19 +517,28 @@
 <a href="https://github.com/thoka/musescore-icons/releases/latest/download/icons.svg.score-elements.zip">SVG <span class="s">14.9 KB</span></a>
 </div></div>
 <div class="preview">
-<img src="icons/128px/score-elements/BARLINE_UNWINGED.png" alt="BARLINE_UNWINGED" title="BARLINE_UNWINGED &middot; U+F34D" loading="lazy">
-<img src="icons/128px/score-elements/BARLINE_WINGED.png" alt="BARLINE_WINGED" title="BARLINE_WINGED &middot; U+F34C" loading="lazy">
-<img src="icons/128px/score-elements/BRACE.png" alt="BRACE" title="BRACE &middot; U+EF72" loading="lazy">
-<img src="icons/128px/score-elements/BRACKET.png" alt="BRACKET" title="BRACKET &middot; U+EF71" loading="lazy">
-<img src="icons/128px/score-elements/BRACKET_PARENTHESES.png" alt="BRACKET_PARENTHESES" title="BRACKET_PARENTHESES &middot; U+EF7C" loading="lazy">
-<img src="icons/128px/score-elements/BRACKET_PARENTHESES_SQUARE.png" alt="BRACKET_PARENTHESES_SQUARE" title="BRACKET_PARENTHESES_SQUARE &middot; U+EF7D" loading="lazy">
-<img src="icons/128px/score-elements/DOT_ABOVE_LINE.png" alt="DOT_ABOVE_LINE" title="DOT_ABOVE_LINE &middot; U+EF5E" loading="lazy">
-<img src="icons/128px/score-elements/DOT_BELOW_LINE.png" alt="DOT_BELOW_LINE" title="DOT_BELOW_LINE &middot; U+EF5F" loading="lazy">
-<img src="icons/128px/score-elements/DOUBLE_BAR_LINE.png" alt="DOUBLE_BAR_LINE" title="DOUBLE_BAR_LINE &middot; U+F347" loading="lazy">
-<img src="icons/128px/score-elements/INSERT_ONE_MEASURE.png" alt="INSERT_ONE_MEASURE" title="INSERT_ONE_MEASURE &middot; U+F432" loading="lazy">
-<img src="icons/128px/score-elements/JUMP.png" alt="JUMP" title="JUMP &middot; U+EF67" loading="lazy">
-<img src="icons/128px/score-elements/MARKER.png" alt="MARKER" title="MARKER &middot; U+EF66" loading="lazy">
-<span class="more">+10 more</span>
+<span class="t" title="BARLINE_UNWINGED · U+F34D"><img src="icons/128px/score-elements/BARLINE_UNWINGED.png" alt="BARLINE_UNWINGED" loading="lazy"></span>
+<span class="t" title="BARLINE_WINGED · U+F34C"><img src="icons/128px/score-elements/BARLINE_WINGED.png" alt="BARLINE_WINGED" loading="lazy"></span>
+<span class="t" title="BRACE · U+EF72"><img src="icons/128px/score-elements/BRACE.png" alt="BRACE" loading="lazy"></span>
+<span class="t" title="BRACKET · U+EF71"><img src="icons/128px/score-elements/BRACKET.png" alt="BRACKET" loading="lazy"></span>
+<span class="t" title="BRACKET_PARENTHESES · U+EF7C"><img src="icons/128px/score-elements/BRACKET_PARENTHESES.png" alt="BRACKET_PARENTHESES" loading="lazy"></span>
+<span class="t" title="BRACKET_PARENTHESES_SQUARE · U+EF7D"><img src="icons/128px/score-elements/BRACKET_PARENTHESES_SQUARE.png" alt="BRACKET_PARENTHESES_SQUARE" loading="lazy"></span>
+<span class="t" title="DOT_ABOVE_LINE · U+EF5E"><img src="icons/128px/score-elements/DOT_ABOVE_LINE.png" alt="DOT_ABOVE_LINE" loading="lazy"></span>
+<span class="t" title="DOT_BELOW_LINE · U+EF5F"><img src="icons/128px/score-elements/DOT_BELOW_LINE.png" alt="DOT_BELOW_LINE" loading="lazy"></span>
+<span class="t" title="DOUBLE_BAR_LINE · U+F347"><img src="icons/128px/score-elements/DOUBLE_BAR_LINE.png" alt="DOUBLE_BAR_LINE" loading="lazy"></span>
+<span class="t" title="INSERT_ONE_MEASURE · U+F432"><img src="icons/128px/score-elements/INSERT_ONE_MEASURE.png" alt="INSERT_ONE_MEASURE" loading="lazy"></span>
+<span class="t" title="JUMP · U+EF67"><img src="icons/128px/score-elements/JUMP.png" alt="JUMP" loading="lazy"></span>
+<span class="t" title="MARKER · U+EF66"><img src="icons/128px/score-elements/MARKER.png" alt="MARKER" loading="lazy"></span>
+<span class="t" title="MEASURE_REPEAT · U+F431"><img src="icons/128px/score-elements/MEASURE_REPEAT.png" alt="MEASURE_REPEAT" loading="lazy"></span>
+<span class="t" title="MULTIMEASURE_REST · U+F355"><img src="icons/128px/score-elements/MULTIMEASURE_REST.png" alt="MULTIMEASURE_REST" loading="lazy"></span>
+<span class="t" title="PERCUSSION · U+F479"><img src="icons/128px/score-elements/PERCUSSION.png" alt="PERCUSSION" loading="lazy"></span>
+<span class="t" title="REPEAT_START · U+EF68"><img src="icons/128px/score-elements/REPEAT_START.png" alt="REPEAT_START" loading="lazy"></span>
+<span class="t" title="SCORE · U+F319"><img src="icons/128px/score-elements/SCORE.png" alt="SCORE" loading="lazy"></span>
+<span class="t" title="TEXT_ABOVE_STAFF · U+EF61"><img src="icons/128px/score-elements/TEXT_ABOVE_STAFF.png" alt="TEXT_ABOVE_STAFF" loading="lazy"></span>
+<span class="t" title="TEXT_BELOW_STAFF · U+EF60"><img src="icons/128px/score-elements/TEXT_BELOW_STAFF.png" alt="TEXT_BELOW_STAFF" loading="lazy"></span>
+<span class="t" title="TIMESIG_NARROW · U+F489"><img src="icons/128px/score-elements/TIMESIG_NARROW.png" alt="TIMESIG_NARROW" loading="lazy"></span>
+<span class="t" title="TIMESIG_SANSSERIF · U+F48A"><img src="icons/128px/score-elements/TIMESIG_SANSSERIF.png" alt="TIMESIG_SANSSERIF" loading="lazy"></span>
+<span class="t" title="TIME_SIGNATURE · U+EF64"><img src="icons/128px/score-elements/TIME_SIGNATURE.png" alt="TIME_SIGNATURE" loading="lazy"></span>
 </div>
 </section>
 <section class="cat">
@@ -391,9 +550,9 @@
 <a href="https://github.com/thoka/musescore-icons/releases/latest/download/icons.svg.shapes-misc.zip">SVG <span class="s">1.6 KB</span></a>
 </div></div>
 <div class="preview">
-<img src="icons/128px/shapes-misc/CIRCLE.png" alt="CIRCLE" title="CIRCLE &middot; U+F44D" loading="lazy">
-<img src="icons/128px/shapes-misc/TRIANGLE_SYMBOL.png" alt="TRIANGLE_SYMBOL" title="TRIANGLE_SYMBOL &middot; U+F46D" loading="lazy">
-<img src="icons/128px/shapes-misc/TWO_CIRCLES.png" alt="TWO_CIRCLES" title="TWO_CIRCLES &middot; U+F44E" loading="lazy">
+<span class="t" title="CIRCLE · U+F44D"><img src="icons/128px/shapes-misc/CIRCLE.png" alt="CIRCLE" loading="lazy"></span>
+<span class="t" title="TRIANGLE_SYMBOL · U+F46D"><img src="icons/128px/shapes-misc/TRIANGLE_SYMBOL.png" alt="TRIANGLE_SYMBOL" loading="lazy"></span>
+<span class="t" title="TWO_CIRCLES · U+F44E"><img src="icons/128px/shapes-misc/TWO_CIRCLES.png" alt="TWO_CIRCLES" loading="lazy"></span>
 </div>
 </section>
 <section class="cat">
@@ -405,19 +564,34 @@
 <a href="https://github.com/thoka/musescore-icons/releases/latest/download/icons.svg.text-typography.zip">SVG <span class="s">18.0 KB</span></a>
 </div></div>
 <div class="preview">
-<img src="icons/128px/text-typography/ALIGN_HORIZONTAL_CENTER.png" alt="ALIGN_HORIZONTAL_CENTER" title="ALIGN_HORIZONTAL_CENTER &middot; U+F48C" loading="lazy">
-<img src="icons/128px/text-typography/ALIGN_LEFT.png" alt="ALIGN_LEFT" title="ALIGN_LEFT &middot; U+F48B" loading="lazy">
-<img src="icons/128px/text-typography/ALIGN_RIGHT.png" alt="ALIGN_RIGHT" title="ALIGN_RIGHT &middot; U+F48D" loading="lazy">
-<img src="icons/128px/text-typography/ALIGN_TOP.png" alt="ALIGN_TOP" title="ALIGN_TOP &middot; U+F48E" loading="lazy">
-<img src="icons/128px/text-typography/ALIGN_VERTICAL_CENTER.png" alt="ALIGN_VERTICAL_CENTER" title="ALIGN_VERTICAL_CENTER &middot; U+F48F" loading="lazy">
-<img src="icons/128px/text-typography/AUTO_TEXT.png" alt="AUTO_TEXT" title="AUTO_TEXT &middot; U+F329" loading="lazy">
-<img src="icons/128px/text-typography/CHORD_BASS_ALIGN.png" alt="CHORD_BASS_ALIGN" title="CHORD_BASS_ALIGN &middot; U+F4A6" loading="lazy">
-<img src="icons/128px/text-typography/CHORD_BASS_OFFSET.png" alt="CHORD_BASS_OFFSET" title="CHORD_BASS_OFFSET &middot; U+F4A7" loading="lazy">
-<img src="icons/128px/text-typography/CHORD_SYMBOL.png" alt="CHORD_SYMBOL" title="CHORD_SYMBOL &middot; U+F352" loading="lazy">
-<img src="icons/128px/text-typography/FRACTION_DIAGONAL.png" alt="FRACTION_DIAGONAL" title="FRACTION_DIAGONAL &middot; U+F4B8" loading="lazy">
-<img src="icons/128px/text-typography/FRACTION_LEVEL.png" alt="FRACTION_LEVEL" title="FRACTION_LEVEL &middot; U+F4B9" loading="lazy">
-<img src="icons/128px/text-typography/HP_LOWER_CASE.png" alt="HP_LOWER_CASE" title="HP_LOWER_CASE &middot; U+F49E" loading="lazy">
-<span class="more">+16 more</span>
+<span class="t" title="ALIGN_HORIZONTAL_CENTER · U+F48C"><img src="icons/128px/text-typography/ALIGN_HORIZONTAL_CENTER.png" alt="ALIGN_HORIZONTAL_CENTER" loading="lazy"></span>
+<span class="t" title="ALIGN_LEFT · U+F48B"><img src="icons/128px/text-typography/ALIGN_LEFT.png" alt="ALIGN_LEFT" loading="lazy"></span>
+<span class="t" title="ALIGN_RIGHT · U+F48D"><img src="icons/128px/text-typography/ALIGN_RIGHT.png" alt="ALIGN_RIGHT" loading="lazy"></span>
+<span class="t" title="ALIGN_TOP · U+F48E"><img src="icons/128px/text-typography/ALIGN_TOP.png" alt="ALIGN_TOP" loading="lazy"></span>
+<span class="t" title="ALIGN_VERTICAL_CENTER · U+F48F"><img src="icons/128px/text-typography/ALIGN_VERTICAL_CENTER.png" alt="ALIGN_VERTICAL_CENTER" loading="lazy"></span>
+<span class="t" title="AUTO_TEXT · U+F329"><img src="icons/128px/text-typography/AUTO_TEXT.png" alt="AUTO_TEXT" loading="lazy"></span>
+<span class="t" title="CHORD_BASS_ALIGN · U+F4A6"><img src="icons/128px/text-typography/CHORD_BASS_ALIGN.png" alt="CHORD_BASS_ALIGN" loading="lazy"></span>
+<span class="t" title="CHORD_BASS_OFFSET · U+F4A7"><img src="icons/128px/text-typography/CHORD_BASS_OFFSET.png" alt="CHORD_BASS_OFFSET" loading="lazy"></span>
+<span class="t" title="CHORD_SYMBOL · U+F352"><img src="icons/128px/text-typography/CHORD_SYMBOL.png" alt="CHORD_SYMBOL" loading="lazy"></span>
+<span class="t" title="FRACTION_DIAGONAL · U+F4B8"><img src="icons/128px/text-typography/FRACTION_DIAGONAL.png" alt="FRACTION_DIAGONAL" loading="lazy"></span>
+<span class="t" title="FRACTION_LEVEL · U+F4B9"><img src="icons/128px/text-typography/FRACTION_LEVEL.png" alt="FRACTION_LEVEL" loading="lazy"></span>
+<span class="t" title="HP_LOWER_CASE · U+F49E"><img src="icons/128px/text-typography/HP_LOWER_CASE.png" alt="HP_LOWER_CASE" loading="lazy"></span>
+<span class="t" title="HP_UPPER_CASE · U+F49F"><img src="icons/128px/text-typography/HP_UPPER_CASE.png" alt="HP_UPPER_CASE" loading="lazy"></span>
+<span class="t" title="LYRICS · U+F441"><img src="icons/128px/text-typography/LYRICS.png" alt="LYRICS" loading="lazy"></span>
+<span class="t" title="TEXT_ALIGN_BASELINE · U+EF39"><img src="icons/128px/text-typography/TEXT_ALIGN_BASELINE.png" alt="TEXT_ALIGN_BASELINE" loading="lazy"></span>
+<span class="t" title="TEXT_ALIGN_BOTTOM · U+EF3A"><img src="icons/128px/text-typography/TEXT_ALIGN_BOTTOM.png" alt="TEXT_ALIGN_BOTTOM" loading="lazy"></span>
+<span class="t" title="TEXT_ALIGN_CENTER · U+EF3E"><img src="icons/128px/text-typography/TEXT_ALIGN_CENTER.png" alt="TEXT_ALIGN_CENTER" loading="lazy"></span>
+<span class="t" title="TEXT_ALIGN_JUSTIFY · U+F4B2"><img src="icons/128px/text-typography/TEXT_ALIGN_JUSTIFY.png" alt="TEXT_ALIGN_JUSTIFY" loading="lazy"></span>
+<span class="t" title="TEXT_ALIGN_LEFT · U+EF3D"><img src="icons/128px/text-typography/TEXT_ALIGN_LEFT.png" alt="TEXT_ALIGN_LEFT" loading="lazy"></span>
+<span class="t" title="TEXT_ALIGN_MIDDLE · U+EF3C"><img src="icons/128px/text-typography/TEXT_ALIGN_MIDDLE.png" alt="TEXT_ALIGN_MIDDLE" loading="lazy"></span>
+<span class="t" title="TEXT_ALIGN_RIGHT · U+EF3F"><img src="icons/128px/text-typography/TEXT_ALIGN_RIGHT.png" alt="TEXT_ALIGN_RIGHT" loading="lazy"></span>
+<span class="t" title="TEXT_ALIGN_TOP · U+EF3B"><img src="icons/128px/text-typography/TEXT_ALIGN_TOP.png" alt="TEXT_ALIGN_TOP" loading="lazy"></span>
+<span class="t" title="TEXT_BOLD · U+EF42"><img src="icons/128px/text-typography/TEXT_BOLD.png" alt="TEXT_BOLD" loading="lazy"></span>
+<span class="t" title="TEXT_ITALIC · U+EF40"><img src="icons/128px/text-typography/TEXT_ITALIC.png" alt="TEXT_ITALIC" loading="lazy"></span>
+<span class="t" title="TEXT_STRIKE · U+F424"><img src="icons/128px/text-typography/TEXT_STRIKE.png" alt="TEXT_STRIKE" loading="lazy"></span>
+<span class="t" title="TEXT_SUBSCRIPT · U+EF4C"><img src="icons/128px/text-typography/TEXT_SUBSCRIPT.png" alt="TEXT_SUBSCRIPT" loading="lazy"></span>
+<span class="t" title="TEXT_SUPERSCRIPT · U+EF4D"><img src="icons/128px/text-typography/TEXT_SUPERSCRIPT.png" alt="TEXT_SUPERSCRIPT" loading="lazy"></span>
+<span class="t" title="TEXT_UNDERLINE · U+EF41"><img src="icons/128px/text-typography/TEXT_UNDERLINE.png" alt="TEXT_UNDERLINE" loading="lazy"></span>
 </div>
 </section>
 <section class="cat">
@@ -429,19 +603,34 @@
 <a href="https://github.com/thoka/musescore-icons/releases/latest/download/icons.svg.transport-playback.zip">SVG <span class="s">16.9 KB</span></a>
 </div></div>
 <div class="preview">
-<img src="icons/128px/transport-playback/BPM.png" alt="BPM" title="BPM &middot; U+F474" loading="lazy">
-<img src="icons/128px/transport-playback/CLOCK.png" alt="CLOCK" title="CLOCK &middot; U+F475" loading="lazy">
-<img src="icons/128px/transport-playback/COUNT_IN.png" alt="COUNT_IN" title="COUNT_IN &middot; U+F3B1" loading="lazy">
-<img src="icons/128px/transport-playback/FOOT_PEDAL.png" alt="FOOT_PEDAL" title="FOOT_PEDAL &middot; U+F3A1" loading="lazy">
-<img src="icons/128px/transport-playback/LOOP.png" alt="LOOP" title="LOOP &middot; U+EF1F" loading="lazy">
-<img src="icons/128px/transport-playback/LOOP_IN.png" alt="LOOP_IN" title="LOOP_IN &middot; U+F3C7" loading="lazy">
-<img src="icons/128px/transport-playback/LOOP_OUT.png" alt="LOOP_OUT" title="LOOP_OUT &middot; U+F3C8" loading="lazy">
-<img src="icons/128px/transport-playback/METRONOME.png" alt="METRONOME" title="METRONOME &middot; U+EF20" loading="lazy">
-<img src="icons/128px/transport-playback/MIDI_INPUT.png" alt="MIDI_INPUT" title="MIDI_INPUT &middot; U+EF98" loading="lazy">
-<img src="icons/128px/transport-playback/MIXER.png" alt="MIXER" title="MIXER &middot; U+EF27" loading="lazy">
-<img src="icons/128px/transport-playback/MUTE.png" alt="MUTE" title="MUTE &middot; U+F3D5" loading="lazy">
-<img src="icons/128px/transport-playback/PAN_SCORE.png" alt="PAN_SCORE" title="PAN_SCORE &middot; U+F3B0" loading="lazy">
-<span class="more">+16 more</span>
+<span class="t" title="BPM · U+F474"><img src="icons/128px/transport-playback/BPM.png" alt="BPM" loading="lazy"></span>
+<span class="t" title="CLOCK · U+F475"><img src="icons/128px/transport-playback/CLOCK.png" alt="CLOCK" loading="lazy"></span>
+<span class="t" title="COUNT_IN · U+F3B1"><img src="icons/128px/transport-playback/COUNT_IN.png" alt="COUNT_IN" loading="lazy"></span>
+<span class="t" title="FOOT_PEDAL · U+F3A1"><img src="icons/128px/transport-playback/FOOT_PEDAL.png" alt="FOOT_PEDAL" loading="lazy"></span>
+<span class="t" title="LOOP · U+EF1F"><img src="icons/128px/transport-playback/LOOP.png" alt="LOOP" loading="lazy"></span>
+<span class="t" title="LOOP_IN · U+F3C7"><img src="icons/128px/transport-playback/LOOP_IN.png" alt="LOOP_IN" loading="lazy"></span>
+<span class="t" title="LOOP_OUT · U+F3C8"><img src="icons/128px/transport-playback/LOOP_OUT.png" alt="LOOP_OUT" loading="lazy"></span>
+<span class="t" title="METRONOME · U+EF20"><img src="icons/128px/transport-playback/METRONOME.png" alt="METRONOME" loading="lazy"></span>
+<span class="t" title="MIDI_INPUT · U+EF98"><img src="icons/128px/transport-playback/MIDI_INPUT.png" alt="MIDI_INPUT" loading="lazy"></span>
+<span class="t" title="MIXER · U+EF27"><img src="icons/128px/transport-playback/MIXER.png" alt="MIXER" loading="lazy"></span>
+<span class="t" title="MUTE · U+F3D5"><img src="icons/128px/transport-playback/MUTE.png" alt="MUTE" loading="lazy"></span>
+<span class="t" title="PAN_SCORE · U+F3B0"><img src="icons/128px/transport-playback/PAN_SCORE.png" alt="PAN_SCORE" loading="lazy"></span>
+<span class="t" title="PAUSE · U+F3C9"><img src="icons/128px/transport-playback/PAUSE.png" alt="PAUSE" loading="lazy"></span>
+<span class="t" title="PAUSE_FILL · U+F44B"><img src="icons/128px/transport-playback/PAUSE_FILL.png" alt="PAUSE_FILL" loading="lazy"></span>
+<span class="t" title="PLAY · U+EF1D"><img src="icons/128px/transport-playback/PLAY.png" alt="PLAY" loading="lazy"></span>
+<span class="t" title="PLAYHEAD · U+F478"><img src="icons/128px/transport-playback/PLAYHEAD.png" alt="PLAYHEAD" loading="lazy"></span>
+<span class="t" title="PLAYHEAD_FILLED · U+F47A"><img src="icons/128px/transport-playback/PLAYHEAD_FILLED.png" alt="PLAYHEAD_FILLED" loading="lazy"></span>
+<span class="t" title="PLAY_FILL · U+F446"><img src="icons/128px/transport-playback/PLAY_FILL.png" alt="PLAY_FILL" loading="lazy"></span>
+<span class="t" title="PLAY_REPEATS · U+F345"><img src="icons/128px/transport-playback/PLAY_REPEATS.png" alt="PLAY_REPEATS" loading="lazy"></span>
+<span class="t" title="RECORD_FILL · U+F44A"><img src="icons/128px/transport-playback/RECORD_FILL.png" alt="RECORD_FILL" loading="lazy"></span>
+<span class="t" title="REWIND · U+EF26"><img src="icons/128px/transport-playback/REWIND.png" alt="REWIND" loading="lazy"></span>
+<span class="t" title="REWIND_END_FILL · U+F449"><img src="icons/128px/transport-playback/REWIND_END_FILL.png" alt="REWIND_END_FILL" loading="lazy"></span>
+<span class="t" title="REWIND_START_FILL · U+F448"><img src="icons/128px/transport-playback/REWIND_START_FILL.png" alt="REWIND_START_FILL" loading="lazy"></span>
+<span class="t" title="SOLO · U+F3D6"><img src="icons/128px/transport-playback/SOLO.png" alt="SOLO" loading="lazy"></span>
+<span class="t" title="STOP · U+EF1E"><img src="icons/128px/transport-playback/STOP.png" alt="STOP" loading="lazy"></span>
+<span class="t" title="STOP_FILL · U+F447"><img src="icons/128px/transport-playback/STOP_FILL.png" alt="STOP_FILL" loading="lazy"></span>
+<span class="t" title="TEMPO_CHANGE · U+F43F"><img src="icons/128px/transport-playback/TEMPO_CHANGE.png" alt="TEMPO_CHANGE" loading="lazy"></span>
+<span class="t" title="TUNING_FORK · U+EF21"><img src="icons/128px/transport-playback/TUNING_FORK.png" alt="TUNING_FORK" loading="lazy"></span>
 </div>
 </section>
 <section class="cat">
@@ -453,19 +642,23 @@
 <a href="https://github.com/thoka/musescore-icons/releases/latest/download/icons.svg.view-zoom.zip">SVG <span class="s">10.9 KB</span></a>
 </div></div>
 <div class="preview">
-<img src="icons/128px/view-zoom/CAMERA.png" alt="CAMERA" title="CAMERA &middot; U+F3AE" loading="lazy">
-<img src="icons/128px/view-zoom/CONTINUOUS_VIEW.png" alt="CONTINUOUS_VIEW" title="CONTINUOUS_VIEW &middot; U+EF1C" loading="lazy">
-<img src="icons/128px/view-zoom/CONTINUOUS_VIEW_VERTICAL.png" alt="CONTINUOUS_VIEW_VERTICAL" title="CONTINUOUS_VIEW_VERTICAL &middot; U+F3AF" loading="lazy">
-<img src="icons/128px/view-zoom/EYE_CLOSED.png" alt="EYE_CLOSED" title="EYE_CLOSED &middot; U+EF54" loading="lazy">
-<img src="icons/128px/view-zoom/EYE_OPEN.png" alt="EYE_OPEN" title="EYE_OPEN &middot; U+EF53" loading="lazy">
-<img src="icons/128px/view-zoom/EYE_OPEN_THICK.png" alt="EYE_OPEN_THICK" title="EYE_OPEN_THICK &middot; U+F4AE" loading="lazy">
-<img src="icons/128px/view-zoom/FIT_PROJECT.png" alt="FIT_PROJECT" title="FIT_PROJECT &middot; U+F438" loading="lazy">
-<img src="icons/128px/view-zoom/FIT_SELECTION.png" alt="FIT_SELECTION" title="FIT_SELECTION &middot; U+F439" loading="lazy">
-<img src="icons/128px/view-zoom/GRID.png" alt="GRID" title="GRID &middot; U+F3A4" loading="lazy">
-<img src="icons/128px/view-zoom/LIST.png" alt="LIST" title="LIST &middot; U+F3AA" loading="lazy">
-<img src="icons/128px/view-zoom/PAGE.png" alt="PAGE" title="PAGE &middot; U+F3A5" loading="lazy">
-<img src="icons/128px/view-zoom/PAGE_VIEW.png" alt="PAGE_VIEW" title="PAGE_VIEW &middot; U+EF1B" loading="lazy">
-<span class="more">+5 more</span>
+<span class="t" title="CAMERA · U+F3AE"><img src="icons/128px/view-zoom/CAMERA.png" alt="CAMERA" loading="lazy"></span>
+<span class="t" title="CONTINUOUS_VIEW · U+EF1C"><img src="icons/128px/view-zoom/CONTINUOUS_VIEW.png" alt="CONTINUOUS_VIEW" loading="lazy"></span>
+<span class="t" title="CONTINUOUS_VIEW_VERTICAL · U+F3AF"><img src="icons/128px/view-zoom/CONTINUOUS_VIEW_VERTICAL.png" alt="CONTINUOUS_VIEW_VERTICAL" loading="lazy"></span>
+<span class="t" title="EYE_CLOSED · U+EF54"><img src="icons/128px/view-zoom/EYE_CLOSED.png" alt="EYE_CLOSED" loading="lazy"></span>
+<span class="t" title="EYE_OPEN · U+EF53"><img src="icons/128px/view-zoom/EYE_OPEN.png" alt="EYE_OPEN" loading="lazy"></span>
+<span class="t" title="EYE_OPEN_THICK · U+F4AE"><img src="icons/128px/view-zoom/EYE_OPEN_THICK.png" alt="EYE_OPEN_THICK" loading="lazy"></span>
+<span class="t" title="FIT_PROJECT · U+F438"><img src="icons/128px/view-zoom/FIT_PROJECT.png" alt="FIT_PROJECT" loading="lazy"></span>
+<span class="t" title="FIT_SELECTION · U+F439"><img src="icons/128px/view-zoom/FIT_SELECTION.png" alt="FIT_SELECTION" loading="lazy"></span>
+<span class="t" title="GRID · U+F3A4"><img src="icons/128px/view-zoom/GRID.png" alt="GRID" loading="lazy"></span>
+<span class="t" title="LIST · U+F3AA"><img src="icons/128px/view-zoom/LIST.png" alt="LIST" loading="lazy"></span>
+<span class="t" title="PAGE · U+F3A5"><img src="icons/128px/view-zoom/PAGE.png" alt="PAGE" loading="lazy"></span>
+<span class="t" title="PAGE_VIEW · U+EF1B"><img src="icons/128px/view-zoom/PAGE_VIEW.png" alt="PAGE_VIEW" loading="lazy"></span>
+<span class="t" title="SPLIT_VIEW_HORIZONTAL · U+EF7F"><img src="icons/128px/view-zoom/SPLIT_VIEW_HORIZONTAL.png" alt="SPLIT_VIEW_HORIZONTAL" loading="lazy"></span>
+<span class="t" title="SPLIT_VIEW_VERTICAL · U+EF80"><img src="icons/128px/view-zoom/SPLIT_VIEW_VERTICAL.png" alt="SPLIT_VIEW_VERTICAL" loading="lazy"></span>
+<span class="t" title="ZOOM_IN · U+EF18"><img src="icons/128px/view-zoom/ZOOM_IN.png" alt="ZOOM_IN" loading="lazy"></span>
+<span class="t" title="ZOOM_OUT · U+EF16"><img src="icons/128px/view-zoom/ZOOM_OUT.png" alt="ZOOM_OUT" loading="lazy"></span>
+<span class="t" title="ZOOM_TOGGLE · U+F437"><img src="icons/128px/view-zoom/ZOOM_TOGGLE.png" alt="ZOOM_TOGGLE" loading="lazy"></span>
 </div>
 </section>
 <section class="cat">
@@ -477,19 +670,162 @@
 <a href="https://github.com/thoka/musescore-icons/releases/latest/download/icons.svg._unnamed.zip">SVG <span class="s">158.9 KB</span></a>
 </div></div>
 <div class="preview">
-<img src="icons/128px/_unnamed/DOUBLE_WHOLE_CENTRED.png" alt="DOUBLE_WHOLE_CENTRED" title="DOUBLE_WHOLE_CENTRED &middot; U+F3D3" loading="lazy">
-<img src="icons/128px/_unnamed/GENERAL_MIDI_FULL.png" alt="GENERAL_MIDI_FULL" title="GENERAL_MIDI_FULL &middot; U+F316" loading="lazy">
-<img src="icons/128px/_unnamed/U+EF4F.png" alt="U+EF4F" title="U+EF4F &middot; U+EF4F" loading="lazy">
-<img src="icons/128px/_unnamed/U+EF50.png" alt="U+EF50" title="U+EF50 &middot; U+EF50" loading="lazy">
-<img src="icons/128px/_unnamed/U+EF51.png" alt="U+EF51" title="U+EF51 &middot; U+EF51" loading="lazy">
-<img src="icons/128px/_unnamed/U+EF52.png" alt="U+EF52" title="U+EF52 &middot; U+EF52" loading="lazy">
-<img src="icons/128px/_unnamed/U+EF58.png" alt="U+EF58" title="U+EF58 &middot; U+EF58" loading="lazy">
-<img src="icons/128px/_unnamed/U+EF59.png" alt="U+EF59" title="U+EF59 &middot; U+EF59" loading="lazy">
-<img src="icons/128px/_unnamed/U+EF7E.png" alt="U+EF7E" title="U+EF7E &middot; U+EF7E" loading="lazy">
-<img src="icons/128px/_unnamed/U+F317.png" alt="U+F317" title="U+F317 &middot; U+F317" loading="lazy">
-<img src="icons/128px/_unnamed/U+F318.png" alt="U+F318" title="U+F318 &middot; U+F318" loading="lazy">
-<img src="icons/128px/_unnamed/U+F31B.png" alt="U+F31B" title="U+F31B &middot; U+F31B" loading="lazy">
-<span class="more">+144 more</span>
+<span class="t" title="DOUBLE_WHOLE_CENTRED · U+F3D3"><img src="icons/128px/_unnamed/DOUBLE_WHOLE_CENTRED.png" alt="DOUBLE_WHOLE_CENTRED" loading="lazy"></span>
+<span class="t" title="GENERAL_MIDI_FULL · U+F316"><img src="icons/128px/_unnamed/GENERAL_MIDI_FULL.png" alt="GENERAL_MIDI_FULL" loading="lazy"></span>
+<span class="t" title="U+EF4F · U+EF4F"><img src="icons/128px/_unnamed/U+EF4F.png" alt="U+EF4F" loading="lazy"></span>
+<span class="t" title="U+EF50 · U+EF50"><img src="icons/128px/_unnamed/U+EF50.png" alt="U+EF50" loading="lazy"></span>
+<span class="t" title="U+EF51 · U+EF51"><img src="icons/128px/_unnamed/U+EF51.png" alt="U+EF51" loading="lazy"></span>
+<span class="t" title="U+EF52 · U+EF52"><img src="icons/128px/_unnamed/U+EF52.png" alt="U+EF52" loading="lazy"></span>
+<span class="t" title="U+EF58 · U+EF58"><img src="icons/128px/_unnamed/U+EF58.png" alt="U+EF58" loading="lazy"></span>
+<span class="t" title="U+EF59 · U+EF59"><img src="icons/128px/_unnamed/U+EF59.png" alt="U+EF59" loading="lazy"></span>
+<span class="t" title="U+EF7E · U+EF7E"><img src="icons/128px/_unnamed/U+EF7E.png" alt="U+EF7E" loading="lazy"></span>
+<span class="t" title="U+F317 · U+F317"><img src="icons/128px/_unnamed/U+F317.png" alt="U+F317" loading="lazy"></span>
+<span class="t" title="U+F318 · U+F318"><img src="icons/128px/_unnamed/U+F318.png" alt="U+F318" loading="lazy"></span>
+<span class="t" title="U+F31B · U+F31B"><img src="icons/128px/_unnamed/U+F31B.png" alt="U+F31B" loading="lazy"></span>
+<span class="t" title="U+F31C · U+F31C"><img src="icons/128px/_unnamed/U+F31C.png" alt="U+F31C" loading="lazy"></span>
+<span class="t" title="U+F31D · U+F31D"><img src="icons/128px/_unnamed/U+F31D.png" alt="U+F31D" loading="lazy"></span>
+<span class="t" title="U+F31E · U+F31E"><img src="icons/128px/_unnamed/U+F31E.png" alt="U+F31E" loading="lazy"></span>
+<span class="t" title="U+F31F · U+F31F"><img src="icons/128px/_unnamed/U+F31F.png" alt="U+F31F" loading="lazy"></span>
+<span class="t" title="U+F320 · U+F320"><img src="icons/128px/_unnamed/U+F320.png" alt="U+F320" loading="lazy"></span>
+<span class="t" title="U+F321 · U+F321"><img src="icons/128px/_unnamed/U+F321.png" alt="U+F321" loading="lazy"></span>
+<span class="t" title="U+F322 · U+F322"><img src="icons/128px/_unnamed/U+F322.png" alt="U+F322" loading="lazy"></span>
+<span class="t" title="U+F323 · U+F323"><img src="icons/128px/_unnamed/U+F323.png" alt="U+F323" loading="lazy"></span>
+<span class="t" title="U+F324 · U+F324"><img src="icons/128px/_unnamed/U+F324.png" alt="U+F324" loading="lazy"></span>
+<span class="t" title="U+F325 · U+F325"><img src="icons/128px/_unnamed/U+F325.png" alt="U+F325" loading="lazy"></span>
+<span class="t" title="U+F326 · U+F326"><img src="icons/128px/_unnamed/U+F326.png" alt="U+F326" loading="lazy"></span>
+<span class="t" title="U+F327 · U+F327"><img src="icons/128px/_unnamed/U+F327.png" alt="U+F327" loading="lazy"></span>
+<span class="t" title="U+F328 · U+F328"><img src="icons/128px/_unnamed/U+F328.png" alt="U+F328" loading="lazy"></span>
+<span class="t" title="U+F33C · U+F33C"><img src="icons/128px/_unnamed/U+F33C.png" alt="U+F33C" loading="lazy"></span>
+<span class="t" title="U+F346 · U+F346"><img src="icons/128px/_unnamed/U+F346.png" alt="U+F346" loading="lazy"></span>
+<span class="t" title="U+F348 · U+F348"><img src="icons/128px/_unnamed/U+F348.png" alt="U+F348" loading="lazy"></span>
+<span class="t" title="U+F349 · U+F349"><img src="icons/128px/_unnamed/U+F349.png" alt="U+F349" loading="lazy"></span>
+<span class="t" title="U+F34A · U+F34A"><img src="icons/128px/_unnamed/U+F34A.png" alt="U+F34A" loading="lazy"></span>
+<span class="t" title="U+F34B · U+F34B"><img src="icons/128px/_unnamed/U+F34B.png" alt="U+F34B" loading="lazy"></span>
+<span class="t" title="U+F34E · U+F34E"><img src="icons/128px/_unnamed/U+F34E.png" alt="U+F34E" loading="lazy"></span>
+<span class="t" title="U+F34F · U+F34F"><img src="icons/128px/_unnamed/U+F34F.png" alt="U+F34F" loading="lazy"></span>
+<span class="t" title="U+F356 · U+F356"><img src="icons/128px/_unnamed/U+F356.png" alt="U+F356" loading="lazy"></span>
+<span class="t" title="U+F35A · U+F35A"><img src="icons/128px/_unnamed/U+F35A.png" alt="U+F35A" loading="lazy"></span>
+<span class="t" title="U+F35B · U+F35B"><img src="icons/128px/_unnamed/U+F35B.png" alt="U+F35B" loading="lazy"></span>
+<span class="t" title="U+F35E · U+F35E"><img src="icons/128px/_unnamed/U+F35E.png" alt="U+F35E" loading="lazy"></span>
+<span class="t" title="U+F363 · U+F363"><img src="icons/128px/_unnamed/U+F363.png" alt="U+F363" loading="lazy"></span>
+<span class="t" title="U+F390 · U+F390"><img src="icons/128px/_unnamed/U+F390.png" alt="U+F390" loading="lazy"></span>
+<span class="t" title="U+F3A3 · U+F3A3"><img src="icons/128px/_unnamed/U+F3A3.png" alt="U+F3A3" loading="lazy"></span>
+<span class="t" title="U+F3A6 · U+F3A6"><img src="icons/128px/_unnamed/U+F3A6.png" alt="U+F3A6" loading="lazy"></span>
+<span class="t" title="U+F3A7 · U+F3A7"><img src="icons/128px/_unnamed/U+F3A7.png" alt="U+F3A7" loading="lazy"></span>
+<span class="t" title="U+F3A8 · U+F3A8"><img src="icons/128px/_unnamed/U+F3A8.png" alt="U+F3A8" loading="lazy"></span>
+<span class="t" title="U+F3A9 · U+F3A9"><img src="icons/128px/_unnamed/U+F3A9.png" alt="U+F3A9" loading="lazy"></span>
+<span class="t" title="U+F3AB · U+F3AB"><img src="icons/128px/_unnamed/U+F3AB.png" alt="U+F3AB" loading="lazy"></span>
+<span class="t" title="U+F3AC · U+F3AC"><img src="icons/128px/_unnamed/U+F3AC.png" alt="U+F3AC" loading="lazy"></span>
+<span class="t" title="U+F3AD · U+F3AD"><img src="icons/128px/_unnamed/U+F3AD.png" alt="U+F3AD" loading="lazy"></span>
+<span class="t" title="U+F3B2 · U+F3B2"><img src="icons/128px/_unnamed/U+F3B2.png" alt="U+F3B2" loading="lazy"></span>
+<span class="t" title="U+F3B3 · U+F3B3"><img src="icons/128px/_unnamed/U+F3B3.png" alt="U+F3B3" loading="lazy"></span>
+<span class="t" title="U+F3B4 · U+F3B4"><img src="icons/128px/_unnamed/U+F3B4.png" alt="U+F3B4" loading="lazy"></span>
+<span class="t" title="U+F3B8 · U+F3B8"><img src="icons/128px/_unnamed/U+F3B8.png" alt="U+F3B8" loading="lazy"></span>
+<span class="t" title="U+F3B9 · U+F3B9"><img src="icons/128px/_unnamed/U+F3B9.png" alt="U+F3B9" loading="lazy"></span>
+<span class="t" title="U+F3BA · U+F3BA"><img src="icons/128px/_unnamed/U+F3BA.png" alt="U+F3BA" loading="lazy"></span>
+<span class="t" title="U+F3BB · U+F3BB"><img src="icons/128px/_unnamed/U+F3BB.png" alt="U+F3BB" loading="lazy"></span>
+<span class="t" title="U+F3BC · U+F3BC"><img src="icons/128px/_unnamed/U+F3BC.png" alt="U+F3BC" loading="lazy"></span>
+<span class="t" title="U+F3BD · U+F3BD"><img src="icons/128px/_unnamed/U+F3BD.png" alt="U+F3BD" loading="lazy"></span>
+<span class="t" title="U+F3BE · U+F3BE"><img src="icons/128px/_unnamed/U+F3BE.png" alt="U+F3BE" loading="lazy"></span>
+<span class="t" title="U+F3BF · U+F3BF"><img src="icons/128px/_unnamed/U+F3BF.png" alt="U+F3BF" loading="lazy"></span>
+<span class="t" title="U+F3C0 · U+F3C0"><img src="icons/128px/_unnamed/U+F3C0.png" alt="U+F3C0" loading="lazy"></span>
+<span class="t" title="U+F3C3 · U+F3C3"><img src="icons/128px/_unnamed/U+F3C3.png" alt="U+F3C3" loading="lazy"></span>
+<span class="t" title="U+F3C4 · U+F3C4"><img src="icons/128px/_unnamed/U+F3C4.png" alt="U+F3C4" loading="lazy"></span>
+<span class="t" title="U+F3C5 · U+F3C5"><img src="icons/128px/_unnamed/U+F3C5.png" alt="U+F3C5" loading="lazy"></span>
+<span class="t" title="U+F3C6 · U+F3C6"><img src="icons/128px/_unnamed/U+F3C6.png" alt="U+F3C6" loading="lazy"></span>
+<span class="t" title="U+F3CA · U+F3CA"><img src="icons/128px/_unnamed/U+F3CA.png" alt="U+F3CA" loading="lazy"></span>
+<span class="t" title="U+F3CB · U+F3CB"><img src="icons/128px/_unnamed/U+F3CB.png" alt="U+F3CB" loading="lazy"></span>
+<span class="t" title="U+F3CC · U+F3CC"><img src="icons/128px/_unnamed/U+F3CC.png" alt="U+F3CC" loading="lazy"></span>
+<span class="t" title="U+F3CD · U+F3CD"><img src="icons/128px/_unnamed/U+F3CD.png" alt="U+F3CD" loading="lazy"></span>
+<span class="t" title="U+F3D2 · U+F3D2"><img src="icons/128px/_unnamed/U+F3D2.png" alt="U+F3D2" loading="lazy"></span>
+<span class="t" title="U+F3D7 · U+F3D7"><img src="icons/128px/_unnamed/U+F3D7.png" alt="U+F3D7" loading="lazy"></span>
+<span class="t" title="U+F3D8 · U+F3D8"><img src="icons/128px/_unnamed/U+F3D8.png" alt="U+F3D8" loading="lazy"></span>
+<span class="t" title="U+F3D9 · U+F3D9"><img src="icons/128px/_unnamed/U+F3D9.png" alt="U+F3D9" loading="lazy"></span>
+<span class="t" title="U+F3DA · U+F3DA"><img src="icons/128px/_unnamed/U+F3DA.png" alt="U+F3DA" loading="lazy"></span>
+<span class="t" title="U+F3DB · U+F3DB"><img src="icons/128px/_unnamed/U+F3DB.png" alt="U+F3DB" loading="lazy"></span>
+<span class="t" title="U+F3DC · U+F3DC"><img src="icons/128px/_unnamed/U+F3DC.png" alt="U+F3DC" loading="lazy"></span>
+<span class="t" title="U+F3DD · U+F3DD"><img src="icons/128px/_unnamed/U+F3DD.png" alt="U+F3DD" loading="lazy"></span>
+<span class="t" title="U+F3DE · U+F3DE"><img src="icons/128px/_unnamed/U+F3DE.png" alt="U+F3DE" loading="lazy"></span>
+<span class="t" title="U+F3DF · U+F3DF"><img src="icons/128px/_unnamed/U+F3DF.png" alt="U+F3DF" loading="lazy"></span>
+<span class="t" title="U+F3E0 · U+F3E0"><img src="icons/128px/_unnamed/U+F3E0.png" alt="U+F3E0" loading="lazy"></span>
+<span class="t" title="U+F3E1 · U+F3E1"><img src="icons/128px/_unnamed/U+F3E1.png" alt="U+F3E1" loading="lazy"></span>
+<span class="t" title="U+F3E2 · U+F3E2"><img src="icons/128px/_unnamed/U+F3E2.png" alt="U+F3E2" loading="lazy"></span>
+<span class="t" title="U+F3E3 · U+F3E3"><img src="icons/128px/_unnamed/U+F3E3.png" alt="U+F3E3" loading="lazy"></span>
+<span class="t" title="U+F3E4 · U+F3E4"><img src="icons/128px/_unnamed/U+F3E4.png" alt="U+F3E4" loading="lazy"></span>
+<span class="t" title="U+F3E5 · U+F3E5"><img src="icons/128px/_unnamed/U+F3E5.png" alt="U+F3E5" loading="lazy"></span>
+<span class="t" title="U+F3E6 · U+F3E6"><img src="icons/128px/_unnamed/U+F3E6.png" alt="U+F3E6" loading="lazy"></span>
+<span class="t" title="U+F3E7 · U+F3E7"><img src="icons/128px/_unnamed/U+F3E7.png" alt="U+F3E7" loading="lazy"></span>
+<span class="t" title="U+F3E8 · U+F3E8"><img src="icons/128px/_unnamed/U+F3E8.png" alt="U+F3E8" loading="lazy"></span>
+<span class="t" title="U+F3E9 · U+F3E9"><img src="icons/128px/_unnamed/U+F3E9.png" alt="U+F3E9" loading="lazy"></span>
+<span class="t" title="U+F3EA · U+F3EA"><img src="icons/128px/_unnamed/U+F3EA.png" alt="U+F3EA" loading="lazy"></span>
+<span class="t" title="U+F3EB · U+F3EB"><img src="icons/128px/_unnamed/U+F3EB.png" alt="U+F3EB" loading="lazy"></span>
+<span class="t" title="U+F3EC · U+F3EC"><img src="icons/128px/_unnamed/U+F3EC.png" alt="U+F3EC" loading="lazy"></span>
+<span class="t" title="U+F3ED · U+F3ED"><img src="icons/128px/_unnamed/U+F3ED.png" alt="U+F3ED" loading="lazy"></span>
+<span class="t" title="U+F3EE · U+F3EE"><img src="icons/128px/_unnamed/U+F3EE.png" alt="U+F3EE" loading="lazy"></span>
+<span class="t" title="U+F3EF · U+F3EF"><img src="icons/128px/_unnamed/U+F3EF.png" alt="U+F3EF" loading="lazy"></span>
+<span class="t" title="U+F3F0 · U+F3F0"><img src="icons/128px/_unnamed/U+F3F0.png" alt="U+F3F0" loading="lazy"></span>
+<span class="t" title="U+F3F1 · U+F3F1"><img src="icons/128px/_unnamed/U+F3F1.png" alt="U+F3F1" loading="lazy"></span>
+<span class="t" title="U+F3F2 · U+F3F2"><img src="icons/128px/_unnamed/U+F3F2.png" alt="U+F3F2" loading="lazy"></span>
+<span class="t" title="U+F3F3 · U+F3F3"><img src="icons/128px/_unnamed/U+F3F3.png" alt="U+F3F3" loading="lazy"></span>
+<span class="t" title="U+F3F4 · U+F3F4"><img src="icons/128px/_unnamed/U+F3F4.png" alt="U+F3F4" loading="lazy"></span>
+<span class="t" title="U+F3F5 · U+F3F5"><img src="icons/128px/_unnamed/U+F3F5.png" alt="U+F3F5" loading="lazy"></span>
+<span class="t" title="U+F3F6 · U+F3F6"><img src="icons/128px/_unnamed/U+F3F6.png" alt="U+F3F6" loading="lazy"></span>
+<span class="t" title="U+F3F7 · U+F3F7"><img src="icons/128px/_unnamed/U+F3F7.png" alt="U+F3F7" loading="lazy"></span>
+<span class="t" title="U+F3F8 · U+F3F8"><img src="icons/128px/_unnamed/U+F3F8.png" alt="U+F3F8" loading="lazy"></span>
+<span class="t" title="U+F3F9 · U+F3F9"><img src="icons/128px/_unnamed/U+F3F9.png" alt="U+F3F9" loading="lazy"></span>
+<span class="t" title="U+F3FA · U+F3FA"><img src="icons/128px/_unnamed/U+F3FA.png" alt="U+F3FA" loading="lazy"></span>
+<span class="t" title="U+F3FB · U+F3FB"><img src="icons/128px/_unnamed/U+F3FB.png" alt="U+F3FB" loading="lazy"></span>
+<span class="t" title="U+F3FC · U+F3FC"><img src="icons/128px/_unnamed/U+F3FC.png" alt="U+F3FC" loading="lazy"></span>
+<span class="t" title="U+F3FD · U+F3FD"><img src="icons/128px/_unnamed/U+F3FD.png" alt="U+F3FD" loading="lazy"></span>
+<span class="t" title="U+F3FE · U+F3FE"><img src="icons/128px/_unnamed/U+F3FE.png" alt="U+F3FE" loading="lazy"></span>
+<span class="t" title="U+F3FF · U+F3FF"><img src="icons/128px/_unnamed/U+F3FF.png" alt="U+F3FF" loading="lazy"></span>
+<span class="t" title="U+F400 · U+F400"><img src="icons/128px/_unnamed/U+F400.png" alt="U+F400" loading="lazy"></span>
+<span class="t" title="U+F401 · U+F401"><img src="icons/128px/_unnamed/U+F401.png" alt="U+F401" loading="lazy"></span>
+<span class="t" title="U+F402 · U+F402"><img src="icons/128px/_unnamed/U+F402.png" alt="U+F402" loading="lazy"></span>
+<span class="t" title="U+F403 · U+F403"><img src="icons/128px/_unnamed/U+F403.png" alt="U+F403" loading="lazy"></span>
+<span class="t" title="U+F404 · U+F404"><img src="icons/128px/_unnamed/U+F404.png" alt="U+F404" loading="lazy"></span>
+<span class="t" title="U+F405 · U+F405"><img src="icons/128px/_unnamed/U+F405.png" alt="U+F405" loading="lazy"></span>
+<span class="t" title="U+F406 · U+F406"><img src="icons/128px/_unnamed/U+F406.png" alt="U+F406" loading="lazy"></span>
+<span class="t" title="U+F407 · U+F407"><img src="icons/128px/_unnamed/U+F407.png" alt="U+F407" loading="lazy"></span>
+<span class="t" title="U+F408 · U+F408"><img src="icons/128px/_unnamed/U+F408.png" alt="U+F408" loading="lazy"></span>
+<span class="t" title="U+F409 · U+F409"><img src="icons/128px/_unnamed/U+F409.png" alt="U+F409" loading="lazy"></span>
+<span class="t" title="U+F40A · U+F40A"><img src="icons/128px/_unnamed/U+F40A.png" alt="U+F40A" loading="lazy"></span>
+<span class="t" title="U+F40B · U+F40B"><img src="icons/128px/_unnamed/U+F40B.png" alt="U+F40B" loading="lazy"></span>
+<span class="t" title="U+F40C · U+F40C"><img src="icons/128px/_unnamed/U+F40C.png" alt="U+F40C" loading="lazy"></span>
+<span class="t" title="U+F412 · U+F412"><img src="icons/128px/_unnamed/U+F412.png" alt="U+F412" loading="lazy"></span>
+<span class="t" title="U+F413 · U+F413"><img src="icons/128px/_unnamed/U+F413.png" alt="U+F413" loading="lazy"></span>
+<span class="t" title="U+F416 · U+F416"><img src="icons/128px/_unnamed/U+F416.png" alt="U+F416" loading="lazy"></span>
+<span class="t" title="U+F417 · U+F417"><img src="icons/128px/_unnamed/U+F417.png" alt="U+F417" loading="lazy"></span>
+<span class="t" title="U+F419 · U+F419"><img src="icons/128px/_unnamed/U+F419.png" alt="U+F419" loading="lazy"></span>
+<span class="t" title="U+F41A · U+F41A"><img src="icons/128px/_unnamed/U+F41A.png" alt="U+F41A" loading="lazy"></span>
+<span class="t" title="U+F436 · U+F436"><img src="icons/128px/_unnamed/U+F436.png" alt="U+F436" loading="lazy"></span>
+<span class="t" title="U+F445 · U+F445"><img src="icons/128px/_unnamed/U+F445.png" alt="U+F445" loading="lazy"></span>
+<span class="t" title="U+F450 · U+F450"><img src="icons/128px/_unnamed/U+F450.png" alt="U+F450" loading="lazy"></span>
+<span class="t" title="U+F456 · U+F456"><img src="icons/128px/_unnamed/U+F456.png" alt="U+F456" loading="lazy"></span>
+<span class="t" title="U+F457 · U+F457"><img src="icons/128px/_unnamed/U+F457.png" alt="U+F457" loading="lazy"></span>
+<span class="t" title="U+F458 · U+F458"><img src="icons/128px/_unnamed/U+F458.png" alt="U+F458" loading="lazy"></span>
+<span class="t" title="U+F459 · U+F459"><img src="icons/128px/_unnamed/U+F459.png" alt="U+F459" loading="lazy"></span>
+<span class="t" title="U+F45A · U+F45A"><img src="icons/128px/_unnamed/U+F45A.png" alt="U+F45A" loading="lazy"></span>
+<span class="t" title="U+F45B · U+F45B"><img src="icons/128px/_unnamed/U+F45B.png" alt="U+F45B" loading="lazy"></span>
+<span class="t" title="U+F465 · U+F465"><img src="icons/128px/_unnamed/U+F465.png" alt="U+F465" loading="lazy"></span>
+<span class="t" title="U+F468 · U+F468"><img src="icons/128px/_unnamed/U+F468.png" alt="U+F468" loading="lazy"></span>
+<span class="t" title="U+F469 · U+F469"><img src="icons/128px/_unnamed/U+F469.png" alt="U+F469" loading="lazy"></span>
+<span class="t" title="U+F46A · U+F46A"><img src="icons/128px/_unnamed/U+F46A.png" alt="U+F46A" loading="lazy"></span>
+<span class="t" title="U+F46E · U+F46E"><img src="icons/128px/_unnamed/U+F46E.png" alt="U+F46E" loading="lazy"></span>
+<span class="t" title="U+F476 · U+F476"><img src="icons/128px/_unnamed/U+F476.png" alt="U+F476" loading="lazy"></span>
+<span class="t" title="U+F488 · U+F488"><img src="icons/128px/_unnamed/U+F488.png" alt="U+F488" loading="lazy"></span>
+<span class="t" title="U+F490 · U+F490"><img src="icons/128px/_unnamed/U+F490.png" alt="U+F490" loading="lazy"></span>
+<span class="t" title="U+F496 · U+F496"><img src="icons/128px/_unnamed/U+F496.png" alt="U+F496" loading="lazy"></span>
+<span class="t" title="U+F499 · U+F499"><img src="icons/128px/_unnamed/U+F499.png" alt="U+F499" loading="lazy"></span>
+<span class="t" title="U+F4A1 · U+F4A1"><img src="icons/128px/_unnamed/U+F4A1.png" alt="U+F4A1" loading="lazy"></span>
+<span class="t" title="U+F4A8 · U+F4A8"><img src="icons/128px/_unnamed/U+F4A8.png" alt="U+F4A8" loading="lazy"></span>
+<span class="t" title="U+F4A9 · U+F4A9"><img src="icons/128px/_unnamed/U+F4A9.png" alt="U+F4A9" loading="lazy"></span>
+<span class="t" title="U+F4AA · U+F4AA"><img src="icons/128px/_unnamed/U+F4AA.png" alt="U+F4AA" loading="lazy"></span>
+<span class="t" title="U+F4AB · U+F4AB"><img src="icons/128px/_unnamed/U+F4AB.png" alt="U+F4AB" loading="lazy"></span>
+<span class="t" title="U+F4AF · U+F4AF"><img src="icons/128px/_unnamed/U+F4AF.png" alt="U+F4AF" loading="lazy"></span>
+<span class="t" title="U+F4BA · U+F4BA"><img src="icons/128px/_unnamed/U+F4BA.png" alt="U+F4BA" loading="lazy"></span>
+<span class="t" title="U+F4BB · U+F4BB"><img src="icons/128px/_unnamed/U+F4BB.png" alt="U+F4BB" loading="lazy"></span>
+<span class="t" title="WHOLE_NOTE_CENTRED · U+F3D4"><img src="icons/128px/_unnamed/WHOLE_NOTE_CENTRED.png" alt="WHOLE_NOTE_CENTRED" loading="lazy"></span>
 </div>
 </section>
 </main>

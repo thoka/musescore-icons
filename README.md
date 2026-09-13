@@ -109,8 +109,12 @@ ZIP packs of the latest GitHub release.
 ```bash
 python3 make_pages.py                       # writes index.html
 python3 make_pages.py --tag v1.0.0          # link to a fixed release instead of latest
-python3 make_pages.py --preview 16          # more preview icons per category
+python3 make_pages.py --preview 12          # show only the first 12 icons per category
 ```
+
+By default every icon of a category is shown; `--preview N` limits it to the
+first N. Both pages use one dark theme (white on grey) and display the black
+PNGs inverted, i.e. white.
 
 The page is live at <https://thoka.github.io/musescore-icons/> and links to the
 full searchable gallery at `icons/index.html`. The empty `.nojekyll` file at the

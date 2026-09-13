@@ -74,12 +74,8 @@ def pack_link(base: str, packs: Path, variant: str, category: str) -> tuple[str,
 
 
 STYLE = """
-  :root { color-scheme: light dark; --bg:#fbfbfa; --fg:#1b1b18; --muted:#6b6b60;
-           --card:#fff; --line:#e4e4dd; --accent:#2b6cb0; }
-  @media (prefers-color-scheme: dark) {
-    :root { --bg:#16161a; --fg:#f0f0ea; --muted:#9a9a90; --card:#1f1f24;
-             --line:#32323a; --accent:#7cb3ec; }
-  }
+  :root { color-scheme: dark; --bg:#25252b; --fg:#ffffff; --muted:#b0b0ba;
+           --card:#32323a; --line:#43434e; --accent:#8cc0f0; }
   * { box-sizing:border-box; }
   body { margin:0; padding:24px 16px 64px; background:var(--bg); color:var(--fg);
          font:14px/1.55 system-ui,-apple-system,"Segoe UI",sans-serif; }
@@ -115,9 +111,19 @@ STYLE = """
           white-space:nowrap; }
   .dl a:hover { border-color:var(--accent); color:var(--accent); }
   .dl a .s { color:var(--muted); }
-  .preview { display:flex; flex-wrap:wrap; gap:8px; margin-top:12px; }
-  .preview img { width:32px; height:32px; }
-  .preview .more { color:var(--muted); font-size:12px; align-self:center; }
+  .preview { display:grid; gap:6px; margin-top:14px;
+             grid-template-columns:repeat(auto-fill,minmax(46px,1fr)); }
+  /* Kachel und Bild getrennt: filter wirkt auf das ganze Element, ein
+     Hover-Hintergrund direkt am <img> wuerde also mit invertiert. */
+  .t { display:flex; align-items:center; justify-content:center; width:100%;
+       max-width:46px; aspect-ratio:1/1; margin:0 auto; padding:5px;
+       border-radius:6px; }
+  .t:hover { background:var(--line); }
+  /* Die PNGs sind schwarz -- auf dunklem Grund invertiert dargestellt. */
+  .t img { width:100%; height:auto; aspect-ratio:1/1; display:block;
+           filter:invert(1); }
+  .preview .more { color:var(--muted); font-size:12px; align-self:center;
+                   grid-column:1/-1; }
   footer { margin-top:40px; padding-top:16px; border-top:1px solid var(--line);
            color:var(--muted); font-size:12px; }
   footer a { color:var(--accent); }
@@ -125,7 +131,7 @@ STYLE = """
 
 
 def render(meta: dict, cats: "OrderedDict[str, list[dict]]", base: str,
-           packs: Path, repo: str, preview: int) -> str:
+           packs: Path, repo: str, preview: int, releases_url: str) -> str:
     e = html.escape
     variants = [(f"{s}px", f"{s} px") for s in meta.get("sizes", [])] + [("svg", "SVG")]
     named = meta.get("named_count", 0)
@@ -146,7 +152,7 @@ def render(meta: dict, cats: "OrderedDict[str, list[dict]]", base: str,
         'PNG and SVG, sorted into thematic folders.</p>')
     add('<ul class="links">')
     add('<li><a class="primary" href="icons/index.html">Browse all icons</a></li>')
-    add(f'<li><a href="{e(base)}">Download all packs</a></li>')
+    add(f'<li><a href="{e(releases_url)}">All downloads (release)</a></li>')
     add(f'<li><a href="https://github.com/{e(repo)}">Repository</a></li>')
     add(f'<li><a href="https://github.com/{e(repo)}/blob/main/README.md">README (EN)</a></li>')
     add(f'<li><a href="https://github.com/{e(repo)}/blob/main/README-de.md">README (DE)</a></li>')
@@ -175,12 +181,15 @@ def render(meta: dict, cats: "OrderedDict[str, list[dict]]", base: str,
             add(f'<a href="{e(url)}">{e(label)}{suffix}</a>')
         add('</div></div>')
         add('<div class="preview">')
-        for icon in icons[:preview]:
+        shown = icons if preview <= 0 else icons[:preview]
+        for icon in shown:
             png = f'icons/128px/{category}/{icon["name"]}.png'
-            add(f'<img src="{e(png)}" alt="{e(icon["name"])}" '
-                f'title="{e(icon["name"])} &middot; {e(icon["code"])}" loading="lazy">')
-        if len(icons) > preview:
-            add(f'<span class="more">+{len(icons) - preview} more</span>')
+            label = f'{icon["name"]} \u00b7 {icon["code"]}'
+            add(f'<span class="t" title="{e(label)}">'
+                f'<img src="{e(png)}" alt="{e(icon["name"])}" loading="lazy">'
+                f'</span>')
+        if len(shown) < len(icons):
+            add(f'<span class="more">+{len(icons) - len(shown)} more</span>')
         add('</div>')
         add('</section>')
     add('</main>')
@@ -211,8 +220,8 @@ def main(argv=None) -> None:
     p.add_argument("--tag", default="latest",
                    help="Release-Tag fuer die Download-Links, 'latest' fuer das "
                         "jeweils neueste Release (Standard: latest)")
-    p.add_argument("--preview", type=int, default=12,
-                   help="Anzahl Vorschau-Icons je Kategorie (Standard: 12)")
+    p.add_argument("--preview", type=int, default=0,
+                   help="Anzahl Vorschau-Icons je Kategorie, 0 = alle (Standard: 0)")
     args = p.parse_args(argv)
 
     manifest = Path(args.manifest)
@@ -221,11 +230,15 @@ def main(argv=None) -> None:
     data = json.loads(manifest.read_text(encoding="utf-8"))
 
     repo = args.repo or detect_repo()
-    base = (f"https://github.com/{repo}/releases/latest/download" if args.tag == "latest"
+    latest = args.tag == "latest"
+    base = (f"https://github.com/{repo}/releases/latest/download" if latest
             else f"https://github.com/{repo}/releases/download/{args.tag}")
+    releases_url = (f"https://github.com/{repo}/releases/latest" if latest
+                    else f"https://github.com/{repo}/releases/tag/{args.tag}")
 
     cats = group_by_category(data["icons"])
-    page = render(data["meta"], cats, base, Path(args.packs), repo, args.preview)
+    page = render(data["meta"], cats, base, Path(args.packs), repo, args.preview,
+                  releases_url)
     Path(args.out).write_text(page, encoding="utf-8")
     print(f"{args.out}  {len(cats)} Kategorien, Downloads von {base}")
 

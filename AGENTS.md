@@ -50,6 +50,15 @@ Rules:
 * `fonts/` holds upstream files fetched from `musescore/muse_framework`; do not
   edit them by hand.
 
+## Look of the generated pages
+
+Both `index.html` and `icons/index.html` use a single dark theme — white text on
+a grey ground, no `prefers-color-scheme` switch. The rendered PNGs are black, so
+they are displayed with `filter: invert(1)`; keep that filter on the `<img>`
+only and put hover backgrounds on a wrapping element, otherwise the filter
+inverts the background as well. Icon boxes never get a fixed pixel width —
+`width:100%` plus `max-width` — so icons cannot grow out of their card.
+
 ## Dependencies
 
 Keep `make_packs.py` standard-library only. `musescore_icons.py` may use the
