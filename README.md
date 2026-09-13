@@ -1,6 +1,6 @@
 # MuseScore UI Icons
 
-*[Deutsche Fassung: README-de.md](README-de.md)*
+*[Deutsche Fassung: README-de.md](README-de.md) &middot; [Overview page](https://thoka.github.io/musescore-icons/)*
 
 Fetches the icon font of the MuseScore Studio user interface and renders
 **every glyph as a separate icon** – as PNG (any size) and optionally as SVG,
@@ -99,6 +99,37 @@ Inside the archive the files live in a folder of the same name, so several
 packs can be unpacked next to each other without colliding. The script only
 uses the standard library and writes with fixed timestamps, so an unchanged
 icon set produces byte-identical archives. `packs/` is not checked into git.
+
+## Overview page (GitHub Pages)
+
+`make_pages.py` generates the root `index.html` from `icons/manifest.json`: a
+category overview with preview icons, counts and download links pointing at the
+ZIP packs of the latest GitHub release.
+
+```bash
+python3 make_pages.py                       # writes index.html
+python3 make_pages.py --tag v1.0.0          # link to a fixed release instead of latest
+python3 make_pages.py --preview 16          # more preview icons per category
+```
+
+The page is live at <https://thoka.github.io/musescore-icons/> and links to the
+full searchable gallery at `icons/index.html`. The empty `.nojekyll` file at the
+repository root is required — without it GitHub Pages would drop the
+`_unnamed/` folders.
+
+## Releases
+
+The ZIP packs are attached to a GitHub release, so the download links stay
+stable:
+
+```bash
+python3 make_packs.py --clean
+gh release create v1.0.0 packs/*.zip --title "…" --notes "…"
+```
+
+`https://github.com/thoka/musescore-icons/releases/latest/download/icons.128px.edit-tools.zip`
+always points at the newest release. After publishing a new release, run
+`make_pages.py` again so the file sizes on the overview page match.
 
 ## Notes
 

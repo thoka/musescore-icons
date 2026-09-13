@@ -1,0 +1,500 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MuseScore UI Icons</title>
+<style>
+  :root { color-scheme: light dark; --bg:#fbfbfa; --fg:#1b1b18; --muted:#6b6b60;
+           --card:#fff; --line:#e4e4dd; --accent:#2b6cb0; }
+  @media (prefers-color-scheme: dark) {
+    :root { --bg:#16161a; --fg:#f0f0ea; --muted:#9a9a90; --card:#1f1f24;
+             --line:#32323a; --accent:#7cb3ec; }
+  }
+  * { box-sizing:border-box; }
+  body { margin:0; padding:24px 16px 64px; background:var(--bg); color:var(--fg);
+         font:14px/1.55 system-ui,-apple-system,"Segoe UI",sans-serif; }
+  header, main, footer { max-width:1100px; margin:0 auto; }
+  h1 { font-size:26px; margin:0 0 6px; }
+  .sub { color:var(--muted); margin:0 0 16px; }
+  .sub code { font-family:ui-monospace,monospace; }
+  .links { display:flex; flex-wrap:wrap; gap:8px; margin:0 0 28px; padding:0;
+           list-style:none; }
+  .links a { display:inline-block; padding:7px 12px; border-radius:8px;
+             border:1px solid var(--line); background:var(--card);
+             color:var(--fg); text-decoration:none; }
+  .links a:hover { border-color:var(--accent); color:var(--accent); }
+  .links a.primary { border-color:var(--accent); color:var(--accent); }
+  .facts { display:grid; gap:10px; margin:0 0 32px; padding:0; list-style:none;
+           grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); }
+  .facts li { background:var(--card); border:1px solid var(--line);
+              border-radius:8px; padding:12px 14px; }
+  .facts b { display:block; font-size:20px; font-weight:600; }
+  .facts span { color:var(--muted); font-size:12px; }
+  h2 { font-size:15px; text-transform:uppercase; letter-spacing:.06em;
+        color:var(--muted); margin:36px 0 12px; padding-bottom:6px;
+        border-bottom:1px solid var(--line); }
+  .cat { background:var(--card); border:1px solid var(--line); border-radius:10px;
+         padding:14px 16px; margin:0 0 12px; }
+  .cat-head { display:flex; flex-wrap:wrap; gap:10px 14px; align-items:baseline;
+              justify-content:space-between; }
+  .cat-name { font-family:ui-monospace,monospace; font-size:14px; font-weight:600; }
+  .cat-count { color:var(--muted); font-size:12px; }
+  .dl { display:flex; flex-wrap:wrap; gap:6px; }
+  .dl a { font-size:12px; padding:4px 9px; border-radius:999px;
+          border:1px solid var(--line); text-decoration:none; color:var(--fg);
+          white-space:nowrap; }
+  .dl a:hover { border-color:var(--accent); color:var(--accent); }
+  .dl a .s { color:var(--muted); }
+  .preview { display:flex; flex-wrap:wrap; gap:8px; margin-top:12px; }
+  .preview img { width:32px; height:32px; }
+  .preview .more { color:var(--muted); font-size:12px; align-self:center; }
+  footer { margin-top:40px; padding-top:16px; border-top:1px solid var(--line);
+           color:var(--muted); font-size:12px; }
+  footer a { color:var(--accent); }
+</style></head><body>
+<header>
+<h1>MuseScore UI Icons</h1>
+<p class="sub">Every glyph of the MuseScore Studio interface font <code>MusescoreIcon.ttf</code> rendered as a single icon &ndash; PNG and SVG, sorted into thematic folders.</p>
+<ul class="links">
+<li><a class="primary" href="icons/index.html">Browse all icons</a></li>
+<li><a href="https://github.com/thoka/musescore-icons/releases/latest/download">Download all packs</a></li>
+<li><a href="https://github.com/thoka/musescore-icons">Repository</a></li>
+<li><a href="https://github.com/thoka/musescore-icons/blob/main/README.md">README (EN)</a></li>
+<li><a href="https://github.com/thoka/musescore-icons/blob/main/README-de.md">README (DE)</a></li>
+<li><a href="icons/manifest.json">manifest.json</a></li>
+</ul>
+<ul class="facts">
+<li><b>553</b><span>glyphs in the font</span></li>
+<li><b>397</b><span>with a name from <code>iconcodes.h</code></span></li>
+<li><b>18</b><span>thematic categories</span></li>
+<li><b>3</b><span>variants: 32 px, 128 px, SVG</span></li>
+</ul>
+</header>
+<main>
+<h2>Categories &amp; downloads</h2>
+<section class="cat">
+<div class="cat-head">
+<div><span class="cat-name">app-ui-status</span> <span class="cat-count">29 icons</span></div>
+<div class="dl">
+<a href="https://github.com/thoka/musescore-icons/releases/latest/download/icons.32px.app-ui-status.zip">32 px <span class="s">16.2 KB</span></a>
+<a href="https://github.com/thoka/musescore-icons/releases/latest/download/icons.128px.app-ui-status.zip">128 px <span class="s">44.7 KB</span></a>
+<a href="https://github.com/thoka/musescore-icons/releases/latest/download/icons.svg.app-ui-status.zip">SVG <span class="s">18.1 KB</span></a>
+</div></div>
+<div class="preview">
+<img src="icons/128px/app-ui-status/APP_CLOSE.png" alt="APP_CLOSE" title="APP_CLOSE &middot; U+F41F" loading="lazy">
+<img src="icons/128px/app-ui-status/APP_MAXIMIZE.png" alt="APP_MAXIMIZE" title="APP_MAXIMIZE &middot; U+F41D" loading="lazy">
+<img src="icons/128px/app-ui-status/APP_MINIMIZE.png" alt="APP_MINIMIZE" title="APP_MINIMIZE &middot; U+F41C" loading="lazy">
+<img src="icons/128px/app-ui-status/APP_UNMAXIMIZE.png" alt="APP_UNMAXIMIZE" title="APP_UNMAXIMIZE &middot; U+F41E" loading="lazy">
+<img src="icons/128px/app-ui-status/BRAILLE.png" alt="BRAILLE" title="BRAILLE &middot; U+F455" loading="lazy">
+<img src="icons/128px/app-ui-status/CLOSE_X_ROUNDED.png" alt="CLOSE_X_ROUNDED" title="CLOSE_X_ROUNDED &middot; U+EF14" loading="lazy">
+<img src="icons/128px/app-ui-status/CONFIGURE.png" alt="CONFIGURE" title="CONFIGURE &middot; U+EF28" loading="lazy">
+<img src="icons/128px/app-ui-status/CROSS.png" alt="CROSS" title="CROSS &middot; U+EF30" loading="lazy">
+<img src="icons/128px/app-ui-status/ERROR.png" alt="ERROR" title="ERROR &middot; U+F3D0" loading="lazy">
+<img src="icons/128px/app-ui-status/FEEDBACK.png" alt="FEEDBACK" title="FEEDBACK &middot; U+EF2D" loading="lazy">
+<img src="icons/128px/app-ui-status/INFO.png" alt="INFO" title="INFO &middot; U+F3CF" loading="lazy">
+<img src="icons/128px/app-ui-status/INSIGHT.png" alt="INSIGHT" title="INSIGHT &middot; U+F3B5" loading="lazy">
+<span class="more">+17 more</span>
+</div>
+</section>
+<section class="cat">
+<div class="cat-head">
+<div><span class="cat-name">arrows-navigation</span> <span class="cat-count">16 icons</span></div>
+<div class="dl">
+<a href="https://github.com/thoka/musescore-icons/releases/latest/download/icons.32px.arrows-navigation.zip">32 px <span class="s">6.9 KB</span></a>
+<a href="https://github.com/thoka/musescore-icons/releases/latest/download/icons.128px.arrows-navigation.zip">128 px <span class="s">15.4 KB</span></a>
+<a href="https://github.com/thoka/musescore-icons/releases/latest/download/icons.svg.arrows-navigation.zip">SVG <span class="s">7.5 KB</span></a>
+</div></div>
+<div class="preview">
+<img src="icons/128px/arrows-navigation/ARROW_DOWN.png" alt="ARROW_DOWN" title="ARROW_DOWN &middot; U+EF36" loading="lazy">
+<img src="icons/128px/arrows-navigation/ARROW_LEFT.png" alt="ARROW_LEFT" title="ARROW_LEFT &middot; U+EF35" loading="lazy">
+<img src="icons/128px/arrows-navigation/ARROW_RIGHT.png" alt="ARROW_RIGHT" title="ARROW_RIGHT &middot; U+EF34" loading="lazy">
+<img src="icons/128px/arrows-navigation/ARROW_UP.png" alt="ARROW_UP" title="ARROW_UP &middot; U+EF37" loading="lazy">
+<img src="icons/128px/arrows-navigation/CHEVRON_LEFT.png" alt="CHEVRON_LEFT" title="CHEVRON_LEFT &middot; U+F39C" loading="lazy">
+<img src="icons/128px/arrows-navigation/CHEVRON_RIGHT.png" alt="CHEVRON_RIGHT" title="CHEVRON_RIGHT &middot; U+F39B" loading="lazy">
+<img src="icons/128px/arrows-navigation/DOWN.png" alt="DOWN" title="DOWN &middot; U+F3C1" loading="lazy">
+<img src="icons/128px/arrows-navigation/FILLED_ARROW_LEFT.png" alt="FILLED_ARROW_LEFT" title="FILLED_ARROW_LEFT &middot; U+F4BE" loading="lazy">
+<img src="icons/128px/arrows-navigation/FILLED_ARROW_RIGHT.png" alt="FILLED_ARROW_RIGHT" title="FILLED_ARROW_RIGHT &middot; U+F4BF" loading="lazy">
+<img src="icons/128px/arrows-navigation/POSITION_ARROWS.png" alt="POSITION_ARROWS" title="POSITION_ARROWS &middot; U+EF38" loading="lazy">
+<img src="icons/128px/arrows-navigation/SMALL_ARROW_DOWN.png" alt="SMALL_ARROW_DOWN" title="SMALL_ARROW_DOWN &middot; U+EF12" loading="lazy">
+<img src="icons/128px/arrows-navigation/SMALL_ARROW_LEFT.png" alt="SMALL_ARROW_LEFT" title="SMALL_ARROW_LEFT &middot; U+EF0F" loading="lazy">
+<span class="more">+4 more</span>
+</div>
+</section>
+<section class="cat">
+<div class="cat-head">
+<div><span class="cat-name">articulations-ornaments</span> <span class="cat-count">18 icons</span></div>
+<div class="dl">
+<a href="https://github.com/thoka/musescore-icons/releases/latest/download/icons.32px.articulations-ornaments.zip">32 px <span class="s">9.7 KB</span></a>
+<a href="https://github.com/thoka/musescore-icons/releases/latest/download/icons.128px.articulations-ornaments.zip">128 px <span class="s">26.7 KB</span></a>
+<a href="https://github.com/thoka/musescore-icons/releases/latest/download/icons.svg.articulations-ornaments.zip">SVG <span class="s">11.7 KB</span></a>
+</div></div>
+<div class="preview">
+<img src="icons/128px/articulations-ornaments/ACCENT.png" alt="ACCENT" title="ACCENT &middot; U+F38C" loading="lazy">
+<img src="icons/128px/articulations-ornaments/ARTICULATION.png" alt="ARTICULATION" title="ARTICULATION &middot; U+EF70" loading="lazy">
+<img src="icons/128px/articulations-ornaments/FERMATA.png" alt="FERMATA" title="FERMATA &middot; U+EF69" loading="lazy">
+<img src="icons/128px/articulations-ornaments/GLISSANDO.png" alt="GLISSANDO" title="GLISSANDO &middot; U+EF62" loading="lazy">
+<img src="icons/128px/articulations-ornaments/LV_CHORD_INSIDE.png" alt="LV_CHORD_INSIDE" title="LV_CHORD_INSIDE &middot; U+F480" loading="lazy">
+<img src="icons/128px/articulations-ornaments/LV_CHORD_OUTSIDE.png" alt="LV_CHORD_OUTSIDE" title="LV_CHORD_OUTSIDE &middot; U+F47F" loading="lazy">
+<img src="icons/128px/articulations-ornaments/LV_INSIDE.png" alt="LV_INSIDE" title="LV_INSIDE &middot; U+F47E" loading="lazy">
+<img src="icons/128px/articulations-ornaments/LV_OUTSIDE.png" alt="LV_OUTSIDE" title="LV_OUTSIDE &middot; U+F47D" loading="lazy">
+<img src="icons/128px/articulations-ornaments/MARCATO.png" alt="MARCATO" title="MARCATO &middot; U+F38B" loading="lazy">
+<img src="icons/128px/articulations-ornaments/ORNAMENT.png" alt="ORNAMENT" title="ORNAMENT &middot; U+EF6F" loading="lazy">
+<img src="icons/128px/articulations-ornaments/SLUR.png" alt="SLUR" title="SLUR &middot; U+EF46" loading="lazy">
+<img src="icons/128px/articulations-ornaments/STACCATO.png" alt="STACCATO" title="STACCATO &middot; U+F38E" loading="lazy">
+<span class="more">+6 more</span>
+</div>
+</section>
+<section class="cat">
+<div class="cat-head">
+<div><span class="cat-name">audio-waveform</span> <span class="cat-count">12 icons</span></div>
+<div class="dl">
+<a href="https://github.com/thoka/musescore-icons/releases/latest/download/icons.32px.audio-waveform.zip">32 px <span class="s">6.6 KB</span></a>
+<a href="https://github.com/thoka/musescore-icons/releases/latest/download/icons.128px.audio-waveform.zip">128 px <span class="s">17.8 KB</span></a>
+<a href="https://github.com/thoka/musescore-icons/releases/latest/download/icons.svg.audio-waveform.zip">SVG <span class="s">9.3 KB</span></a>
+</div></div>
+<div class="preview">
+<img src="icons/128px/audio-waveform/AUDIO.png" alt="AUDIO" title="AUDIO &middot; U+EF4E" loading="lazy">
+<img src="icons/128px/audio-waveform/AUTOMATION.png" alt="AUTOMATION" title="AUTOMATION &middot; U+F45C" loading="lazy">
+<img src="icons/128px/audio-waveform/MICROPHONE.png" alt="MICROPHONE" title="MICROPHONE &middot; U+F41B" loading="lazy">
+<img src="icons/128px/audio-waveform/SILENCE_AUDIO_SELECTION.png" alt="SILENCE_AUDIO_SELECTION" title="SILENCE_AUDIO_SELECTION &middot; U+F43A" loading="lazy">
+<img src="icons/128px/audio-waveform/SPECTROGRAM.png" alt="SPECTROGRAM" title="SPECTROGRAM &middot; U+F442" loading="lazy">
+<img src="icons/128px/audio-waveform/SPECTROGRAM_BOX_SELECTION.png" alt="SPECTROGRAM_BOX_SELECTION" title="SPECTROGRAM_BOX_SELECTION &middot; U+F443" loading="lazy">
+<img src="icons/128px/audio-waveform/TRIM_AUDIO_OUTSIDE_SELECTION.png" alt="TRIM_AUDIO_OUTSIDE_SELECTION" title="TRIM_AUDIO_OUTSIDE_SELECTION &middot; U+F43B" loading="lazy">
+<img src="icons/128px/audio-waveform/TRIM_HANDLE_LEFT.png" alt="TRIM_HANDLE_LEFT" title="TRIM_HANDLE_LEFT &middot; U+F4B1" loading="lazy">
+<img src="icons/128px/audio-waveform/TRIM_HANDLE_RIGHT.png" alt="TRIM_HANDLE_RIGHT" title="TRIM_HANDLE_RIGHT &middot; U+F4B0" loading="lazy">
+<img src="icons/128px/audio-waveform/WAVEFORM.png" alt="WAVEFORM" title="WAVEFORM &middot; U+F43C" loading="lazy">
+<img src="icons/128px/audio-waveform/WAVEFORM_HALFWAVE.png" alt="WAVEFORM_HALFWAVE" title="WAVEFORM_HALFWAVE &middot; U+F4C1" loading="lazy">
+<img src="icons/128px/audio-waveform/WAVEFORM_MULTIVIEW.png" alt="WAVEFORM_MULTIVIEW" title="WAVEFORM_MULTIVIEW &middot; U+F4C0" loading="lazy">
+</div>
+</section>
+<section class="cat">
+<div class="cat-head">
+<div><span class="cat-name">dynamics-expression</span> <span class="cat-count">13 icons</span></div>
+<div class="dl">
+<a href="https://github.com/thoka/musescore-icons/releases/latest/download/icons.32px.dynamics-expression.zip">32 px <span class="s">7.0 KB</span></a>
+<a href="https://github.com/thoka/musescore-icons/releases/latest/download/icons.128px.dynamics-expression.zip">128 px <span class="s">21.3 KB</span></a>
+<a href="https://github.com/thoka/musescore-icons/releases/latest/download/icons.svg.dynamics-expression.zip">SVG <span class="s">14.6 KB</span></a>
+</div></div>
+<div class="preview">
+<img src="icons/128px/dynamics-expression/CRESCENDO.png" alt="CRESCENDO" title="CRESCENDO &middot; U+F415" loading="lazy">
+<img src="icons/128px/dynamics-expression/CRESCENDO_LINE.png" alt="CRESCENDO_LINE" title="CRESCENDO_LINE &middot; U+EF48" loading="lazy">
+<img src="icons/128px/dynamics-expression/DIMINUENDO.png" alt="DIMINUENDO" title="DIMINUENDO &middot; U+F414" loading="lazy">
+<img src="icons/128px/dynamics-expression/DYNAMIC_CENTER_1.png" alt="DYNAMIC_CENTER_1" title="DYNAMIC_CENTER_1 &middot; U+F451" loading="lazy">
+<img src="icons/128px/dynamics-expression/DYNAMIC_CENTER_2.png" alt="DYNAMIC_CENTER_2" title="DYNAMIC_CENTER_2 &middot; U+F452" loading="lazy">
+<img src="icons/128px/dynamics-expression/DYNAMIC_FORTE.png" alt="DYNAMIC_FORTE" title="DYNAMIC_FORTE &middot; U+EF47" loading="lazy">
+<img src="icons/128px/dynamics-expression/EXPRESSION.png" alt="EXPRESSION" title="EXPRESSION &middot; U+F453" loading="lazy">
+<img src="icons/128px/dynamics-expression/HAIRPIN.png" alt="HAIRPIN" title="HAIRPIN &middot; U+EF44" loading="lazy">
+<img src="icons/128px/dynamics-expression/LET_RING.png" alt="LET_RING" title="LET_RING &middot; U+F40F" loading="lazy">
+<img src="icons/128px/dynamics-expression/OTTAVA.png" alt="OTTAVA" title="OTTAVA &middot; U+F40D" loading="lazy">
+<img src="icons/128px/dynamics-expression/PALM_MUTE.png" alt="PALM_MUTE" title="PALM_MUTE &middot; U+F40E" loading="lazy">
+<img src="icons/128px/dynamics-expression/PEDAL_MARKING.png" alt="PEDAL_MARKING" title="PEDAL_MARKING &middot; U+EF65" loading="lazy">
+<span class="more">+1 more</span>
+</div>
+</section>
+<section class="cat">
+<div class="cat-head">
+<div><span class="cat-name">edit-tools</span> <span class="cat-count">17 icons</span></div>
+<div class="dl">
+<a href="https://github.com/thoka/musescore-icons/releases/latest/download/icons.32px.edit-tools.zip">32 px <span class="s">9.5 KB</span></a>
+<a href="https://github.com/thoka/musescore-icons/releases/latest/download/icons.128px.edit-tools.zip">128 px <span class="s">26.2 KB</span></a>
+<a href="https://github.com/thoka/musescore-icons/releases/latest/download/icons.svg.edit-tools.zip">SVG <span class="s">10.4 KB</span></a>
+</div></div>
+<div class="preview">
+<img src="icons/128px/edit-tools/APPLY_GLOBAL_STYLE.png" alt="APPLY_GLOBAL_STYLE" title="APPLY_GLOBAL_STYLE &middot; U+EF43" loading="lazy">
+<img src="icons/128px/edit-tools/BRUSH.png" alt="BRUSH" title="BRUSH &middot; U+F444" loading="lazy">
+<img src="icons/128px/edit-tools/BYPASS.png" alt="BYPASS" title="BYPASS &middot; U+F38F" loading="lazy">
+<img src="icons/128px/edit-tools/COPY.png" alt="COPY" title="COPY &middot; U+F398" loading="lazy">
+<img src="icons/128px/edit-tools/CUT.png" alt="CUT" title="CUT &middot; U+F39A" loading="lazy">
+<img src="icons/128px/edit-tools/DELETE_TANK.png" alt="DELETE_TANK" title="DELETE_TANK &middot; U+EF2C" loading="lazy">
+<img src="icons/128px/edit-tools/EDIT.png" alt="EDIT" title="EDIT &middot; U+EF63" loading="lazy">
+<img src="icons/128px/edit-tools/MAGNET.png" alt="MAGNET" title="MAGNET &middot; U+F43E" loading="lazy">
+<img src="icons/128px/edit-tools/MINUS.png" alt="MINUS" title="MINUS &middot; U+EF2B" loading="lazy">
+<img src="icons/128px/edit-tools/PASTE.png" alt="PASTE" title="PASTE &middot; U+F399" loading="lazy">
+<img src="icons/128px/edit-tools/PLUS.png" alt="PLUS" title="PLUS &middot; U+EF2A" loading="lazy">
+<img src="icons/128px/edit-tools/REDO.png" alt="REDO" title="REDO &middot; U+EF1A" loading="lazy">
+<span class="more">+5 more</span>
+</div>
+</section>
+<section class="cat">
+<div class="cat-head">
+<div><span class="cat-name">file-cloud-online</span> <span class="cat-count">19 icons</span></div>
+<div class="dl">
+<a href="https://github.com/thoka/musescore-icons/releases/latest/download/icons.32px.file-cloud-online.zip">32 px <span class="s">11.4 KB</span></a>
+<a href="https://github.com/thoka/musescore-icons/releases/latest/download/icons.128px.file-cloud-online.zip">128 px <span class="s">31.6 KB</span></a>
+<a href="https://github.com/thoka/musescore-icons/releases/latest/download/icons.svg.file-cloud-online.zip">SVG <span class="s">13.1 KB</span></a>
+</div></div>
+<div class="preview">
+<img src="icons/128px/file-cloud-online/ACCOUNT.png" alt="ACCOUNT" title="ACCOUNT &middot; U+EF99" loading="lazy">
+<img src="icons/128px/file-cloud-online/AUDIO_COM_LOGO.png" alt="AUDIO_COM_LOGO" title="AUDIO_COM_LOGO &middot; U+F4A2" loading="lazy">
+<img src="icons/128px/file-cloud-online/CLOUD.png" alt="CLOUD" title="CLOUD &middot; U+F435" loading="lazy">
+<img src="icons/128px/file-cloud-online/CLOUD_FILE.png" alt="CLOUD_FILE" title="CLOUD_FILE &middot; U+EF25" loading="lazy">
+<img src="icons/128px/file-cloud-online/CLOUD_FILL.png" alt="CLOUD_FILL" title="CLOUD_FILL &middot; U+F454" loading="lazy">
+<img src="icons/128px/file-cloud-online/GLOBE.png" alt="GLOBE" title="GLOBE &middot; U+F3B6" loading="lazy">
+<img src="icons/128px/file-cloud-online/IMAGE_MOUNTAINS.png" alt="IMAGE_MOUNTAINS" title="IMAGE_MOUNTAINS &middot; U+EFA1" loading="lazy">
+<img src="icons/128px/file-cloud-online/IMPORT.png" alt="IMPORT" title="IMPORT &middot; U+F357" loading="lazy">
+<img src="icons/128px/file-cloud-online/LINK.png" alt="LINK" title="LINK &middot; U+EF2E" loading="lazy">
+<img src="icons/128px/file-cloud-online/MUSESCORE_COM_LOGO.png" alt="MUSESCORE_COM_LOGO" title="MUSESCORE_COM_LOGO &middot; U+F4A0" loading="lazy">
+<img src="icons/128px/file-cloud-online/NEW_FILE.png" alt="NEW_FILE" title="NEW_FILE &middot; U+EF22" loading="lazy">
+<img src="icons/128px/file-cloud-online/OPEN_FILE.png" alt="OPEN_FILE" title="OPEN_FILE &middot; U+EF23" loading="lazy">
+<span class="more">+7 more</span>
+</div>
+</section>
+<section class="cat">
+<div class="cat-head">
+<div><span class="cat-name">guitar-fretboard</span> <span class="cat-count">27 icons</span></div>
+<div class="dl">
+<a href="https://github.com/thoka/musescore-icons/releases/latest/download/icons.32px.guitar-fretboard.zip">32 px <span class="s">15.5 KB</span></a>
+<a href="https://github.com/thoka/musescore-icons/releases/latest/download/icons.128px.guitar-fretboard.zip">128 px <span class="s">40.9 KB</span></a>
+<a href="https://github.com/thoka/musescore-icons/releases/latest/download/icons.svg.guitar-fretboard.zip">SVG <span class="s">17.0 KB</span></a>
+</div></div>
+<div class="preview">
+<img src="icons/128px/guitar-fretboard/FRETBOARD_BARRE_LINE.png" alt="FRETBOARD_BARRE_LINE" title="FRETBOARD_BARRE_LINE &middot; U+F472" loading="lazy">
+<img src="icons/128px/guitar-fretboard/FRETBOARD_BARRE_SLUR.png" alt="FRETBOARD_BARRE_SLUR" title="FRETBOARD_BARRE_SLUR &middot; U+F473" loading="lazy">
+<img src="icons/128px/guitar-fretboard/FRETBOARD_DIAGRAM.png" alt="FRETBOARD_DIAGRAM" title="FRETBOARD_DIAGRAM &middot; U+EF75" loading="lazy">
+<img src="icons/128px/guitar-fretboard/FRETBOARD_EXTENDED.png" alt="FRETBOARD_EXTENDED" title="FRETBOARD_EXTENDED &middot; U+F470" loading="lazy">
+<img src="icons/128px/guitar-fretboard/FRETBOARD_HORIZONTAL.png" alt="FRETBOARD_HORIZONTAL" title="FRETBOARD_HORIZONTAL &middot; U+F471" loading="lazy">
+<img src="icons/128px/guitar-fretboard/FRETBOARD_MARKER_CIRCLE_FILLED.png" alt="FRETBOARD_MARKER_CIRCLE_FILLED" title="FRETBOARD_MARKER_CIRCLE_FILLED &middot; U+EF78" loading="lazy">
+<img src="icons/128px/guitar-fretboard/FRETBOARD_MARKER_CIRCLE_OUTLINE.png" alt="FRETBOARD_MARKER_CIRCLE_OUTLINE" title="FRETBOARD_MARKER_CIRCLE_OUTLINE &middot; U+EF77" loading="lazy">
+<img src="icons/128px/guitar-fretboard/FRETBOARD_MARKER_TRIANGLE.png" alt="FRETBOARD_MARKER_TRIANGLE" title="FRETBOARD_MARKER_TRIANGLE &middot; U+EF76" loading="lazy">
+<img src="icons/128px/guitar-fretboard/FRETBOARD_VERTICAL.png" alt="FRETBOARD_VERTICAL" title="FRETBOARD_VERTICAL &middot; U+F46F" loading="lazy">
+<img src="icons/128px/guitar-fretboard/FRET_FRAME.png" alt="FRET_FRAME" title="FRET_FRAME &middot; U+F491" loading="lazy">
+<img src="icons/128px/guitar-fretboard/GUITAR_BEND.png" alt="GUITAR_BEND" title="GUITAR_BEND &middot; U+F353" loading="lazy">
+<img src="icons/128px/guitar-fretboard/GUITAR_BEND_REGULAR.png" alt="GUITAR_BEND_REGULAR" title="GUITAR_BEND_REGULAR &middot; U+F45F" loading="lazy">
+<span class="more">+15 more</span>
+</div>
+</section>
+<section class="cat">
+<div class="cat-head">
+<div><span class="cat-name">layout-breaks-frames</span> <span class="cat-count">30 icons</span></div>
+<div class="dl">
+<a href="https://github.com/thoka/musescore-icons/releases/latest/download/icons.32px.layout-breaks-frames.zip">32 px <span class="s">15.5 KB</span></a>
+<a href="https://github.com/thoka/musescore-icons/releases/latest/download/icons.128px.layout-breaks-frames.zip">128 px <span class="s">37.8 KB</span></a>
+<a href="https://github.com/thoka/musescore-icons/releases/latest/download/icons.svg.layout-breaks-frames.zip">SVG <span class="s">24.5 KB</span></a>
+</div></div>
+<div class="preview">
+<img src="icons/128px/layout-breaks-frames/BOTTOM_MARGIN.png" alt="BOTTOM_MARGIN" title="BOTTOM_MARGIN &middot; U+EF96" loading="lazy">
+<img src="icons/128px/layout-breaks-frames/FRAME_CIRCLE.png" alt="FRAME_CIRCLE" title="FRAME_CIRCLE &middot; U+EF4A" loading="lazy">
+<img src="icons/128px/layout-breaks-frames/FRAME_SQUARE.png" alt="FRAME_SQUARE" title="FRAME_SQUARE &middot; U+EF49" loading="lazy">
+<img src="icons/128px/layout-breaks-frames/GAP_ABOVE.png" alt="GAP_ABOVE" title="GAP_ABOVE &middot; U+EF93" loading="lazy">
+<img src="icons/128px/layout-breaks-frames/GAP_BELOW.png" alt="GAP_BELOW" title="GAP_BELOW &middot; U+EF92" loading="lazy">
+<img src="icons/128px/layout-breaks-frames/HIDE_EMPTY_STAVES.png" alt="HIDE_EMPTY_STAVES" title="HIDE_EMPTY_STAVES &middot; U+F497" loading="lazy">
+<img src="icons/128px/layout-breaks-frames/HORIZONTAL.png" alt="HORIZONTAL" title="HORIZONTAL &middot; U+EF32" loading="lazy">
+<img src="icons/128px/layout-breaks-frames/HORIZONTAL_FRAME.png" alt="HORIZONTAL_FRAME" title="HORIZONTAL_FRAME &middot; U+EF6D" loading="lazy">
+<img src="icons/128px/layout-breaks-frames/LEFT_GAP.png" alt="LEFT_GAP" title="LEFT_GAP &middot; U+EF91" loading="lazy">
+<img src="icons/128px/layout-breaks-frames/LEFT_MARGIN.png" alt="LEFT_MARGIN" title="LEFT_MARGIN &middot; U+EF94" loading="lazy">
+<img src="icons/128px/layout-breaks-frames/LINE_BREAK.png" alt="LINE_BREAK" title="LINE_BREAK &middot; U+F483" loading="lazy">
+<img src="icons/128px/layout-breaks-frames/NO_BREAK.png" alt="NO_BREAK" title="NO_BREAK &middot; U+F486" loading="lazy">
+<span class="more">+18 more</span>
+</div>
+</section>
+<section class="cat">
+<div class="cat-head">
+<div><span class="cat-name">lines</span> <span class="cat-count">15 icons</span></div>
+<div class="dl">
+<a href="https://github.com/thoka/musescore-icons/releases/latest/download/icons.32px.lines.zip">32 px <span class="s">5.2 KB</span></a>
+<a href="https://github.com/thoka/musescore-icons/releases/latest/download/icons.128px.lines.zip">128 px <span class="s">8.7 KB</span></a>
+<a href="https://github.com/thoka/musescore-icons/releases/latest/download/icons.svg.lines.zip">SVG <span class="s">7.2 KB</span></a>
+</div></div>
+<div class="preview">
+<img src="icons/128px/lines/LINE_ARROW_LEFT.png" alt="LINE_ARROW_LEFT" title="LINE_ARROW_LEFT &middot; U+F4BC" loading="lazy">
+<img src="icons/128px/lines/LINE_ARROW_RIGHT.png" alt="LINE_ARROW_RIGHT" title="LINE_ARROW_RIGHT &middot; U+F4BD" loading="lazy">
+<img src="icons/128px/lines/LINE_DASHED.png" alt="LINE_DASHED" title="LINE_DASHED &middot; U+EF82" loading="lazy">
+<img src="icons/128px/lines/LINE_DOTTED.png" alt="LINE_DOTTED" title="LINE_DOTTED &middot; U+EF83" loading="lazy">
+<img src="icons/128px/lines/LINE_NORMAL.png" alt="LINE_NORMAL" title="LINE_NORMAL &middot; U+EF84" loading="lazy">
+<img src="icons/128px/lines/LINE_PEDAL_STAR_ENDING.png" alt="LINE_PEDAL_STAR_ENDING" title="LINE_PEDAL_STAR_ENDING &middot; U+EF87" loading="lazy">
+<img src="icons/128px/lines/LINE_WIDE_DASHED.png" alt="LINE_WIDE_DASHED" title="LINE_WIDE_DASHED &middot; U+F434" loading="lazy">
+<img src="icons/128px/lines/LINE_WITH_ANGLED_END_HOOK.png" alt="LINE_WITH_ANGLED_END_HOOK" title="LINE_WITH_ANGLED_END_HOOK &middot; U+EF86" loading="lazy">
+<img src="icons/128px/lines/LINE_WITH_ANGLED_START_HOOK.png" alt="LINE_WITH_ANGLED_START_HOOK" title="LINE_WITH_ANGLED_START_HOOK &middot; U+EF9F" loading="lazy">
+<img src="icons/128px/lines/LINE_WITH_END_HOOK.png" alt="LINE_WITH_END_HOOK" title="LINE_WITH_END_HOOK &middot; U+EF85" loading="lazy">
+<img src="icons/128px/lines/LINE_WITH_INVERTED_START_HOOK.png" alt="LINE_WITH_INVERTED_START_HOOK" title="LINE_WITH_INVERTED_START_HOOK &middot; U+EFA0" loading="lazy">
+<img src="icons/128px/lines/LINE_WITH_START_HOOK.png" alt="LINE_WITH_START_HOOK" title="LINE_WITH_START_HOOK &middot; U+EF9E" loading="lazy">
+<span class="more">+3 more</span>
+</div>
+</section>
+<section class="cat">
+<div class="cat-head">
+<div><span class="cat-name">notes-rests-beams</span> <span class="cat-count">76 icons</span></div>
+<div class="dl">
+<a href="https://github.com/thoka/musescore-icons/releases/latest/download/icons.32px.notes-rests-beams.zip">32 px <span class="s">42.0 KB</span></a>
+<a href="https://github.com/thoka/musescore-icons/releases/latest/download/icons.128px.notes-rests-beams.zip">128 px <span class="s">111.1 KB</span></a>
+<a href="https://github.com/thoka/musescore-icons/releases/latest/download/icons.svg.notes-rests-beams.zip">SVG <span class="s">54.0 KB</span></a>
+</div></div>
+<div class="preview">
+<img src="icons/128px/notes-rests-beams/ACCIACCATURA.png" alt="ACCIACCATURA" title="ACCIACCATURA &middot; U+F427" loading="lazy">
+<img src="icons/128px/notes-rests-beams/APPOGGIATURA.png" alt="APPOGGIATURA" title="APPOGGIATURA &middot; U+F428" loading="lazy">
+<img src="icons/128px/notes-rests-beams/BEAM_BREAK_INNER_16TH.png" alt="BEAM_BREAK_INNER_16TH" title="BEAM_BREAK_INNER_16TH &middot; U+F33F" loading="lazy">
+<img src="icons/128px/notes-rests-beams/BEAM_BREAK_INNER_8TH.png" alt="BEAM_BREAK_INNER_8TH" title="BEAM_BREAK_INNER_8TH &middot; U+F33E" loading="lazy">
+<img src="icons/128px/notes-rests-beams/BEAM_BREAK_LEFT.png" alt="BEAM_BREAK_LEFT" title="BEAM_BREAK_LEFT &middot; U+F33B" loading="lazy">
+<img src="icons/128px/notes-rests-beams/BEAM_FEATHERED_ACCELERATE.png" alt="BEAM_FEATHERED_ACCELERATE" title="BEAM_FEATHERED_ACCELERATE &middot; U+EF88" loading="lazy">
+<img src="icons/128px/notes-rests-beams/BEAM_FEATHERED_DECELERATE.png" alt="BEAM_FEATHERED_DECELERATE" title="BEAM_FEATHERED_DECELERATE &middot; U+EF89" loading="lazy">
+<img src="icons/128px/notes-rests-beams/BEAM_FEATHERING_LEFT_HEIGHT.png" alt="BEAM_FEATHERING_LEFT_HEIGHT" title="BEAM_FEATHERING_LEFT_HEIGHT &middot; U+EF57" loading="lazy">
+<img src="icons/128px/notes-rests-beams/BEAM_FEATHERING_RIGHT_HEIGHT.png" alt="BEAM_FEATHERING_RIGHT_HEIGHT" title="BEAM_FEATHERING_RIGHT_HEIGHT &middot; U+EF56" loading="lazy">
+<img src="icons/128px/notes-rests-beams/BEAM_HEIGHT_LEFT.png" alt="BEAM_HEIGHT_LEFT" title="BEAM_HEIGHT_LEFT &middot; U+EF5A" loading="lazy">
+<img src="icons/128px/notes-rests-beams/BEAM_HEIGHT_RIGHT.png" alt="BEAM_HEIGHT_RIGHT" title="BEAM_HEIGHT_RIGHT &middot; U+EF5B" loading="lazy">
+<img src="icons/128px/notes-rests-beams/BEAM_JOIN.png" alt="BEAM_JOIN" title="BEAM_JOIN &middot; U+F33D" loading="lazy">
+<span class="more">+64 more</span>
+</div>
+</section>
+<section class="cat">
+<div class="cat-head">
+<div><span class="cat-name">pitch-accidentals-keys</span> <span class="cat-count">27 icons</span></div>
+<div class="dl">
+<a href="https://github.com/thoka/musescore-icons/releases/latest/download/icons.32px.pitch-accidentals-keys.zip">32 px <span class="s">16.0 KB</span></a>
+<a href="https://github.com/thoka/musescore-icons/releases/latest/download/icons.128px.pitch-accidentals-keys.zip">128 px <span class="s">50.2 KB</span></a>
+<a href="https://github.com/thoka/musescore-icons/releases/latest/download/icons.svg.pitch-accidentals-keys.zip">SVG <span class="s">36.8 KB</span></a>
+</div></div>
+<div class="preview">
+<img src="icons/128px/pitch-accidentals-keys/ACCIDENTAL_SHARP.png" alt="ACCIDENTAL_SHARP" title="ACCIDENTAL_SHARP &middot; U+EF45" loading="lazy">
+<img src="icons/128px/pitch-accidentals-keys/AMBITUS.png" alt="AMBITUS" title="AMBITUS &middot; U+EF79" loading="lazy">
+<img src="icons/128px/pitch-accidentals-keys/AMBITUS_LEANING_LEFT.png" alt="AMBITUS_LEANING_LEFT" title="AMBITUS_LEANING_LEFT &middot; U+EF7A" loading="lazy">
+<img src="icons/128px/pitch-accidentals-keys/AMBITUS_LEANING_RIGHT.png" alt="AMBITUS_LEANING_RIGHT" title="AMBITUS_LEANING_RIGHT &middot; U+EF7B" loading="lazy">
+<img src="icons/128px/pitch-accidentals-keys/CLEF_BASS.png" alt="CLEF_BASS" title="CLEF_BASS &middot; U+EF73" loading="lazy">
+<img src="icons/128px/pitch-accidentals-keys/CLEF_TREBLE.png" alt="CLEF_TREBLE" title="CLEF_TREBLE &middot; U+F31A" loading="lazy">
+<img src="icons/128px/pitch-accidentals-keys/FLAT.png" alt="FLAT" title="FLAT &middot; U+F388" loading="lazy">
+<img src="icons/128px/pitch-accidentals-keys/FLAT_DOUBLE.png" alt="FLAT_DOUBLE" title="FLAT_DOUBLE &middot; U+F389" loading="lazy">
+<img src="icons/128px/pitch-accidentals-keys/KEY_SIGNATURE.png" alt="KEY_SIGNATURE" title="KEY_SIGNATURE &middot; U+EF81" loading="lazy">
+<img src="icons/128px/pitch-accidentals-keys/KEY_SIGNATURE_1_FLAT.png" alt="KEY_SIGNATURE_1_FLAT" title="KEY_SIGNATURE_1_FLAT &middot; U+F37F" loading="lazy">
+<img src="icons/128px/pitch-accidentals-keys/KEY_SIGNATURE_1_SHARP.png" alt="KEY_SIGNATURE_1_SHARP" title="KEY_SIGNATURE_1_SHARP &middot; U+F378" loading="lazy">
+<img src="icons/128px/pitch-accidentals-keys/KEY_SIGNATURE_2_FLAT.png" alt="KEY_SIGNATURE_2_FLAT" title="KEY_SIGNATURE_2_FLAT &middot; U+F380" loading="lazy">
+<span class="more">+15 more</span>
+</div>
+</section>
+<section class="cat">
+<div class="cat-head">
+<div><span class="cat-name">score-elements</span> <span class="cat-count">22 icons</span></div>
+<div class="dl">
+<a href="https://github.com/thoka/musescore-icons/releases/latest/download/icons.32px.score-elements.zip">32 px <span class="s">11.0 KB</span></a>
+<a href="https://github.com/thoka/musescore-icons/releases/latest/download/icons.128px.score-elements.zip">128 px <span class="s">27.5 KB</span></a>
+<a href="https://github.com/thoka/musescore-icons/releases/latest/download/icons.svg.score-elements.zip">SVG <span class="s">14.9 KB</span></a>
+</div></div>
+<div class="preview">
+<img src="icons/128px/score-elements/BARLINE_UNWINGED.png" alt="BARLINE_UNWINGED" title="BARLINE_UNWINGED &middot; U+F34D" loading="lazy">
+<img src="icons/128px/score-elements/BARLINE_WINGED.png" alt="BARLINE_WINGED" title="BARLINE_WINGED &middot; U+F34C" loading="lazy">
+<img src="icons/128px/score-elements/BRACE.png" alt="BRACE" title="BRACE &middot; U+EF72" loading="lazy">
+<img src="icons/128px/score-elements/BRACKET.png" alt="BRACKET" title="BRACKET &middot; U+EF71" loading="lazy">
+<img src="icons/128px/score-elements/BRACKET_PARENTHESES.png" alt="BRACKET_PARENTHESES" title="BRACKET_PARENTHESES &middot; U+EF7C" loading="lazy">
+<img src="icons/128px/score-elements/BRACKET_PARENTHESES_SQUARE.png" alt="BRACKET_PARENTHESES_SQUARE" title="BRACKET_PARENTHESES_SQUARE &middot; U+EF7D" loading="lazy">
+<img src="icons/128px/score-elements/DOT_ABOVE_LINE.png" alt="DOT_ABOVE_LINE" title="DOT_ABOVE_LINE &middot; U+EF5E" loading="lazy">
+<img src="icons/128px/score-elements/DOT_BELOW_LINE.png" alt="DOT_BELOW_LINE" title="DOT_BELOW_LINE &middot; U+EF5F" loading="lazy">
+<img src="icons/128px/score-elements/DOUBLE_BAR_LINE.png" alt="DOUBLE_BAR_LINE" title="DOUBLE_BAR_LINE &middot; U+F347" loading="lazy">
+<img src="icons/128px/score-elements/INSERT_ONE_MEASURE.png" alt="INSERT_ONE_MEASURE" title="INSERT_ONE_MEASURE &middot; U+F432" loading="lazy">
+<img src="icons/128px/score-elements/JUMP.png" alt="JUMP" title="JUMP &middot; U+EF67" loading="lazy">
+<img src="icons/128px/score-elements/MARKER.png" alt="MARKER" title="MARKER &middot; U+EF66" loading="lazy">
+<span class="more">+10 more</span>
+</div>
+</section>
+<section class="cat">
+<div class="cat-head">
+<div><span class="cat-name">shapes-misc</span> <span class="cat-count">3 icons</span></div>
+<div class="dl">
+<a href="https://github.com/thoka/musescore-icons/releases/latest/download/icons.32px.shapes-misc.zip">32 px <span class="s">1.8 KB</span></a>
+<a href="https://github.com/thoka/musescore-icons/releases/latest/download/icons.128px.shapes-misc.zip">128 px <span class="s">5.7 KB</span></a>
+<a href="https://github.com/thoka/musescore-icons/releases/latest/download/icons.svg.shapes-misc.zip">SVG <span class="s">1.6 KB</span></a>
+</div></div>
+<div class="preview">
+<img src="icons/128px/shapes-misc/CIRCLE.png" alt="CIRCLE" title="CIRCLE &middot; U+F44D" loading="lazy">
+<img src="icons/128px/shapes-misc/TRIANGLE_SYMBOL.png" alt="TRIANGLE_SYMBOL" title="TRIANGLE_SYMBOL &middot; U+F46D" loading="lazy">
+<img src="icons/128px/shapes-misc/TWO_CIRCLES.png" alt="TWO_CIRCLES" title="TWO_CIRCLES &middot; U+F44E" loading="lazy">
+</div>
+</section>
+<section class="cat">
+<div class="cat-head">
+<div><span class="cat-name">text-typography</span> <span class="cat-count">28 icons</span></div>
+<div class="dl">
+<a href="https://github.com/thoka/musescore-icons/releases/latest/download/icons.32px.text-typography.zip">32 px <span class="s">15.6 KB</span></a>
+<a href="https://github.com/thoka/musescore-icons/releases/latest/download/icons.128px.text-typography.zip">128 px <span class="s">37.5 KB</span></a>
+<a href="https://github.com/thoka/musescore-icons/releases/latest/download/icons.svg.text-typography.zip">SVG <span class="s">18.0 KB</span></a>
+</div></div>
+<div class="preview">
+<img src="icons/128px/text-typography/ALIGN_HORIZONTAL_CENTER.png" alt="ALIGN_HORIZONTAL_CENTER" title="ALIGN_HORIZONTAL_CENTER &middot; U+F48C" loading="lazy">
+<img src="icons/128px/text-typography/ALIGN_LEFT.png" alt="ALIGN_LEFT" title="ALIGN_LEFT &middot; U+F48B" loading="lazy">
+<img src="icons/128px/text-typography/ALIGN_RIGHT.png" alt="ALIGN_RIGHT" title="ALIGN_RIGHT &middot; U+F48D" loading="lazy">
+<img src="icons/128px/text-typography/ALIGN_TOP.png" alt="ALIGN_TOP" title="ALIGN_TOP &middot; U+F48E" loading="lazy">
+<img src="icons/128px/text-typography/ALIGN_VERTICAL_CENTER.png" alt="ALIGN_VERTICAL_CENTER" title="ALIGN_VERTICAL_CENTER &middot; U+F48F" loading="lazy">
+<img src="icons/128px/text-typography/AUTO_TEXT.png" alt="AUTO_TEXT" title="AUTO_TEXT &middot; U+F329" loading="lazy">
+<img src="icons/128px/text-typography/CHORD_BASS_ALIGN.png" alt="CHORD_BASS_ALIGN" title="CHORD_BASS_ALIGN &middot; U+F4A6" loading="lazy">
+<img src="icons/128px/text-typography/CHORD_BASS_OFFSET.png" alt="CHORD_BASS_OFFSET" title="CHORD_BASS_OFFSET &middot; U+F4A7" loading="lazy">
+<img src="icons/128px/text-typography/CHORD_SYMBOL.png" alt="CHORD_SYMBOL" title="CHORD_SYMBOL &middot; U+F352" loading="lazy">
+<img src="icons/128px/text-typography/FRACTION_DIAGONAL.png" alt="FRACTION_DIAGONAL" title="FRACTION_DIAGONAL &middot; U+F4B8" loading="lazy">
+<img src="icons/128px/text-typography/FRACTION_LEVEL.png" alt="FRACTION_LEVEL" title="FRACTION_LEVEL &middot; U+F4B9" loading="lazy">
+<img src="icons/128px/text-typography/HP_LOWER_CASE.png" alt="HP_LOWER_CASE" title="HP_LOWER_CASE &middot; U+F49E" loading="lazy">
+<span class="more">+16 more</span>
+</div>
+</section>
+<section class="cat">
+<div class="cat-head">
+<div><span class="cat-name">transport-playback</span> <span class="cat-count">28 icons</span></div>
+<div class="dl">
+<a href="https://github.com/thoka/musescore-icons/releases/latest/download/icons.32px.transport-playback.zip">32 px <span class="s">15.4 KB</span></a>
+<a href="https://github.com/thoka/musescore-icons/releases/latest/download/icons.128px.transport-playback.zip">128 px <span class="s">42.3 KB</span></a>
+<a href="https://github.com/thoka/musescore-icons/releases/latest/download/icons.svg.transport-playback.zip">SVG <span class="s">16.9 KB</span></a>
+</div></div>
+<div class="preview">
+<img src="icons/128px/transport-playback/BPM.png" alt="BPM" title="BPM &middot; U+F474" loading="lazy">
+<img src="icons/128px/transport-playback/CLOCK.png" alt="CLOCK" title="CLOCK &middot; U+F475" loading="lazy">
+<img src="icons/128px/transport-playback/COUNT_IN.png" alt="COUNT_IN" title="COUNT_IN &middot; U+F3B1" loading="lazy">
+<img src="icons/128px/transport-playback/FOOT_PEDAL.png" alt="FOOT_PEDAL" title="FOOT_PEDAL &middot; U+F3A1" loading="lazy">
+<img src="icons/128px/transport-playback/LOOP.png" alt="LOOP" title="LOOP &middot; U+EF1F" loading="lazy">
+<img src="icons/128px/transport-playback/LOOP_IN.png" alt="LOOP_IN" title="LOOP_IN &middot; U+F3C7" loading="lazy">
+<img src="icons/128px/transport-playback/LOOP_OUT.png" alt="LOOP_OUT" title="LOOP_OUT &middot; U+F3C8" loading="lazy">
+<img src="icons/128px/transport-playback/METRONOME.png" alt="METRONOME" title="METRONOME &middot; U+EF20" loading="lazy">
+<img src="icons/128px/transport-playback/MIDI_INPUT.png" alt="MIDI_INPUT" title="MIDI_INPUT &middot; U+EF98" loading="lazy">
+<img src="icons/128px/transport-playback/MIXER.png" alt="MIXER" title="MIXER &middot; U+EF27" loading="lazy">
+<img src="icons/128px/transport-playback/MUTE.png" alt="MUTE" title="MUTE &middot; U+F3D5" loading="lazy">
+<img src="icons/128px/transport-playback/PAN_SCORE.png" alt="PAN_SCORE" title="PAN_SCORE &middot; U+F3B0" loading="lazy">
+<span class="more">+16 more</span>
+</div>
+</section>
+<section class="cat">
+<div class="cat-head">
+<div><span class="cat-name">view-zoom</span> <span class="cat-count">17 icons</span></div>
+<div class="dl">
+<a href="https://github.com/thoka/musescore-icons/releases/latest/download/icons.32px.view-zoom.zip">32 px <span class="s">9.5 KB</span></a>
+<a href="https://github.com/thoka/musescore-icons/releases/latest/download/icons.128px.view-zoom.zip">128 px <span class="s">26.6 KB</span></a>
+<a href="https://github.com/thoka/musescore-icons/releases/latest/download/icons.svg.view-zoom.zip">SVG <span class="s">10.9 KB</span></a>
+</div></div>
+<div class="preview">
+<img src="icons/128px/view-zoom/CAMERA.png" alt="CAMERA" title="CAMERA &middot; U+F3AE" loading="lazy">
+<img src="icons/128px/view-zoom/CONTINUOUS_VIEW.png" alt="CONTINUOUS_VIEW" title="CONTINUOUS_VIEW &middot; U+EF1C" loading="lazy">
+<img src="icons/128px/view-zoom/CONTINUOUS_VIEW_VERTICAL.png" alt="CONTINUOUS_VIEW_VERTICAL" title="CONTINUOUS_VIEW_VERTICAL &middot; U+F3AF" loading="lazy">
+<img src="icons/128px/view-zoom/EYE_CLOSED.png" alt="EYE_CLOSED" title="EYE_CLOSED &middot; U+EF54" loading="lazy">
+<img src="icons/128px/view-zoom/EYE_OPEN.png" alt="EYE_OPEN" title="EYE_OPEN &middot; U+EF53" loading="lazy">
+<img src="icons/128px/view-zoom/EYE_OPEN_THICK.png" alt="EYE_OPEN_THICK" title="EYE_OPEN_THICK &middot; U+F4AE" loading="lazy">
+<img src="icons/128px/view-zoom/FIT_PROJECT.png" alt="FIT_PROJECT" title="FIT_PROJECT &middot; U+F438" loading="lazy">
+<img src="icons/128px/view-zoom/FIT_SELECTION.png" alt="FIT_SELECTION" title="FIT_SELECTION &middot; U+F439" loading="lazy">
+<img src="icons/128px/view-zoom/GRID.png" alt="GRID" title="GRID &middot; U+F3A4" loading="lazy">
+<img src="icons/128px/view-zoom/LIST.png" alt="LIST" title="LIST &middot; U+F3AA" loading="lazy">
+<img src="icons/128px/view-zoom/PAGE.png" alt="PAGE" title="PAGE &middot; U+F3A5" loading="lazy">
+<img src="icons/128px/view-zoom/PAGE_VIEW.png" alt="PAGE_VIEW" title="PAGE_VIEW &middot; U+EF1B" loading="lazy">
+<span class="more">+5 more</span>
+</div>
+</section>
+<section class="cat">
+<div class="cat-head">
+<div><span class="cat-name">_unnamed</span> <span class="cat-count">156 icons</span></div>
+<div class="dl">
+<a href="https://github.com/thoka/musescore-icons/releases/latest/download/icons.32px._unnamed.zip">32 px <span class="s">88.2 KB</span></a>
+<a href="https://github.com/thoka/musescore-icons/releases/latest/download/icons.128px._unnamed.zip">128 px <span class="s">266.6 KB</span></a>
+<a href="https://github.com/thoka/musescore-icons/releases/latest/download/icons.svg._unnamed.zip">SVG <span class="s">158.9 KB</span></a>
+</div></div>
+<div class="preview">
+<img src="icons/128px/_unnamed/DOUBLE_WHOLE_CENTRED.png" alt="DOUBLE_WHOLE_CENTRED" title="DOUBLE_WHOLE_CENTRED &middot; U+F3D3" loading="lazy">
+<img src="icons/128px/_unnamed/GENERAL_MIDI_FULL.png" alt="GENERAL_MIDI_FULL" title="GENERAL_MIDI_FULL &middot; U+F316" loading="lazy">
+<img src="icons/128px/_unnamed/U+EF4F.png" alt="U+EF4F" title="U+EF4F &middot; U+EF4F" loading="lazy">
+<img src="icons/128px/_unnamed/U+EF50.png" alt="U+EF50" title="U+EF50 &middot; U+EF50" loading="lazy">
+<img src="icons/128px/_unnamed/U+EF51.png" alt="U+EF51" title="U+EF51 &middot; U+EF51" loading="lazy">
+<img src="icons/128px/_unnamed/U+EF52.png" alt="U+EF52" title="U+EF52 &middot; U+EF52" loading="lazy">
+<img src="icons/128px/_unnamed/U+EF58.png" alt="U+EF58" title="U+EF58 &middot; U+EF58" loading="lazy">
+<img src="icons/128px/_unnamed/U+EF59.png" alt="U+EF59" title="U+EF59 &middot; U+EF59" loading="lazy">
+<img src="icons/128px/_unnamed/U+EF7E.png" alt="U+EF7E" title="U+EF7E &middot; U+EF7E" loading="lazy">
+<img src="icons/128px/_unnamed/U+F317.png" alt="U+F317" title="U+F317 &middot; U+F317" loading="lazy">
+<img src="icons/128px/_unnamed/U+F318.png" alt="U+F318" title="U+F318 &middot; U+F318" loading="lazy">
+<img src="icons/128px/_unnamed/U+F31B.png" alt="U+F31B" title="U+F31B &middot; U+F31B" loading="lazy">
+<span class="more">+144 more</span>
+</div>
+</section>
+</main>
+<footer>
+<p>The icon font is &copy; MuseScore Limited and licensed under GPL-3.0; the rendered icons are derivative works under the same license. Source: <a href="https://github.com/musescore/muse_framework">musescore/muse_framework</a>.</p>
+<p>This page is generated by <code>make_pages.py</code> &ndash; do not edit it by hand.</p>
+</footer>
+</body></html>
