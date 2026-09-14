@@ -16,31 +16,26 @@ constants ZOOM, FONT_SIZE and LABEL_POSITION below.
 
 Every figure types the letter "c" -- a rhythm pattern; the pitch is one
 keystroke the player can move afterwards.
+
+Since plan 0003 the same cells are a routine (`deckgen.routines.figures`)
+that writes into any board; this script is the thin wrapper putting them on
+a deck of their own.
 """
 
 from __future__ import annotations
 
 import argparse
 import sys
-from dataclasses import dataclass
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
-from deckgen import Button, Deck                                  # noqa: E402
-from deckgen.archive import MASTER_SIZE                           # noqa: E402
-from deckgen.compose import ink_side                              # noqa: E402
-from deckgen.glyphs import Glyphs                                 # noqa: E402
-from deckgen import notation                                      # noqa: E402
-
-
-@dataclass(frozen=True)
-class Figure:
-    """One button of the deck."""
-
-    name: str        # label (with --labels) and part of the icon name
-    abc: str         # the figure in the rhythm subset of ABC
-    color: str       # background of the button
+from deckgen import Deck                                           # noqa: E402
+from deckgen.board import BoardDeck                                # noqa: E402
+from deckgen.compose import Composition, Glyph                     # noqa: E402
+from deckgen.glyphs import Glyphs                                  # noqa: E402
+from deckgen.routines import (Figure, figure_composition, figures,   # noqa: E402
+                              figure_side)
 
 
 # One row of the grid per four figures.
@@ -72,47 +67,28 @@ FONT_SIZE = 8
 LABEL_POSITION = "bottom"
 
 
-def slug(name: str) -> str:
-    """The figure name as part of an icon file name."""
-    return name.lower().replace(" ", "-")
-
-
 def composition(glyphs: Glyphs, figure: Figure,
-                side: float | None = None):
-    """The icon of one figure, from the same event list as its keys."""
-    return notation.composition(notation.parse(figure.abc), side=side)
+                side: float | None = None) -> Composition:
+    """The icon of one figure -- a delegate of the routine."""
+    return figure_composition(glyphs, figure, side)
 
 
 def deck_side(glyphs: Glyphs) -> float:
     """Edge length of the shared frame -- the widest figure sets it."""
-    return max(ink_side(glyphs, composition(glyphs, f)) for f in FIGURES)
+    return figure_side(glyphs, FIGURES)
 
 
 def build(glyphs: Glyphs, name: str, target: str, labels: bool,
           svg_dir: Path | None, zoom: int = ZOOM, font_size: int = FONT_SIZE,
           label_position: str = LABEL_POSITION) -> Deck:
-    deck = Deck(name, rows=-(-len(FIGURES) // COLUMNS), columns=COLUMNS)
-    side = deck_side(glyphs)
-    for i, figure in enumerate(FIGURES):
-        comp = composition(glyphs, figure, side=side)
-        icon_name = f"figure-{slug(figure.name)}"
-        icon = deck.icons.add(icon_name, comp.to_image(glyphs, MASTER_SIZE),
-                              original_file_name=f"{icon_name}.png")
-        if svg_dir is not None:
-            (svg_dir / f"{icon_name}.svg").write_text(
-                comp.to_svg(glyphs, 256, title=icon_name), encoding="utf-8")
-
-        deck.root.place(Button(
-            label=figure.name if labels else "",
-            icon=icon,
-            background=figure.color,
-            font_size=font_size,
-            label_position=label_position,
-            icon_zoom=zoom,
-            on_press=notation.actions(notation.parse(figure.abc),
-                                      target_process=target),
-        ), x=i % COLUMNS, y=i // COLUMNS)
-    return deck
+    workbench = BoardDeck(glyphs, name=name,
+                          rows=-(-len(FIGURES) // COLUMNS), columns=COLUMNS,
+                          accent=FIGURES[0].color,
+                          icon=Composition([Glyph("MUSIC_NOTES")]),
+                          target=target, svg_dir=svg_dir)
+    figures(workbench.root, (0, 0), FIGURES, per_row=COLUMNS, labels=labels,
+            zoom=zoom, font_size=font_size, label_position=label_position)
+    return workbench.deck
 
 
 def main() -> int:

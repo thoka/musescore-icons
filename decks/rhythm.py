@@ -16,6 +16,10 @@ Note), die einfache Punktierung auf ".". For the **double** dotting
 MuseScore ships no shortcut; the "Double-dotted note" command sits on ","
 here. Acceptance on the device showed ":" (Shift+"." on a German keyboard)
 never reaches MuseScore. Whoever has it elsewhere changes the line.
+
+Seit Plan 0003 lebt dieselbe Zelle als Routine (`deckgen.routines`), die in
+ein beliebiges Board schreibt -- dieses Skript ist der duenne Wrapper, der
+sie auf ein eigenes Deck legt. Sein Archiv aendert sich nicht.
 """
 
 from __future__ import annotations
@@ -23,24 +27,15 @@ from __future__ import annotations
 import argparse
 import sys
 from pathlib import Path
-from typing import NamedTuple
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
-from deckgen import Button, Deck, press_key                      # noqa: E402
-from deckgen.archive import MASTER_SIZE                          # noqa: E402
-from deckgen.compose import Composition, Glyph, dot_dx, dots, ink_side  # noqa: E402
-from deckgen.glyphs import Glyphs                                # noqa: E402
-
-
-class Duration(NamedTuple):
-    """Eine Spalte des Decks."""
-
-    slug: str        # Teil des Icon-Namens
-    label: str       # Aufschrift, falls --labels
-    glyph: str       # Glyph der UI-Font
-    key: str         # Kuerzel in MuseScore
-    color: str       # Hintergrund der Taste
+from deckgen import Deck                                           # noqa: E402
+from deckgen.board import BoardDeck                                # noqa: E402
+from deckgen.compose import Composition, Glyph                     # noqa: E402
+from deckgen.glyphs import Glyphs                                  # noqa: E402
+from deckgen.routines import (Duration, Dotting, duration_matrix,  # noqa: E402
+                              matrix_cell, matrix_side)
 
 
 # Von lang nach kurz -- dieselbe Richtung wie die Werkzeugleiste in MuseScore.
@@ -53,14 +48,6 @@ DURATIONS = [
     Duration("32nd",    "1/32", "NOTE_32ND",    "2", "#ef4444"),
 ]
 
-class Dotting(NamedTuple):
-    """Eine Zeile des Decks. keys: Tasten, die nach der Dauer folgen."""
-
-    suffix: str      # Teil des Icon-Namens
-    label: str       # Anhang an die Aufschrift
-    keys: list       # [(Taste, Modifikatoren), ...]
-
-
 # Die Zeilennummer ist zugleich die Zahl der Punkte.
 DOTTINGS = [
     Dotting("", "", []),
@@ -72,59 +59,26 @@ DOTTINGS = [
     Dotting("-double-dotted", "..", [(",", ())]),
 ]
 
-# The dot sits at head height (DOT_Y); how far right depends on the glyph:
-# dot_dx() measures per note where its ink at dot height ends -- the head of
-# a quarter reaches to 0.72 em, the head of an 8th only to 0.54, the flag of
-# a 16th pushes the dot behind itself.
-DOT_Y = 0.0
-
 
 def cell(glyphs: Glyphs, duration: Duration, n_dots: int,
          side: float | None = None) -> Composition:
-    """The icon of one cell: note plus dots, clear of the note's ink.
-
-    `side` fixes one shared scale for all cells (value: the largest cell,
-    see ink_side) and anchors the frame on the note -- the noteheads stay
-    as large as the font draws them, the dots remain a right-hand appendage.
-    """
-    dx = dot_dx(glyphs, duration.glyph, dy=DOT_Y) if n_dots else 0.0
-    return Composition([Glyph(duration.glyph), *dots(n_dots, dx=dx, dy=DOT_Y)],
-                       side=side, anchor="note")
+    """The icon of one cell -- a delegate of the routine."""
+    return matrix_cell(glyphs, duration, n_dots, side=side)
 
 
 def deck_side(glyphs: Glyphs) -> float:
     """Edge length of the shared frame -- the largest cell sets it."""
-    return max(ink_side(glyphs, cell(glyphs, d, n))
-               for d in DURATIONS for n in range(len(DOTTINGS)))
+    return matrix_side(glyphs, DURATIONS, DOTTINGS)
 
 
 def build(glyphs: Glyphs, name: str, target: str, labels: bool,
           svg_dir: Path | None) -> Deck:
-    deck = Deck(name, rows=len(DOTTINGS), columns=len(DURATIONS))
-    side = deck_side(glyphs)
-    for x, duration in enumerate(DURATIONS):
-        for n_dots, dotting in enumerate(DOTTINGS):
-            comp = cell(glyphs, duration, n_dots, side=side)
-            icon_name = f"note-{duration.slug}{dotting.suffix}"
-            icon = deck.icons.add(icon_name, comp.to_image(glyphs, MASTER_SIZE),
-                                  original_file_name=f"{icon_name}.png")
-            if svg_dir is not None:
-                (svg_dir / f"{icon_name}.svg").write_text(
-                    comp.to_svg(glyphs, 256, title=icon_name), encoding="utf-8")
-
-            # Erst die Dauer, dann die Punktierung -- in dieser Reihenfolge
-            # laesst MuseScore den Punkt auf der neuen Dauer sitzen.
-            actions = [press_key(duration.key, target_process=target)]
-            actions += [press_key(key, modifiers=mods, target_process=target)
-                        for key, mods in dotting.keys]
-
-            deck.root.place(Button(
-                label=f"{duration.label}{dotting.label}" if labels else "",
-                icon=icon,
-                background=duration.color,
-                on_press=actions,
-            ), x=x, y=n_dots)
-    return deck
+    workbench = BoardDeck(glyphs, name=name, rows=len(DOTTINGS),
+                          columns=len(DURATIONS), accent=DURATIONS[0].color,
+                          icon=Composition([Glyph(DURATIONS[0].glyph)]),
+                          target=target, svg_dir=svg_dir)
+    duration_matrix(workbench.root, (0, 0), DURATIONS, DOTTINGS, labels=labels)
+    return workbench.deck
 
 
 def main() -> int:
