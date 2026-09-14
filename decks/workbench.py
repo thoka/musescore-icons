@@ -114,8 +114,11 @@ def build(glyphs: Glyphs, name: str, target: str, labels: bool,
     # the row below, (0, 1).
     ox, oy = (0, 1) if menu == "horizontal" else (1, 0)
 
-    # Noten: the duration x dotting matrix.
-    duration_matrix(boards["Noten"], (ox, oy), rhythm.DURATIONS,
+    # Noten: the duration x dotting matrix -- short durations first,
+    # like the note input in MuseScore. rhythm.DURATIONS itself stays
+    # long-to-short: the accepted rhythm deck keeps its layout.
+    duration_matrix(boards["Noten"], (ox, oy),
+                    list(reversed(rhythm.DURATIONS)),
                     rhythm.DOTTINGS, labels=labels, zoom=zoom,
                     font_size=font_size, label_position=label_position)
 

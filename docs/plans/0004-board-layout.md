@@ -7,7 +7,9 @@
   `_settle_uniform_grid`) and workbench deck (content at (1, 0),
   `--menu` flag, uniform 7×5 grid). 179 tests green.
   `packs/noten.macroDeckFolder` regenerated locally: five boards of
-  7×5, 73 buttons (same count as alpha).
+  7×5, 73 buttons (same count as alpha). User feedback since: the Noten
+  matrix runs short durations first now (`reversed(rhythm.DURATIONS)`
+  at the call site; the accepted rhythm deck keeps long-to-short).
 * **Next step**: none in code — the device decides: grid, menu order
   (boards top-down in column 0, root first), accents. Then close the
   plan (status done) and merge per the merge-to-main skill.

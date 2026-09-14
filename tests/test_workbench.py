@@ -83,12 +83,12 @@ def test_root_holds_the_duration_matrix(wb):
         for y in range(0, 3):
             button = _button_at(wb.root, x, y)
             assert button is not None and button.icon is not None
-    assert _button_at(wb.root, 1, 0).icon.name == "note-whole"
-    assert _button_at(wb.root, 6, 2).icon.name == "note-32nd-double-dotted"
+    assert _button_at(wb.root, 1, 0).icon.name == "note-32nd"
+    assert _button_at(wb.root, 6, 2).icon.name == "note-whole-double-dotted"
 
 
 def test_matrix_cell_sends_duration_then_dotting(wb):
-    assert _keys(_button_at(wb.root, 4, 1)) == [((), "4"), ((), ".")]
+    assert _keys(_button_at(wb.root, 4, 1)) == [((), "5"), ((), ".")]
 
 
 # -- Ergänzungen ------------------------------------------------------------------
@@ -140,7 +140,7 @@ def test_horizontal_menu_keeps_the_content_below_the_strip(glyphs):
                            menu="horizontal")
     menu_row = [(p.x, p.y) for p in deck.root.folder.placements if p.y == 0]
     assert menu_row == [(i, 0) for i in range(5)]
-    assert _button_at(deck.root, 0, 1).icon.name == "note-whole"
+    assert _button_at(deck.root, 0, 1).icon.name == "note-32nd"
 
 
 # -- bit identity ----------------------------------------------------------------
