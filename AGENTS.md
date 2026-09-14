@@ -52,6 +52,12 @@ sessions and third parties can follow the original brief.
   never reuse or renumber a number.
 * Plan prose may be German like the rest of the project documentation; file
   names and the index table stay English.
+* **Cutting the work into steps is Opus work, and the cut includes the model.**
+  Every step says which model it is meant to be worked on — a line
+  `Modell: Sonnet` under its heading is enough, with a word on why when it is
+  not obvious. Deciding that once, with the whole plan in view, is cheaper than
+  re-deciding it in every later session. A session that disagrees with the
+  plan's choice says so rather than quietly working on a bigger model.
 
 Work a plan step at a time, and treat each step as a session of its own: read
 the step and its *Stand*, do the work, tick it off, commit, `/clear`. What that
@@ -90,12 +96,20 @@ one that does not repeat work an earlier session already did.
   file back into the session; a targeted edit does not.
 * **One plan step per session.** Finish the step, tick it off, commit, then
   `/clear`. The plan file is the handoff — that is what it is for.
-* **The model is the user's lever.** Claude cannot switch the model of a
-  running session; `/model` is typed by the user. So name the model a step
-  wants before starting it: plans, format archaeology and design decisions are
-  Opus work, while filling in cells, writing a generator against a finished
-  library or adding tests is Sonnet work. Claude's own lever is delegation —
-  see below.
+* **A step does not start on the wrong model.** Claude cannot switch the model
+  of a running session; `/model` is typed by the user. So before the first edit
+  of a step, compare what it needs with what the session runs on — plans,
+  format archaeology and design decisions are Opus work, while filling in
+  cells, writing a generator against a finished library or adding tests is
+  Sonnet work. Where the session is the bigger one:
+  * **delegate**, if the work can be handed over as a brief with a checkable
+    end state (see *Subagents*) — that costs the user no keystroke;
+  * **otherwise stop and say so**: which model the step wants, why, and what it
+    would cost to do it here. Then wait for `/model`. Working the step on the
+    expensive model anyway, quietly, is exactly what this rule forbids.
+
+  A small fix in passing does not earn an interruption — mention it in a line
+  and carry on. A plan step does.
 
 ### Subagents
 
