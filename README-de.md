@@ -100,6 +100,87 @@ Pakete nebeneinander auspacken lassen. Das Skript braucht nur die
 Standardbibliothek und schreibt feste Zeitstempel – ein unveraenderter
 Icon-Satz ergibt also bitgleiche Archive. `packs/` wird nicht eingecheckt.
 
+## Macro-Deck-Icon-Pakete (Pilot)
+
+`make_deck.py` buendelt eine Auswahl von Icons zu einem Icon-Pack fuer
+[Macro Deck 3](https://macro-deck.app). Das Pack hat die flache Struktur, die
+die App erwartet – Manifest, Pack-Icon und die Icon-Dateien nebeneinander in der
+Archivwurzel:
+
+```
+ExtensionManifest.json      type, name, author, packageId, version …
+ExtensionIcon.png           das Pack-Icon (immer PNG, 256 px)
+PLAY.png  STOP.png  NOTE_8TH.png …
+```
+
+```bash
+python3 make_deck.py --pilot                       # die drei Testvarianten
+python3 make_deck.py --icons PLAY,STOP,NOTE_8TH    # eigene Auswahl, PNG 256 px
+python3 make_deck.py --icons-file meine-icons.txt --format svg
+```
+
+| Option | Bedeutung |
+|---|---|
+| `--pilot` | alle drei Testvarianten auf einmal bauen (PNG 256, PNG 128, SVG) |
+| `--icons PLAY,STOP` | Icon-Namen, kommagetrennt (Aliase funktionieren auch) |
+| `--icons-file <Datei>` | ein Icon-Name je Zeile, `#` leitet einen Kommentar ein |
+| `-s, --size 256` | Kantenlaenge in Pixel (Standard: 256) |
+| `-f, --format png \| svg` | Dateiformat der Icons im Pack |
+| `-c, --color white` | Icon-Farbe – weiss als Standard, weil Macro-Deck-Tasten dunkel sind |
+| `--name`, `--author`, `--version`, `--package-id` | Manifest-Felder (`packageId` ist standardmaessig `Autor.PackName`) |
+| `-o, --out packs` | Zielordner (Standard: `packs/`, nicht eingecheckt) |
+| `--keep-dir` | das entpackte Pack-Verzeichnis neben den Archiven behalten |
+
+Die Icons werden **frisch aus der Font gerendert**, nicht aus `icons/` kopiert:
+ein 256-px-Icon muss echte 256 px haben, sonst waere die Groessenfrage unten mit
+einer hochskalierten 128-px-Datei beantwortet. Jede Variante wird als schlichtes
+`.zip` geschrieben – die Endung, die der Import-Dialog tatsaechlich annimmt
+(siehe unten).
+
+### Was Macro Deck 3 annimmt (Ergebnis des Piloten)
+
+| # | Frage | Antwort |
+|---|---|---|
+| 1 | Nimmt „Install From File“ das `.zip`? | **Ja**, das `.zip` wird importiert. `.macroPack`, die Endung aus der Dokumentation, kennt die App nicht – ihre eigene Liste der Pack-Archive lautet `macrodeckiconpack`, `streamdeckiconpack`, `tpi`, `zip`. `make_deck.py` schreibt deshalb nur noch ein schlichtes `.zip`. |
+| 2 | Werden **SVG**-Dateien in einem Icon-Pack akzeptiert? | **Ja** – das SVG-Pack laesst sich importieren und sieht auf den Tasten gut aus. `svg` gehoert zu den Icon-Endungen der App, neben `png`, `jpg`, `jpeg`, `gif`, `webp`, `lottie`, `ico`, `icns`. |
+| 3 | Welche Kantenlaenge sieht auf dem Geraet gut aus? | **Entfaellt.** Ein Pack mit denselben drei Glyphen als SVG, PNG 256 und PNG 128 zeigte auf dem Tablet die SVG-Tasten am besten – SVG ist damit das Format der Wahl, eine Pixelgroesse muss niemand mehr waehlen. |
+| 4 | Laesst sich ein Pack **per URL** direkt von der Seite ziehen? | Als Archiv nicht. Aber **einzelne Icons lassen sich von der Seite auf eine Taste ziehen**, auch solche, die die Seite erst im Browser erzeugt – siehe naechster Abschnitt. |
+
+### Von der Seite ins Deck ziehen
+
+Macro Deck 3 ist eine Tauri-Anwendung. Die Rust-Shell reicht `WindowEvent::DragDrop`
+ausschliesslich als **Dateipfade** an die Oberflaeche weiter (`forward_drag_drop`
+→ `paths`), und im Quelltext der App steht es selbst: *„Tauri owns WebView
+drag-and-drop and swallows the HTML5 drop event."* Ein Drop wird also nur
+verstanden, wenn das Betriebssystem eine Datei uebergibt, die es schon gibt.
+
+* **Ein gezogenes `<img>` funktioniert** – geprueft mit allen vier Quellen, auf
+  die es ankommt: PNG und SVG vom Server sowie PNG und SVG aus einer
+  `blob:`-URL, also ein Icon, das die Seite erst im Browser erzeugt und nie auf
+  die Platte geschrieben hat. Der Browser legt das Bild in eine temporaere Datei
+  und gibt deren Pfad weiter.
+* **Ein gezogener Link funktioniert nicht** – auch nicht mit dem
+  Chromium-Format `DownloadURL`, das am Geraet ausprobiert wurde. Es bietet dem
+  Ziel eine Datei zum Abholen an statt eines Pfads auf der Platte, und Macro Deck
+  schaut nur auf Pfade.
+* **Name und Bild kommen aus zwei verschiedenen Quellen.** Bei einem
+  `http(s)`-Bild baut der Browser die temporaere Datei, indem er die URL *noch
+  einmal* holt – und diese Anfrage laeuft uebers Netz, nicht durch einen Service
+  Worker. Ein Icon, das die Seite selbst erzeugt und ueber einen Service Worker
+  ausliefert, kommt deshalb mit richtigem Namen, aber ohne Bild an (im
+  Server-Log steht der 404 des Drags). `blob:` und `data:` liefern ihre Bytes,
+  aber keinen Dateinamen – das Icon heisst dann „unbekannt". Beides behaelt nur
+  ein Icon, das wirklich auf dem Server liegt.
+* **Ein Drag traegt eine Datei.** Eine Webseite kann dem Betriebssystem in einem
+  Zug nicht mehrere Dateien uebergeben. Macro Deck selbst wuerde sie nehmen: der
+  Icon-Picker und die Icon-Packs-Seite sind Mehrfach-Ziele (`[multiple]="true"`)
+  und akzeptieren auch ganze Ordner und Pack-Archive. Eine komplette Matrix
+  reist deshalb als ZIP – herunterladen, entpacken, dann den Ordner oder eine
+  Mehrfachauswahl aus dem Dateimanager ziehen, oder *Install From File*.
+
+Die Ergebnisse bestimmen die Export-Voreinstellungen des Icon-Builders, siehe
+[`docs/plans/0001-glyph-composer.md`](docs/plans/0001-glyph-composer.md).
+
 ## Uebersichtsseite (GitHub Pages)
 
 `make_pages.py` erzeugt aus `icons/manifest.json` die `index.html` im

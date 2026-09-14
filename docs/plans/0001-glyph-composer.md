@@ -76,6 +76,37 @@ Umzusetzen:
 5. Screenshots gehören **nicht** ins Repo — in den Scratchpad schreiben; falls
    doch ein Ordner im Repo genutzt wird, `shots/` in `.gitignore`.
 
+### Stand: erledigt
+
+* [x] `tools/shot.sh` — findet die `chrome-headless-shell` per Glob im
+      Playwright-Cache, fällt auf `chromium-*/chrome-linux64/chrome
+      --headless=new` zurück und bricht ab, wenn die Zieldatei leer bleibt.
+* [x] `requirements-dev.txt` (`playwright>=1.49`) in `.venv` installiert, mit
+      `PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD=1`.
+* [x] `tools/check_page.py` — Konsolenfehler, fehlgeschlagene Requests,
+      HTTP ≥ 400, Screenshots ganzer Seiten und einzelner Elemente, `--js` für
+      spätere Canvas-Vergleiche. Exitcode 1 bei Befunden.
+* [x] Lokaler Server (`python3 -m http.server 8000`) geprüft.
+* [x] **Abnahme**: Screenshots von `http://localhost:8000/` und von
+      `https://thoka.github.io/musescore-icons/` erzeugt und angesehen — beide
+      Seiten identisch; dazu die Galerie `/icons/` lokal und live.
+      `check_page.py` meldet für beide Seiten **0** Konsolenfehler und **0**
+      fehlgeschlagene Requests (553 `<img>` auf der Übersicht).
+* [x] Negativtest: Seite mit `console.error` und fehlendem Bild wird als
+      3 Konsolenfehler + 1 fehlgeschlagener Request (HTTP 404) gemeldet,
+      Exitcode 1.
+
+Beim Umsetzen dazugelernt:
+
+* Playwright 1.62 erwartet Browser-Revision **1234**, im Cache liegt **1228**.
+  Der im Plan vorgesehene Ausweg greift: `executable_path` auf die vorhandene
+  `chrome-headless-shell`, kein Nachladen. `playwright install` wird nie
+  gebraucht.
+* `Locator.screenshot(timeout=…)` allein wirkt nicht — ohne
+  `page.set_default_timeout()` wartet ein Selektor weiter 30 s.
+* Ein Selektor, der nichts trifft, ist ein Befund der Seite und wird als
+  Konsolenfehler gezählt, statt das Werkzeug mit einem Traceback zu beenden.
+
 ---
 
 ## Schritt 1 — Plan im Repo ablegen (Nachverfolgbarkeit)
@@ -84,6 +115,22 @@ Diesen Plan als `docs/plans/0001-glyph-composer.md` ins Repo committen, bevor Co
 entsteht, damit spätere Sessions und Dritte den Auftrag nachvollziehen können.
 In `AGENTS.md` einen Verweis darauf aufnehmen. Fortschritt wird in derselben
 Datei abgehakt (Checkliste je Stufe), nicht in einer separaten Notiz.
+
+### Stand: hinfällig — war schon erledigt, bevor die Umsetzung begann
+
+Der Schritt wurde nicht abgearbeitet, weil es nichts mehr zu tun gab:
+
+* [x] Der Plan liegt seit `cc64c0b` („Add numbered plans folder with the glyph
+      composer plan") im Repo, mit seiner Zeile in `docs/plans/README.md`.
+* [x] `AGENTS.md` verweist im Abschnitt *Plans* auf `docs/plans/` und auf
+      `docs/plans/README.md`, wo dieser Plan indiziert ist. Ein zusätzlicher
+      Verweis auf genau diese Datei wäre eine zweite Stelle zum Pflegen —
+      absichtlich weggelassen.
+* [x] Die Checkliste je Stufe steht in dieser Datei (siehe Schritt 0), nicht
+      in einer separaten Notiz.
+
+Zu tun bleibt nur der Abschluss: den Status in `docs/plans/README.md` von
+`open` auf `done` setzen, wenn die letzte Stufe fertig ist.
 
 ---
 
@@ -110,6 +157,93 @@ Also **vor** jedem Export-Code klären, was Macro Deck 3 tatsächlich frisst.
      ja, kann die Seite Packs ausliefern statt nur Downloads anzubieten.
 * Ergebnisse in beiden READMEs festhalten; sie bestimmen die Export-Presets in
   Schritt 5.
+
+### Stand: gebaut — der Geraetetest bleibt beim Menschen
+
+* [x] `make_deck.py` baut aus einer Namensliste ein Pack-Verzeichnis
+      (`ExtensionManifest.json`, `ExtensionIcon.png`, flache Icon-Dateien) und
+      schreibt es als `.zip` **und** als `.macroPack`-Kopie. Gezippt wird mit
+      `make_packs.py:write_pack` (flach, feste Zeitstempel).
+* [x] `--pilot` erzeugt die drei Varianten mit denselben 10 Icons — `PLAY`,
+      `STOP`, `LOOP`, `METRONOME`, `UNDO`, `REDO`, `NOTE_QUARTER`, `NOTE_8TH`,
+      `REST`, `SHARP`: `packs/macrodeck-png256`, `-png128`, `-svg`, je
+      `.zip` + `.macroPack` (33,5 KB / 18,4 KB / 8,6 KB).
+* [x] Sichtprüfung: Kontaktbogen beider PNG-Varianten auf dunklem Grund
+      angesehen — weiss auf transparent, nichts abgeschnitten, 256 px sichtbar
+      schaerfer als 128 px.
+* [x] Die vier offenen Fragen stehen als Tabelle mit Stand `offen` in beiden
+      READMEs; die Antworten gehoeren dort hinein, nicht in eine neue Datei.
+* [x] **Geraetetest** am Macro Deck 3: Fragen 1, 2 und 4 beantwortet, die
+      Tabelle in beiden READMEs steht. Frage 3 (Kantenlaenge) bleibt offen —
+      getestet wurde das SVG-Pack, die PNG-Varianten warten noch auf dem Geraet.
+
+### Ergebnis des Geraetetests
+
+* **Frage 1 — Import**: `.zip` wird von „Install From File" angenommen.
+  `.macroPack`, die Endung aus der Doku, kennt die App gar nicht; ihre Liste
+  (`domain/icon-drop.util.ts`) lautet `macrodeckiconpack`, `streamdeckiconpack`,
+  `tpi`, `zip`. `make_deck.py` schreibt seitdem nur noch das `.zip`.
+* **Frage 2 — SVG**: ja. Das SVG-Pack importiert; `svg` steht in den
+  `ICON_DROP_EXTENSIONS` neben `png`, `jpg`, `gif`, `webp`, `lottie`, `ico`,
+  `icns`. Der Vorbehalt aus *Risiken* ist damit erledigt.
+* **Frage 4 — per URL ziehen**: nein, aber mit einer wichtigen Ausnahme.
+  Macro Deck 3 ist eine **Tauri**-App: die Rust-Shell reicht
+  `WindowEvent::DragDrop` nur als **Dateipfade** weiter (`forward_drag_drop` →
+  `paths`), und im Quelltext steht ausdruecklich „Tauri owns WebView
+  drag-and-drop and swallows the HTML5 drop event". Ein gezogenes `<img>`
+  funktioniert deshalb (der Browser legt die Bytes in eine temporaere Datei und
+  gibt deren Pfad weiter), ein gezogener Link nicht — auch nicht mit dem
+  Chromium-Format `DownloadURL`, das mit einer Testseite in `packs/` geprueft
+  wurde. Packs gehen also den Weg herunterladen → *Install From File*.
+
+Folgen fuer die spaeteren Stufen:
+
+* **Schritt 4/5**: Jedes erzeugte Icon in der Vorschau muss ein echtes `<img>`
+  mit Bilddaten sein — **bestaetigt**: PNG und SVG ziehen sowohl vom Server als
+  auch aus einer `blob:`-URL, ein im Browser erzeugtes Icon laesst sich also
+  direkt auf eine Taste ziehen. Das ist der Hauptweg fuer die Matrix: die Zellen
+  muessen ohnehin einzeln an ihren Platz.
+* **Name oder Bild — nie beides bei erzeugten Icons.** Der Dateiname eines
+  gezogenen Bildes stammt aus seiner URL, der Inhalt aus einem erneuten Abruf
+  dieser URL, der **am Service Worker vorbei** uebers Netz geht (mit einer
+  Testseite geprueft: der Name `NOTE_8TH_dot1.png` kam an, das Bild nicht, und
+  im Server-Log stand der 404 des Drags). `blob:`/`data:` liefern das Bild, aber
+  keinen Namen — Macro Deck nennt das Icon dann „unbekannt". Der Service-Worker-
+  Trick ist damit tot. Folge fuer Schritt 5: Wer Namen braucht, nimmt den
+  ZIP-Export; der Direkt-Drag ist fuer einzelne Zellen gedacht, deren Name auf
+  der Taste ohnehin nicht sichtbar ist.
+* **Ein Drag = eine Datei.** Mehrere Dateien kann eine Webseite nicht in einem
+  Zug uebergeben. Macro Deck selbst koennte es (`[multiple]="true"` am
+  Icon-Picker und an der Icon-Packs-Seite, inkl. Ordnern und Pack-Archiven) —
+  fuer viele Icons auf einmal bleibt also der Weg ZIP herunterladen, entpacken,
+  Ordner oder Mehrfachauswahl aus dem Dateimanager ziehen.
+* **Schritt 5 — SVG ist das Ausgabeformat.** Ein Vergleichspack mit denselben
+  drei Glyphen als SVG, PNG 256 und PNG 128 hat auf dem Tablet-Client (der
+  Nutzer bedient das Deck ausschliesslich im Browser) die SVG-Variante als beste
+  gezeigt. Damit:
+  * Frage 3 (Kantenlaenge) **entfaellt** — es gibt keine Pixelgroesse mehr zu
+    waehlen, und das 512-px-Problem aus Issue #590 betrifft uns nicht.
+  * Vorschau und Export sind **dieselbe** Datei: der Builder setzt das SVG
+    zusammen und zeigt es in einem `<img>`. Canvas-Rasterizer und PNG-Encoder
+    entfallen, ebenso der in der Verifikation vorgesehene Pixelvergleich gegen
+    den Python-Renderer (Punkt 3) — verglichen wird stattdessen das erzeugte SVG
+    gegen die vorhandenen Einzel-SVGs.
+  * PNG bleibt nur an zwei Stellen: `ExtensionIcon.png` im Pack-Manifest und ein
+    optionaler Nebenexport fuer fremde Ziele (Stream Deck, Touch Portal).
+  * Pack-Export bleibt ein `.zip` mit flacher Struktur.
+
+Beim Umsetzen dazugelernt:
+
+* Der Plan sah PIL nur zum **Umskalieren** der vorhandenen 128-px-PNGs vor. Das
+  haette Frage 3 verfaelscht: ein aus 128 px hochgerechnetes „256er" beweist
+  nichts ueber die Schaerfe auf dem Geraet. `make_deck.py` rendert deshalb
+  frisch ueber `musescore_icons.Renderer` — derselbe Code, der `icons/` erzeugt,
+  nur mit freier Groesse und Farbe. Damit haengt `make_deck.py` an fontTools +
+  Pillow statt an der Standardbibliothek; in `AGENTS.md` vermerkt.
+* Standardfarbe ist **weiss**, nicht das Schwarz der Galerie: Macro-Deck-Tasten
+  sind dunkel, schwarze Icons waeren dort unsichtbar.
+* `ExtensionIcon.png` bleibt auch in der SVG-Variante ein PNG — das Pack-Icon
+  zeigt die Store-Liste an, nicht das Geraet.
 
 ---
 
@@ -146,6 +280,12 @@ eine Werkzeugseite, Leland wird erst bei Bedarf nachgeladen.
   beide READMEs. Wichtig und geprüft: Die OFL beschränkt nur die Font-Software,
   **nicht** die damit gerenderten Bilder — die Icons bleiben frei nutzbar.
 
+### Stand: geht in Plan 0002 auf
+
+Die Pfaddaten werden weiterhin gebraucht — jetzt aber zuerst für den
+Python-Generator und nicht mehr nur für eine Webseite. Übernommen als Schritt 2
+von Plan 0002.
+
 ---
 
 ## Schritt 4 — Builder-Seite `builder.html`
@@ -172,6 +312,12 @@ frei wählbar sind.
 * Glyph-Picker mit Suche über Namen und Codepoint, gespeist aus `manifest.json`
   (enthält bereits `name`, `code`, `category`, `aliases`).
 * Rezept als JSON speichern/laden (Datei-Download + `localStorage`).
+
+### Stand: geht in Plan 0002 auf
+
+Die Seite bleibt das Ziel, wird dort aber als *ein weiterer Generator* auf
+denselben Primitiven beschrieben statt als eigenständige Anwendung. Übernommen
+als Schritt 5 von Plan 0002.
 
 ---
 
@@ -211,6 +357,12 @@ Rezept-Skizze (Format beim Umsetzen finalisieren):
 `dx: 0.125` ist kein geratener Wert: der Punktabstand der Font beträgt ~128
 Em-Einheiten (gemessen, Anhang A).
 
+### Stand: geht in Plan 0002 auf
+
+Das Exportziel hat sich geändert: nicht mehr ein Icon-Pack zum Einsortieren,
+sondern ein vollständiges `.macroDeckFolder` mit belegten Tasten. Übernommen als
+Schritte 1 und 3 von Plan 0002.
+
 ---
 
 ## Schritt 6 — Integration & Doku
@@ -221,6 +373,9 @@ Em-Einheiten (gemessen, Anhang A).
 * `AGENTS.md` ergänzen: `builder.html` ist handgeschrieben (Ausnahme zur Regel
   „`index.html` nie von Hand"), `glyphs*.json` sind generiert, `tools/` ist
   Entwickler-Werkzeug und wird nicht ausgeliefert.
+
+### Stand: geht in Plan 0002 auf
+
 
 ---
 
@@ -258,13 +413,40 @@ Em-Einheiten (gemessen, Anhang A).
 
 ## Risiken
 
-* **SVG in Icon-Packs ist unbestätigt** — deshalb Pilot vor Export-Code.
+* ~~**SVG in Icon-Packs ist unbestätigt** — deshalb Pilot vor Export-Code.~~
+  Erledigt: der Pilot hat SVG am Gerät bestätigt (Schritt 2).
 * `glyphs.json` wächst mit Leland → kuratierte Teilmenge, Nachladen erst bei
   Auswahl der Leland-Quelle.
 * Leland-Glyphnamen sind SMuFL-technisch (`restQuarter`), nicht sprechend wie
   die UI-Namen — der Picker braucht Gruppierung nach Bereich.
 * Playwright-Python könnte eine andere Browser-Revision als die vorhandene
   1228 erwarten → `executable_path` explizit setzen statt neu laden.
+
+---
+
+## Abschluss
+
+**Status: done.** Die Schritte 0 bis 2 sind abgearbeitet; der Pilot hat seinen
+Zweck erfüllt und dabei mehr geklärt als gefragt war.
+
+Der Pilot hat die Richtung des Projekts geändert, und zwar begründet:
+
+* Ein Icon-Pack ist der **falsche Liefergegenstand**. Es bringt Bilder in die
+  Bibliothek, danach muss jede Taste im Raster von Hand zugeordnet werden — die
+  eigentliche Mühsal bleibt bestehen.
+* Ein **vollständiges Deck** ist erzeugbar. Ein von Hand gebautes
+  `.macroDeckFolder` wurde importiert und funktionierte: Icons, Beschriftungen,
+  Farben, Positionen und Tastenkürzel stecken in einer einzigen Datei, ohne
+  Signatur, nur mit selbst gerechneten SHA-256-Prüfsummen.
+* Der **Builder ist damit kein Selbstzweck**, sondern die Oberfläche eines
+  Generators. Deshalb gehen die Schritte 3 bis 6 in Plan 0002 auf, statt hier
+  weiterverfolgt zu werden.
+
+Was aus diesem Plan im Repo bleibt: `tools/shot.sh`, `tools/check_page.py`,
+`requirements-dev.txt` (Schritt 0) und `make_deck.py` samt den Ergebnissen in
+beiden READMEs (Schritt 2).
+
+Fortsetzung: [`0002-deck-generator.md`](0002-deck-generator.md).
 
 ---
 

@@ -29,4 +29,4 @@ below and this file stay English.
 
 | # | Plan | Status | Written |
 |---|---|---|---|
-| 0001 | [Glyph composer: macro deck icons from MuseScore glyphs](0001-glyph-composer.md) | open | 2026-09-13 |
+| 0001 | [Glyph composer: macro deck icons from MuseScore glyphs](0001-glyph-composer.md) | done | 2026-09-13 |

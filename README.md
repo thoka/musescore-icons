@@ -100,6 +100,83 @@ packs can be unpacked next to each other without colliding. The script only
 uses the standard library and writes with fixed timestamps, so an unchanged
 icon set produces byte-identical archives. `packs/` is not checked into git.
 
+## Macro Deck icon packs (pilot)
+
+`make_deck.py` bundles a selection of icons into an icon pack for
+[Macro Deck 3](https://macro-deck.app). The pack uses the flat structure the app
+expects – manifest, pack icon and the icon files side by side in the archive
+root:
+
+```
+ExtensionManifest.json      type, name, author, packageId, version …
+ExtensionIcon.png           the pack icon (always PNG, 256 px)
+PLAY.png  STOP.png  NOTE_8TH.png …
+```
+
+```bash
+python3 make_deck.py --pilot                       # the three test variants
+python3 make_deck.py --icons PLAY,STOP,NOTE_8TH    # own selection, PNG 256 px
+python3 make_deck.py --icons-file my-icons.txt --format svg
+```
+
+| Option | Meaning |
+|---|---|
+| `--pilot` | build all three test variants (PNG 256, PNG 128, SVG) at once |
+| `--icons PLAY,STOP` | icon names, comma separated (aliases work too) |
+| `--icons-file <file>` | one icon name per line, `#` starts a comment |
+| `-s, --size 256` | edge length in pixels (default: 256) |
+| `-f, --format png \| svg` | file format of the icons inside the pack |
+| `-c, --color white` | icon color – white by default, because Macro Deck keys are dark |
+| `--name`, `--author`, `--version`, `--package-id` | manifest fields (`packageId` defaults to `author.PackName`) |
+| `-o, --out packs` | output folder (default: `packs/`, not checked in) |
+| `--keep-dir` | keep the unpacked pack folder next to the archives |
+
+The icons are rendered **fresh from the font**, not copied out of `icons/`: a
+256 px icon has to be genuinely 256 px, otherwise the size question below would
+be answered with an upscaled 128 px file. Each variant is written as a plain
+`.zip`, the extension the import dialog actually takes (see below).
+
+### What Macro Deck 3 accepts (pilot result)
+
+| # | Question | Answer |
+|---|---|---|
+| 1 | Does “Install From File” take the `.zip`? | **Yes**, the `.zip` imports. `.macroPack`, the extension the documentation names, is unknown to the app – its own list of pack archives is `macrodeckiconpack`, `streamdeckiconpack`, `tpi`, `zip`. `make_deck.py` therefore writes a plain `.zip` and nothing else. |
+| 2 | Are **SVG** files accepted in an icon pack? | **Yes** – the SVG pack imports and renders well on the keys. `svg` is part of the icon extensions the app accepts, next to `png`, `jpg`, `jpeg`, `gif`, `webp`, `lottie`, `ico`, `icns`. |
+| 3 | Which edge length looks good on the device? | **Moot.** A pack holding the same three glyphs as SVG, PNG 256 and PNG 128 showed the SVG keys looking best on the tablet, so SVG is the format of choice and no pixel size has to be picked. |
+| 4 | Can a pack be pulled **by URL** straight from the page? | Not as an archive. But **single icons drag from the page onto a key**, including icons the page generates in the browser – see the next section. |
+
+### Dragging from the page into Macro Deck
+
+Macro Deck 3 is a Tauri application. Its Rust shell forwards `WindowEvent::DragDrop`
+to the user interface as **file paths only** (`forward_drag_drop` → `paths`), and
+as the app's own source puts it: *“Tauri owns WebView drag-and-drop and swallows
+the HTML5 drop event.”* A drop is understood only when the operating system hands
+over a file that already exists on disk.
+
+* **A dragged `<img>` works** – tested with all four sources that matter: a PNG
+  and an SVG from the server, and a PNG and an SVG from a `blob:` URL, i.e. an
+  icon the page generated on the fly and never wrote to disk. The browser
+  materialises the image into a temp file and passes its path along.
+* **A dragged link does not** – not even with Chromium's `DownloadURL` drag
+  format, which was tried on the device. It offers the target a file to fetch
+  instead of a path on disk, and Macro Deck only ever looks at paths.
+* **Name and picture come from two different places.** For an `http(s)` image
+  the browser builds the temp file by fetching the URL *again*, and that fetch
+  goes to the network – not through a service worker. An icon the page generated
+  and served from a service worker therefore arrives with the right name and no
+  picture (the server logs a 404 for the drag's own request). `blob:` and `data:`
+  carry their bytes but no file name, so the icon lands as “unknown”. Only an
+  icon that really exists on the server keeps both.
+* **One drag carries one file.** A web page cannot hand several files to the
+  operating system in a single drag. Macro Deck itself would take them: the icon
+  picker and the icon packs page are multi-drop targets (`[multiple]="true"`) and
+  accept whole folders and pack archives as well. So a whole matrix travels as a
+  ZIP – download, unpack, then drag the folder or a multiple selection out of the
+  file manager, or use *Install From File*.
+
+The results decide the export presets of the icon builder, see
+[`docs/plans/0001-glyph-composer.md`](docs/plans/0001-glyph-composer.md).
+
 ## Overview page (GitHub Pages)
 
 `make_pages.py` generates the root `index.html` from `icons/manifest.json`: a
