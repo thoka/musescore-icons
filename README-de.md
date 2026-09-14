@@ -163,6 +163,14 @@ verstanden, wenn das Betriebssystem eine Datei uebergibt, die es schon gibt.
   Chromium-Format `DownloadURL`, das am Geraet ausprobiert wurde. Es bietet dem
   Ziel eine Datei zum Abholen an statt eines Pfads auf der Platte, und Macro Deck
   schaut nur auf Pfade.
+* **Name und Bild kommen aus zwei verschiedenen Quellen.** Bei einem
+  `http(s)`-Bild baut der Browser die temporaere Datei, indem er die URL *noch
+  einmal* holt – und diese Anfrage laeuft uebers Netz, nicht durch einen Service
+  Worker. Ein Icon, das die Seite selbst erzeugt und ueber einen Service Worker
+  ausliefert, kommt deshalb mit richtigem Namen, aber ohne Bild an (im
+  Server-Log steht der 404 des Drags). `blob:` und `data:` liefern ihre Bytes,
+  aber keinen Dateinamen – das Icon heisst dann „unbekannt". Beides behaelt nur
+  ein Icon, das wirklich auf dem Server liegt.
 * **Ein Drag traegt eine Datei.** Eine Webseite kann dem Betriebssystem in einem
   Zug nicht mehrere Dateien uebergeben. Macro Deck selbst wuerde sie nehmen: der
   Icon-Picker und die Icon-Packs-Seite sind Mehrfach-Ziele (`[multiple]="true"`)

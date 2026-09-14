@@ -203,6 +203,15 @@ Folgen fuer die spaeteren Stufen:
   auch aus einer `blob:`-URL, ein im Browser erzeugtes Icon laesst sich also
   direkt auf eine Taste ziehen. Das ist der Hauptweg fuer die Matrix: die Zellen
   muessen ohnehin einzeln an ihren Platz.
+* **Name oder Bild — nie beides bei erzeugten Icons.** Der Dateiname eines
+  gezogenen Bildes stammt aus seiner URL, der Inhalt aus einem erneuten Abruf
+  dieser URL, der **am Service Worker vorbei** uebers Netz geht (mit einer
+  Testseite geprueft: der Name `NOTE_8TH_dot1.png` kam an, das Bild nicht, und
+  im Server-Log stand der 404 des Drags). `blob:`/`data:` liefern das Bild, aber
+  keinen Namen — Macro Deck nennt das Icon dann „unbekannt". Der Service-Worker-
+  Trick ist damit tot. Folge fuer Schritt 5: Wer Namen braucht, nimmt den
+  ZIP-Export; der Direkt-Drag ist fuer einzelne Zellen gedacht, deren Name auf
+  der Taste ohnehin nicht sichtbar ist.
 * **Ein Drag = eine Datei.** Mehrere Dateien kann eine Webseite nicht in einem
   Zug uebergeben. Macro Deck selbst koennte es (`[multiple]="true"` am
   Icon-Picker und an der Icon-Packs-Seite, inkl. Ordnern und Pack-Archiven) —

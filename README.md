@@ -160,6 +160,13 @@ over a file that already exists on disk.
 * **A dragged link does not** – not even with Chromium's `DownloadURL` drag
   format, which was tried on the device. It offers the target a file to fetch
   instead of a path on disk, and Macro Deck only ever looks at paths.
+* **Name and picture come from two different places.** For an `http(s)` image
+  the browser builds the temp file by fetching the URL *again*, and that fetch
+  goes to the network – not through a service worker. An icon the page generated
+  and served from a service worker therefore arrives with the right name and no
+  picture (the server logs a 404 for the drag's own request). `blob:` and `data:`
+  carry their bytes but no file name, so the icon lands as “unknown”. Only an
+  icon that really exists on the server keeps both.
 * **One drag carries one file.** A web page cannot hand several files to the
   operating system in a single drag. Macro Deck itself would take them: the icon
   picker and the icon packs page are multi-drop targets (`[multiple]="true"`) and
