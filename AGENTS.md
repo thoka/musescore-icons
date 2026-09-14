@@ -96,20 +96,32 @@ one that does not repeat work an earlier session already did.
   file back into the session; a targeted edit does not.
 * **One plan step per session.** Finish the step, tick it off, commit, then
   `/clear`. The plan file is the handoff — that is what it is for.
-* **A step does not start on the wrong model.** Claude cannot switch the model
-  of a running session; `/model` is typed by the user. So before the first edit
-  of a step, compare what it needs with what the session runs on — plans,
-  format archaeology and design decisions are Opus work, while filling in
-  cells, writing a generator against a finished library or adding tests is
-  Sonnet work. Where the session is the bigger one:
-  * **delegate**, if the work can be handed over as a brief with a checkable
-    end state (see *Subagents*) — that costs the user no keystroke;
-  * **otherwise stop and say so**: which model the step wants, why, and what it
-    would cost to do it here. Then wait for `/model`. Working the step on the
-    expensive model anyway, quietly, is exactly what this rule forbids.
+* **A warm thread is cheap; a fresh one is small.** Reading this session's own
+  history again costs a fraction of reading it the first time — the cache makes
+  continuing cheaper than it looks. A new thread is cheaper still in a
+  different way: it reads the plan step and three files instead of the whole
+  transcript. What is expensive is full price for context nobody needs: a long
+  thread dragged into unrelated work, or a cache thrown away for nothing.
+* **A step does not start on the wrong model — and `/model` mid-thread is not
+  how that gets fixed.** The cached prefix belongs to the model that wrote it,
+  so switching makes the next request re-read the entire thread at full price
+  on the new model. That is a one-off toll, repaid only if a long stretch of
+  cheap work follows. So there are three moves, not two:
+  * **carry on** when the rest of the step is short. A warm cache on the big
+    model beats a cold start on the small one, and mid-step the answer is
+    almost always this one.
+  * **delegate** when the work fits in a brief with a checkable end state (see
+    *Subagents*). The agent starts small on the model it needs, and it costs
+    the user no keystroke.
+  * **cut the thread** when a long stretch of cheap work lies ahead: finish the
+    commit, name the model the next step wants, and let the user start it fresh
+    — `/clear` or a new session, with the plan file as the handoff.
 
-  A small fix in passing does not earn an interruption — mention it in a line
-  and carry on. A plan step does.
+  The decision therefore belongs at a step boundary, where the context is small
+  and the cut costs nothing. Which is why the model is part of the cut (see
+  *Plans*): by the time the question comes up mid-step, it is usually too late
+  to be worth it. Working a long, obviously cheap step on the expensive model
+  without saying anything remains the mistake this rule is about.
 
 ### Subagents
 
