@@ -280,6 +280,12 @@ eine Werkzeugseite, Leland wird erst bei Bedarf nachgeladen.
   beide READMEs. Wichtig und geprüft: Die OFL beschränkt nur die Font-Software,
   **nicht** die damit gerenderten Bilder — die Icons bleiben frei nutzbar.
 
+### Stand: geht in Plan 0002 auf
+
+Die Pfaddaten werden weiterhin gebraucht — jetzt aber zuerst für den
+Python-Generator und nicht mehr nur für eine Webseite. Übernommen als Schritt 2
+von Plan 0002.
+
 ---
 
 ## Schritt 4 — Builder-Seite `builder.html`
@@ -306,6 +312,12 @@ frei wählbar sind.
 * Glyph-Picker mit Suche über Namen und Codepoint, gespeist aus `manifest.json`
   (enthält bereits `name`, `code`, `category`, `aliases`).
 * Rezept als JSON speichern/laden (Datei-Download + `localStorage`).
+
+### Stand: geht in Plan 0002 auf
+
+Die Seite bleibt das Ziel, wird dort aber als *ein weiterer Generator* auf
+denselben Primitiven beschrieben statt als eigenständige Anwendung. Übernommen
+als Schritt 5 von Plan 0002.
 
 ---
 
@@ -345,6 +357,12 @@ Rezept-Skizze (Format beim Umsetzen finalisieren):
 `dx: 0.125` ist kein geratener Wert: der Punktabstand der Font beträgt ~128
 Em-Einheiten (gemessen, Anhang A).
 
+### Stand: geht in Plan 0002 auf
+
+Das Exportziel hat sich geändert: nicht mehr ein Icon-Pack zum Einsortieren,
+sondern ein vollständiges `.macroDeckFolder` mit belegten Tasten. Übernommen als
+Schritte 1 und 3 von Plan 0002.
+
 ---
 
 ## Schritt 6 — Integration & Doku
@@ -355,6 +373,9 @@ Em-Einheiten (gemessen, Anhang A).
 * `AGENTS.md` ergänzen: `builder.html` ist handgeschrieben (Ausnahme zur Regel
   „`index.html` nie von Hand"), `glyphs*.json` sind generiert, `tools/` ist
   Entwickler-Werkzeug und wird nicht ausgeliefert.
+
+### Stand: geht in Plan 0002 auf
+
 
 ---
 
@@ -400,6 +421,32 @@ Em-Einheiten (gemessen, Anhang A).
   die UI-Namen — der Picker braucht Gruppierung nach Bereich.
 * Playwright-Python könnte eine andere Browser-Revision als die vorhandene
   1228 erwarten → `executable_path` explizit setzen statt neu laden.
+
+---
+
+## Abschluss
+
+**Status: done.** Die Schritte 0 bis 2 sind abgearbeitet; der Pilot hat seinen
+Zweck erfüllt und dabei mehr geklärt als gefragt war.
+
+Der Pilot hat die Richtung des Projekts geändert, und zwar begründet:
+
+* Ein Icon-Pack ist der **falsche Liefergegenstand**. Es bringt Bilder in die
+  Bibliothek, danach muss jede Taste im Raster von Hand zugeordnet werden — die
+  eigentliche Mühsal bleibt bestehen.
+* Ein **vollständiges Deck** ist erzeugbar. Ein von Hand gebautes
+  `.macroDeckFolder` wurde importiert und funktionierte: Icons, Beschriftungen,
+  Farben, Positionen und Tastenkürzel stecken in einer einzigen Datei, ohne
+  Signatur, nur mit selbst gerechneten SHA-256-Prüfsummen.
+* Der **Builder ist damit kein Selbstzweck**, sondern die Oberfläche eines
+  Generators. Deshalb gehen die Schritte 3 bis 6 in Plan 0002 auf, statt hier
+  weiterverfolgt zu werden.
+
+Was aus diesem Plan im Repo bleibt: `tools/shot.sh`, `tools/check_page.py`,
+`requirements-dev.txt` (Schritt 0) und `make_deck.py` samt den Ergebnissen in
+beiden READMEs (Schritt 2).
+
+Fortsetzung: [`0002-deck-generator.md`](0002-deck-generator.md).
 
 ---
 
