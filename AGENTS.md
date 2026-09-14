@@ -63,6 +63,26 @@ Work a plan step at a time, and treat each step as a session of its own: read
 the step and its *Stand*, do the work, tick it off, commit, `/clear`. What that
 costs is the subject of *Token efficiency* below.
 
+**Every plan opens with an `Einstieg` block**, directly under the title, and the
+session that finishes a step rewrites it before committing. The handoff is
+written by whoever still has the context — never reconstructed by whoever
+lacks it. A new thread must be able to start from that block alone, without
+searching the repository first. Five entries, no prose:
+
+* *Stand* — branch, the subject of the last commit, what works and what does
+  not.
+* *Nächster Schritt* — number, title, and the model from the cut.
+* *Lesen* — the three to five paths the step actually needs, with line ranges
+  where a file is long, plus the appendix that holds the measurements. Naming
+  what is *not* needed is worth a line: it is what keeps the next session from
+  reading the whole package.
+* *Laufen lassen* — the commands that establish the state (`pytest`, the
+  generator, the local server) and what their output should look like.
+* *Offen* — what only the device or the user can decide.
+
+If the repository has moved past the block, the code wins and the block gets
+corrected on the spot.
+
 Each plan is implemented on its own branch, `plan/NNNN-slug`, merged with
 `git merge --no-ff` once the package is complete:
 
