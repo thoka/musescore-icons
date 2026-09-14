@@ -3,9 +3,11 @@
 decks/workbench.py -- the workbench deck: several boards under one roof
 (plan 0003, step 3).
 
-One Python script against the library: five boards, the menu strip as the
-first row of each (one button per board, the active one in its accent
-colour), the content written by the routines from `deckgen.routines`.
+One Python script against the library: five boards on one uniform grid,
+the vertical menu in column 0 of each (one button per board, the active
+one in its accent colour; --menu horizontal gives the old strip on top
+with the content in the row below), the content written by the routines
+from `deckgen.routines`.
 
     python decks/workbench.py                     # packs/noten.macroDeckFolder
     python decks/workbench.py --labels --svg /tmp/vorschau
@@ -50,7 +52,7 @@ import patterns                                    # noqa: E402
 import rhythm                                      # noqa: E402
 
 # The boards: name, accent, menu icon. The root comes first -- the main
-# board. Five boards, so every grid is at least five columns wide.
+# board. Five boards, so the uniform grid is at least five rows tall.
 ACCENTS = {
     "Noten":        "#3b82f6",
     "Ergänzungen":  "#f59e0b",
@@ -92,11 +94,12 @@ TARGETS = [Length("Viertel", Fraction(1, 4)), Length("Halbe", Fraction(1, 2)),
 
 def build(glyphs: Glyphs, name: str, target: str, labels: bool,
           svg_dir: Path | None, zoom: int = 100, font_size: int = 8,
-          label_position: str = "bottom", dim: str = "#1f2937") -> BoardDeck:
+          label_position: str = "bottom", dim: str = "#1f2937",
+          menu: str = "vertical") -> BoardDeck:
     root_name = "Noten"
     workbench = BoardDeck(glyphs, name=name, accent=ACCENTS[root_name],
                           icon=Composition([Glyph(MENU_ICONS[root_name])]),
-                          rows=4, columns=6, target=target, svg_dir=svg_dir)
+                          rows=4, columns=7, target=target, svg_dir=svg_dir)
     boards = {"Noten": workbench.root}
     for board_name in ("Ergänzungen", "Rhythmen", "Transport", "Bearbeiten"):
         rows = {"Ergänzungen": 3, "Rhythmen": 3, "Transport": 2,
@@ -104,21 +107,26 @@ def build(glyphs: Glyphs, name: str, target: str, labels: bool,
         boards[board_name] = workbench.board(
             board_name, accent=ACCENTS[board_name],
             icon=Composition([Glyph(MENU_ICONS[board_name])]),
-            rows=rows, columns=6)
+            rows=rows, columns=7)
 
-    # Noten: the matrix below the menu strip.
-    duration_matrix(boards["Noten"], (0, 1), rhythm.DURATIONS,
+    # The content origin: beside the vertical menu column it is (1, 0) --
+    # full height to the right of it; under the horizontal strip it is
+    # the row below, (0, 1).
+    ox, oy = (0, 1) if menu == "horizontal" else (1, 0)
+
+    # Noten: the duration x dotting matrix.
+    duration_matrix(boards["Noten"], (ox, oy), rhythm.DURATIONS,
                     rhythm.DOTTINGS, labels=labels, zoom=zoom,
                     font_size=font_size, label_position=label_position)
 
     # Ergaenzungen: the completion grid.
-    completions(boards["Ergänzungen"], (0, 1), SHORTS, TARGETS,
+    completions(boards["Ergänzungen"], (ox, oy), SHORTS, TARGETS,
                 colors=[ACCENTS["Ergänzungen"]], labels=labels, axis="y",
                 zoom=zoom, font_size=font_size,
                 label_position=label_position)
 
     # Rhythmen: the accepted figures, two rows of six, room for more.
-    figures(boards["Rhythmen"], (0, 1), patterns.FIGURES, per_row=6,
+    figures(boards["Rhythmen"], (ox, oy), patterns.FIGURES, per_row=6,
             labels=labels, zoom=zoom, font_size=font_size,
             label_position=label_position)
 
@@ -126,9 +134,11 @@ def build(glyphs: Glyphs, name: str, target: str, labels: bool,
     for board_name, keys in (("Transport", TRANSPORT), ("Bearbeiten", EDIT)):
         for i, (label, glyph, presses) in enumerate(keys):
             boards[board_name].place(
-                i, 1, key_cell(label, glyph, ACCENTS[board_name], *presses))
+                ox + i, oy, key_cell(label, glyph, ACCENTS[board_name],
+                                     *presses))
 
-    workbench.menu_strip(dim=dim)
+    workbench.menu_strip(dim=dim,
+                         along="x" if menu == "horizontal" else "y")
     return workbench
 
 
@@ -151,6 +161,9 @@ def main() -> int:
                    help="where the label sits (default: bottom)")
     p.add_argument("--dim", default="#1f2937",
                    help="menu colour of the inactive boards (default: #1f2937)")
+    p.add_argument("--menu", choices=("vertical", "horizontal"),
+                   default="vertical",
+                   help="menu orientation (default: vertical, column 0)")
     p.add_argument("--svg", metavar="DIR",
                    help="also write every icon as SVG there (preview)")
     args = p.parse_args()
@@ -161,7 +174,8 @@ def main() -> int:
 
     workbench = build(Glyphs(), args.name, args.target, args.labels, svg_dir,
                       zoom=args.zoom, font_size=args.font_size,
-                      label_position=args.label_position, dim=args.dim)
+                      label_position=args.label_position, dim=args.dim,
+                      menu=args.menu)
     path = workbench.deck.write(args.out)
     print(f"{path}  ({path.stat().st_size:,} Bytes)")
     for board in workbench.boards:
