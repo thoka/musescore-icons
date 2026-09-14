@@ -1,4 +1,9 @@
 [tools]
 claude = "latest"
 node = "24"
+opencode = "latest"
 uv = "0.11"
+
+[tasks.serve]
+description = "(Re)start the preview server with browser auto-reload (http://localhost:8000)"
+run = 'exec python3 tools/serve.py "$@"'

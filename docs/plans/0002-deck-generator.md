@@ -1,5 +1,19 @@
 # Deck-Generator: vollständige Macro-Deck-Ordner erzeugen
 
+## Einstieg
+
+* **Status**: branch `plan/0002-deck-generator`. Steps 1–4 done and accepted
+  on the device (2026-09-14); 140 tests green. Step 5 was re-scoped by the
+  user the same day and moved to plan 0003 (`0003-workbench.md`) — this plan
+  keeps only the original brief above, deferred.
+* **Next step**: step 6, integration and documentation — after plan 0003
+  lands; its text already names the generators, not a builder.
+* **Read**: whatever step 6 touches — both READMEs, `AGENTS.md`,
+  `make_pages.py`.
+* **Run**: `.venv/bin/python -m pytest` — 140 tests green.
+* **Open**: whether step 6 waits for plan 0003 or runs first — the user
+  decides.
+
 > **Für die umsetzende Session**: Alles unter *Entschieden* und in den Anhängen
 > wurde im Piloten von Plan 0001 am Gerät verifiziert — gemessen, importiert,
 > gegengeprüft. Es muss nicht neu recherchiert werden.
@@ -60,14 +74,29 @@ Neues Paket `deckgen/`, Modul `deckgen/archive.py`. Schreibt ein
   unveränderter Lauf ein bitgleiches Archiv ergibt.
 * `deckgen/actions.py`: `PressKey(key, modifiers=(), target="MuseScore4",
   repeat=1)` erzeugt den `flows`-Block.
-* **Zu klären, mit Messung**: Wie viel Parameter-Beiwerk braucht ein `flows`-
-  Eintrag wirklich? Im Export steht die komplette Parameter-Beschreibung der
-  Integration (Label, Beschreibung, Validierung, Defaults). Test: aus dem
-  Round-Trip-Archiv alles bis auf `name` und `value` entfernen und erneut
-  importieren. Geht es durch, wird `PressKey` ein Dreizeiler; sonst braucht es
-  je Aktion eine Vorlage, die aus einem Export stammt.
+* **Gemessen**: Ein `flows`-Parameter braucht nur `name`, `type` und `value`.
+  Ein Archiv, aus dem alle 102 Beschreibungsfelder entfernt wurden, liess sich
+  importieren und die Taste loeste weiter aus. `press_key` ist damit ein paar
+  Zeilen statt einer Vorlagensammlung.
 
-### Stand: offen
+### Stand: erledigt
+
+* [x] `deckgen/actions.py` — `press_key` und `change_folder`, Auslöser
+      `onShortPress`, Integrationsliste fürs Manifest (`app.macro-deck.deck`
+      steht bewusst nicht darin, es ist eingebaut).
+* [x] `deckgen/archive.py` — `Deck`, `Folder`, `Button`, `IconLibrary`;
+      schreibt `manifest.json`, `content.json` und die WebP-Stufen.
+* [x] `deckgen/glyphs.py` — Glyph als PIL-Bild oder SVG, über
+      `musescore_icons.Renderer`.
+* [x] **Strukturvergleich** eines erzeugten Archivs gegen den echten Export:
+      Manifest, `contents`, Datei-Einträge, Ordner, Widget, Icon, Flow und Block
+      haben dieselben Felder. Einziger Unterschied sind die weggelassenen
+      Parameter-Beschreibungen — genau die, die der Importeur nicht braucht.
+* [x] **Prüfsummen** stimmen, und zwei Läufe ergeben ein **bitgleiches** Archiv
+      (feste Zeitstempel, GUIDs über `uuid5` aus den Namen abgeleitet).
+* [x] **Abnahme am Gerät**: `packs/deckgen-smoke.macroDeckFolder` importiert und
+      funktioniert — zwei Ordner, Navigation hin und zurück, drei Dauern-Tasten
+      lösen in MuseScore aus. Die Archiv-Schicht ist damit fertig.
 
 ## Schritt 2 — Komposition: Glyphen zu Icons
 
@@ -86,7 +115,45 @@ Schritt 4, aber ohne Webseite drumherum.
   das `icons/glyphs.json` schreibt (Plan 0001, Schritt 3 — unverändert gültig,
   inklusive Leland als späterer Quelle für Pausen und SMuFL-Zeichen).
 
-### Stand: offen
+### Stand: Komposition steht und ist gegengemessen (Text-Layer offen)
+
+* [x] `deckgen/compose.py` — `Composition` mit Layern in Em-Koordinaten:
+      `Glyph` (Name, Farbe, `scale`, `dx`, `dy`) und `Dot` (Radius), dazu
+      `dots(n)` für Punktierungen im gemessenen Abstand von 0.125 em.
+* [x] Box-Modi `fit` und `em` mit Margin über die Vereinigungs-Bounding-Box
+      aller Layer — erst komponieren, dann skalieren.
+* [x] **Flow-Modus**: Layer nebeneinander, Abstand nach Tintenbreite plus Lücke.
+      Das ist die Grundlage für die Rhythmusfolgen aus Schritt 4.
+* [x] Beide Backends aus einem Modell: `to_image()` (Pillow, für die
+      WebP-Stufen) und `to_svg()` (Pfade direkt aus fontTools).
+* [x] **Abgleich der Backends** — `tools/compare_backends.py` rendert elf
+      Rezepte über beide Wege und vergleicht die Alpha-Bounding-Boxen
+      (Verifikation, Punkt 3). Das SVG rastert der Headless-Chrome aus Plan
+      0001, Schritt 0: ein lokaler HTTP-Server liefert die Dateien aus (über
+      `file://` verweigert `getImageData` die Auskunft), der Browser zeichnet
+      sie ins Canvas und misst die Box. **Ergebnis: alle elf Fälle innerhalb
+      1 px**, bei 256, 512 und 1024 px Kantenlänge — beide Box-Modi,
+      Skalierung, Verschiebung, Punkte und Flow. Als Test liegt derselbe
+      Vergleich in `tests/test_compose.py`; ohne Browser wird er übersprungen.
+* [ ] `Text`-Layer (Ziffern, etwa die 3 einer Triole) — noch nicht gebaut.
+* [ ] `rotate` und `mirror` aus Plan 0001 — bewusst weggelassen, bis eine Zelle
+      sie braucht.
+
+Beim Umsetzen dazugelernt:
+
+* `icons/glyphs.json` wird für den **Python**-Weg nicht gebraucht: fontTools
+  liefert die Pfade direkt, Pillow zeichnet die Glyphen. Die Datei gehört damit
+  zu Schritt 5, wo der Browser sie zieht, weil er keine Font parsen soll — nicht
+  zu Schritt 2.
+* Skaliert wird um die **Mitte des Em-Quadrats**, nicht um den Ursprung: so
+  bleibt ein verkleinerter Layer dort sitzen, wo er im Entwurf steht.
+* Der Abstand der Punkte stammt aus der Messung in Plan 0001, Anhang A
+  (`NOTE_DOTTED` → `_2` → `_3`: 927, 1055, 1151 Em-Einheiten).
+* Der Vergleich braucht Fälle, in denen der geprüfte Rechenweg überhaupt
+  sichtbar wird: `dx`/`dy` verschiebt einen **einzelnen** Layer nicht im Bild,
+  weil der Ausschnitt einfach mitwandert, und der Zweig `em` greift nur bei
+  einem Glyph, der ins Em-Quadrat passt (`NOTE_HEAD_QUARTER`, nicht
+  `NOTE_QUARTER`).
 
 ## Schritt 3 — Erster Generator: Dauer × Punktierung
 
@@ -99,9 +166,51 @@ Schritt 4, aber ohne Webseite drumherum.
   abnimmt. **Erst danach** geht es weiter — wie im Piloten entscheidet das
   Gerät, nicht die Theorie.
 
-### Stand: offen
+### Stand: erledigt — zweifach abgenommen
+
+* [x] `decks/rhythm.py` — 6 Spalten (ganz bis 1/32) × 3 Zeilen (0 bis 2 Punkte)
+      = 18 Tasten, jede mit komponiertem Icon, Farbe nach Dauer und
+      Tastenfolge. `--labels` schreibt die Dauer zusätzlich als Text,
+      `--svg ORDNER` legt dieselben Icons als SVG ab.
+* [x] `packs/rhythmus.macroDeckFolder` erzeugt: 74 Dateien, alle Prüfsummen des
+      Manifests stimmen, Raster lückenlos belegt, zwei Läufe **bitgleich**.
+* [x] `tests/test_rhythm.py` — Raster, Tastenfolge je Zelle (Dauer zuerst,
+      Punktierung danach), Icons, Beschriftungen, Zielprozess, Bitgleichheit.
+* [x] **Abnahme am Gerät** (2026-09-14): importiert, Tasten in MuseScore
+      ausgelöst, Notenbild geprüft — **funktioniert**. Ein Befund: ab 1/16
+      überlappen die Punktierungen mit der Fahne.
+* [x] **Befund behoben** (2026-09-14): Punktsitz je Note gemessen —
+      `Renderer.clear_x` (Kerning auf kleinem Raster: Tinte um den
+      Punktradius dilatieren, verbotenen Bereich auf der Punkthöhe ablesen),
+      `compose.dot_dx` setzt den Punkt dahinter. Der 8tel-Kopf endet bei
+      0.54 em, sein Punkt rückt von 0.82 auf 0.65; 16tel/32tel hinter die
+      Fahne (≈0.99/1.0). Dazu **gemeinsame Skala** für alle Zellen
+      (`Composition(side=..., anchor="note")` statt Zellen-fit): die
+      Notenkoepfe bleiben so gross, wie die Font sie zeichnet (~456
+      Einheiten), die Punkte bleiben Rechtsanhang. 67 Tests.
+* [x] **Zweitimport am Gerät** (2026-09-14): Punkte frei der Fahne, Koepfe
+      gleich gross — abgenommen.
+
+Dabei geklärt, weil es sich nur am Gerät entscheidet:
+
+* **Double dotting.** MuseScore ships no default shortcut for it.
+  Acceptance result: `:` (Shift+`.` on a German keyboard) did **not** arrive
+  at the device; `,` — a plain key, no modifier — did. The shortcut now sits
+  on `,` and the third row sends exactly that. Still open is whether a
+  shift shortcut could be reached via `modifiers: ["shift"]` with
+  `key: "."`; this deck no longer needs one.
+* **Beschriftung.** Der echte Export kennt nur `labelPosition: "center"`, also
+  Text **über** dem Icon. Am Gerät geprüft: lesbar.
+* **Größenverhältnis.** Erste Abnahme akzeptierte den Zellen-fit; der
+  Nutzer wollte danach gleiche Notenkoepfe ("Verhaeltnisse wie in der Font"),
+  deshalb jetzt gemeinsame Skala ueber alle Zellen mit Note-Anker — die
+  erste Abnahme galt nur den Ueberlappungen, der Zuschnitt faellt unter die
+  Zweitimport-Frage.
 
 ## Schritt 4 — Notations-Schicht und Rhythmus-Patterns
+
+**Modell: Sonnet** — Parser und Generator gegen die stehende Bibliothek. Opus
+nur, falls die ABC-Teilmenge neu zugeschnitten werden muss.
 
 Die Zwischendarstellung ist der Grund, warum diese Schicht existiert: Aus
 *einer* Analyse fallen **Bild und Tastenfolge**.
@@ -119,29 +228,96 @@ Die Zwischendarstellung ist der Grund, warum diese Schicht existiert: Aus
   `PressKey` (Dauerntaste, dann Notentaste).
 * Zweiter Generator `decks/patterns.py` mit einer Handvoll typischer Figuren.
 
-### Stand: offen
+### Stand: done — accepted on the device, one deliberate leftover (Text layer)
+
+* [x] `deckgen/notation.py` — the rhythm subset of ABC into an event list:
+      notes a-g (`c8` = an eighth; a bare letter = a quarter), rests `z`
+      with the same value syntax, dotting up to two dots (`.` singly, `,`
+      as the double-dot command — the device binding from step 3), ties
+      (validated: same letter, the next event no rest), n-lets `(3`..`(9`
+      over the next n events, barlines `|` as structure markers. Anything
+      else: a `ParseError` naming the spot.
+* [x] One list, two outputs: `composition()` lays the glyphs out in flow
+      mode (rests map to `REST`/`REST_8TH` — the font has nothing finer;
+      n-let notes run at scale 0.85 with the font's digit
+      `TUPLET_NUMBER_ONLY` above the group; the tie glyph `NOTE_TIE`
+      hangs between the notes); `actions()` types the figure into note
+      entry — Ctrl+n, then per event the duration key, the dot key, the
+      note key or `0` for a rest. Ties send no key: MuseScore ships no
+      default and none is proven on the device.
+* [x] `decks/patterns.py` — 12 figures ("Halbe" through "Taktende"), one
+      button each, grid 4x3, one shared scale across the deck (step 3's
+      lesson), `--labels`/`--svg` as in `decks/rhythm.py`.
+      `packs/figuren.macroDeckFolder` written: 12 buttons, 12 icons, two
+      runs bit-identical (test).
+* [x] `tests/test_notation.py`, `tests/test_patterns.py` — the plan
+      example as the normative parse case, the subset's rejections, the
+      layer and key tables, grid and wiring per button (expected keys
+      rebuilt by hand, not through `notation.actions`), bit-identity,
+      shared frame. 138 tests in all.
+* [x] **Device acceptance** — import `packs/figuren.macroDeckFolder`,
+      fire a triplet (Ctrl+3), a sextuplet (Ctrl+6) and a rest (0) in
+      MuseScore, look at the icons (triplet digit, rests hanging high —
+      a fact of the font). **Accepted 2026-09-14**: the re-import with the
+      display fix (zoom 100, label size 8 at the bottom) works, the
+      shortcuts fire — "works, good enough" is the user's verdict, no
+      correction needed.
+* [ ] The `Text` layer from step 2 stays open — the triplet digit
+      borrows `TUPLET_NUMBER_ONLY`; n-lets beyond 3 go without a number.
+      Leftover by choice, non-blocking.
+
+First device feedback (2026-09-14): the label sits on the notes and is too
+dominant (it only points to the definition), and the notes are too small on
+the button. Measured cause: the shared frame is driven by the widest figure
+("Sechzehntel", 6.86 em — note head ≈ 7 px on a 128 stage), and the button
+shows the icon at the export's default `icon_zoom: 70`. The fix is decided
+with the user; nothing is trimmed or wrapped — the icons keep showing every
+event. For the record: the WebP ladder stays as measured (rendered once at
+1024, 128/256/512 derived by LANCZOS; which stage the client serves is the
+app's choice).
+
+* [x] `deckgen/notation.py` — tuplet notes back to scale 1.0: `TUPLET_SCALE`
+      and its branch in `composition()` go away, all notes render equal;
+      `TUPLET_NUMBER_ONLY` stays the group marker. The sextuplet (≈4.95 em
+      at scale 1.0) stays under the width driver (6.86 em), so equal
+      scaling costs no size.
+* [x] `decks/patterns.py` — the display levers as named constants **and**
+      argparse flags, so device iterations need no commits: `--zoom`
+      (default 100, was the implicit 70; Button.icon_zoom), `--font-size`
+      (default 8, was 14), `--label-position` (default `"bottom"`, was
+      "center").
+* [x] `tests/test_notation.py` — the two scale-0.85 assertions become 1.0;
+      `tests/test_patterns.py` gains a wiring test that `font_size`,
+      `label_position` and `zoom` land in the button data (read like the
+      target-process test), plus one that the levers are `build()`
+      parameters.
+* [x] Plan update and `packs/figuren.macroDeckFolder` regenerated in the
+      same commit (12 buttons, measured: zoom 100, fontSize 8,
+      labelPosition "bottom"); re-import on the device decides the values
+      — if the combination collides (zoom 100 label band) or "bottom" is
+      dropped, the user's tuned export file supplies the real values.
 
 ## Schritt 5 — Builder-Seite als weiterer Generator
 
-Die Seite aus Plan 0001 wird die Oberfläche derselben Primitiven, nicht eine
-zweite Implementierung.
+### Stand: zurückgestellt — das Thema zieht um
 
-* `builder.html`, handgeschrieben, dunkles Thema, speist sich aus
-  `icons/manifest.json` und `icons/glyphs.json`.
-* Erzeugt dasselbe Rezept als **JSON**; der Export im Browser schreibt entweder
-  Icons (SVG, ZIP) oder — sobald der WebP-Weg im Browser steht
-  (`canvas.toBlob('image/webp')`) — gleich ein `.macroDeckFolder`.
-* Einzelne Zellen bleiben per Drag direkt auf eine Taste ziehbar (bewiesen,
-  Anhang B); für ganze Decks ist der Import die bessere Antwort.
-
-### Stand: offen
+The user re-scoped this step on 2026-09-14: Python only for now. The board
+system that came out of the discussion — menu strip, region routines, the
+workbench deck — has its own, short plan: `0003-workbench.md`. The builder
+page stays a possible later step: hand-written `builder.html`, dark theme,
+fed by `icons/manifest.json` and `icons/glyphs.json` (the `glyphs`
+subcommand for it is unbuilt so far), exporting SVG/ZIP or — if the browser
+WebP path (`canvas.toBlob('image/webp')`) proves out — a whole
+`.macroDeckFolder`; single cells remain draggable (Anhang B).
 
 ## Schritt 6 — Integration und Dokumentation
+
+**Modell: Sonnet** — beschreiben, was steht.
 
 * **Beide READMEs** um den Generator ergänzen (Regel aus `AGENTS.md`).
 * `AGENTS.md`: `deckgen/` ist Bibliothek, `decks/` sind Generatoren, `samples/`
   enthält unversionierte Exporte vom Gerät.
-* `make_pages.py`: Hinweis auf den Generator und den Builder in der Kopfleiste.
+* `make_pages.py`: Hinweis auf die Generatoren in der Kopfleiste.
 
 ### Stand: offen
 
@@ -153,12 +329,18 @@ zweite Implementierung.
 |---|---|
 | `deckgen/archive.py`, `actions.py`, `compose.py`, `glyphs.py`, `notation.py` | neu — die Bibliothek |
 | `decks/rhythm.py`, `decks/patterns.py` | neu — Generatoren |
+| `tools/compare_backends.py` | neu — misst beide Backends gegeneinander |
 | `musescore_icons.py` | Unterkommando `glyphs`, `fetch` um Leland erweitert |
 | `icons/glyphs.json` | neu, generiert |
 | `builder.html` | neu — Schritt 5 |
 | `README.md`, `README-de.md`, `AGENTS.md`, `make_pages.py` | Ergänzungen |
 
 ## Verifikation
+
+Alles, was ohne Gerät nachprüfbar ist, liegt als Test in `tests/` und läuft mit
+`.venv/bin/python -m pytest` — Punkt 1 bis 3 dieser Liste sind dort abgedeckt
+(`test_archive.py`, `test_compose.py`, `test_rhythm.py`). Punkt 4 bleibt beim
+Menschen.
 
 1. Round-Trip: erzeugtes Archiv importieren, Tasten zählen, Icons ansehen.
 2. Bitgleichheit: zweimal erzeugen ergibt dasselbe Archiv.
@@ -234,6 +416,12 @@ icons/<guid>/    master.webp, 128.webp, 256.webp, 512.webp
   `sourceContentHash`, `fileContentHashes{master,128,256,512}`, `checksum`,
   `originalFileName`, `originalFormat` (`"Svg"`), `availableSizes`.
   Die Quelldatei selbst liegt **nicht** im Archiv — nur die WebP-Stufen.
+* **Navigation**: `app.macro-deck.deck.change-folder` mit dem Parameter
+  `folderId` (`type: "dynamic-choice"`). Unterordner haengen ueber `parentId`
+  am Elternordner, `order` gibt die Reihenfolge, und **jeder Ordner hat sein
+  eigenes Raster** (`rows`/`columns`) — eine Matrix darf pro Seite anders gross
+  sein. Die Integration `app.macro-deck.deck` erscheint **nicht** in der
+  Integrationsliste des Manifests; sie ist eingebaut.
 * MuseScore-Kürzel: `3` ist 1/16 (aus dem Export belegt). Das übrige Schema
   (1 = 1/64 … 7 = ganze Note, `.` setzt den Punkt) folgt der MuseScore-Doku und
   ist beim Umsetzen zu prüfen.

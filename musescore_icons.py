@@ -276,6 +276,7 @@ class Renderer:
         self.hmtx = ttfont["hmtx"]
         self.glyphset = ttfont.getGlyphSet()
         self._bounds: dict[str, tuple[float, float, float, float]] = {}
+        self._clear: dict[tuple, float | None] = {}
         self._BoundsPen = BoundsPen
         self._fontcache: dict[int, object] = {}
 
@@ -286,6 +287,41 @@ class Renderer:
             self.glyphset[glyph_name].draw(pen)
             self._bounds[glyph_name] = pen.bounds or (0.0, 0.0, 0.0, 0.0)
         return self._bounds[glyph_name]
+
+    def clear_x(self, glyph: Glyph, cy: float, radius: float,
+                em_px: int = 256) -> float | None:
+        """Smallest x at which a disc of `radius`, centred at height `cy`,
+        keeps clear of the glyph's ink -- None if it is clear everywhere.
+
+        Kerning on a small raster, no outline walk: draw the glyph at `em_px`
+        per em, dilate the ink by the disc radius (MaxFilter -- a square, so
+        slightly conservative in the corners) and read the forbidden span off
+        the row that holds `cy`.
+        """
+        key = (glyph.glyph_name, cy, radius, em_px)
+        if key not in self._clear:
+            from PIL import Image, ImageDraw, ImageFilter
+
+            x0, y0, x1, y1 = self.bounds(glyph.glyph_name)
+            ppu = em_px / self.upem                      # pixel per font unit
+            r_px = max(1, round(radius * ppu))
+            pad = r_px + 2
+            w = int(round((x1 - x0) * ppu)) + 2 * pad
+            base = int(round((y1 - cy) * ppu)) + pad     # row that holds `cy`
+            h = base + int(round((cy - y0) * ppu)) + pad
+            img = Image.new("L", (w, h), 0)
+            ImageDraw.Draw(img).text((pad - x0 * ppu, pad + y1 * ppu),
+                                     glyph.char, font=self._pil_font(em_px),
+                                     fill=255, anchor="ls")
+            grown = img.filter(ImageFilter.MaxFilter(2 * r_px + 1))
+            row = grown.load()
+            xs = [x for x in range(w) if row[x, base]]
+            if not xs:
+                clear = None
+            else:
+                clear = x0 + (max(xs) + 1 - pad) / ppu
+            self._clear[key] = clear
+        return self._clear[key]
 
     def _pil_font(self, size_px: int):
         from PIL import ImageFont
