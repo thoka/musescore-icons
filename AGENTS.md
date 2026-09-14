@@ -94,7 +94,41 @@ one that does not repeat work an earlier session already did.
   running session; `/model` is typed by the user. So name the model a step
   wants before starting it: plans, format archaeology and design decisions are
   Opus work, while filling in cells, writing a generator against a finished
-  library or adding tests is Sonnet work.
+  library or adding tests is Sonnet work. Claude's own lever is delegation —
+  see below.
+
+### Subagents
+
+A subagent keeps its tool output in its own context and hands back a report,
+and it can be given a smaller model. That is the one lever Claude can pull
+without the user, so **use one whenever the saving is likely** — this section
+is the standing permission, no need to ask first.
+
+The test is the ratio: **much input, little answer.** Delegate when the work
+has to read far more than it concludes.
+
+* Searching or surveying the repository — "where is X used", "which names
+  exist", "does anything still do Y". An `Explore` agent on the cheapest model
+  that can read.
+* Long, noisy commands whose value is a verdict: regenerating `icons/`,
+  building the packs, sweeping pages with `tools/check_page.py`, a `pytest` run
+  that is expected to be green.
+* Bulk mechanical edits with a checkable end state — translating the comments
+  of a module, a rename, a regeneration. The agent spends its context on the
+  file bodies, the session gets "done, tests green".
+
+Keep the work in the session when:
+
+* it needs what this session already knows — a fresh agent starts cold and
+  re-derives it, and a fork inherits the context but not the cheaper model,
+* the result is a file that has to be read here anyway,
+* it is a single grep or one short file: the spawn costs more than it saves,
+* the judge is the device, the user, or a design decision.
+
+Every brief states the shape of the answer and keeps it small: a `file:line`
+list, PASS/FAIL with the failing assertion, the three numbers that decide it.
+An agent that reports its whole transcript has saved nothing. The report does
+not reach the user — relay what matters.
 
 ## Generated content
 
