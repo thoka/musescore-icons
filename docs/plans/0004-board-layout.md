@@ -2,21 +2,25 @@
 
 ## Entry
 
-* **Status**: branch `plan/0004-board-layout` (cut from the tip of
-  `plan/0003-workbench`, whose board layer this builds on; `main` is still
-  one commit behind). Plan committed, no code yet. Plan 0003 stands: 176
-  tests green, the workbench deck not yet accepted on the device.
-* **Next step**: Step 1 — library (`Model: GLM`).
-* **Read**: `deckgen/board.py` (the whole file, 186 lines) and
-  `tests/test_board.py` (menu tests). Step 2 additionally needs
-  `decks/workbench.py` and `tests/test_workbench.py`. Nothing else — in
-  particular no plan 0003 re-read beyond what the entry blocks say.
-* **Run**: `.venv/bin/python -m pytest` — 176 green. After step 2:
-  `python decks/workbench.py` writes `packs/noten.macroDeckFolder`, five
-  boards of 7×5 each (69 buttons, unchanged).
-* **Open**: nothing — the four questions are decided (grid 7×5, content
-  origin (1, 0), orientation as the only CLI flag, default vertical column
-  0). The round-trip below is a future plan, not part of this one.
+* **Stand**: branch `plan/0004-board-layout` (cut from alpha, c049901).
+  Step 1 is in: `menu_strip(*, along="y", index=0, dim=...)` plus the
+  private `_settle_uniform_grid` (largest occupied extent over all
+  boards, at least the declared minimums and the menu's own need; the
+  old fit check is gone), module docstring corrected. `tests/test_board.py`
+  15 green. `tests/test_workbench.py` 5 red — written against the old
+  horizontal menu, step 2 rewrites them.
+* **Next step**: Step 2 — workbench deck (Model: GLM).
+* **Read**: `decks/workbench.py` and `tests/test_workbench.py` (whole
+  files, ~175 lines each), plan step 2 below. The library side is done;
+  `deckgen/board.py` only if a signature question comes up
+  (`menu_strip`/`_settle_uniform_grid`, lines ~171–215).
+* **Run**: `.venv/bin/python -m pytest` — after step 2 all green (178
+  tests; right now 173 passed, 5 expected-fail). `python decks/workbench.py`
+  writes `packs/noten.macroDeckFolder`, five boards of 7×5 (69 buttons,
+  unchanged count).
+* **Open**: nothing — decided: grid 7×5, content origin (1, 0),
+  `--menu vertical|horizontal` (default vertical), menu column 0.
+  Grid and menu order are judged on the device after step 2.
 
 ## Context
 
@@ -76,7 +80,16 @@ it — nothing more:
   uniform grid over boards declared with different sizes, the horizontal
   option still available.
 
-### Stand: open
+### Stand: done
+
+* [x] `deckgen/board.py` — `menu_strip(*, along="y", index=0, dim=...)`
+      plus private `_settle_uniform_grid` (uniform grid over all boards
+      before writing; the old fit check is gone), module docstring
+      corrected (column 0, example content at (1, 0)).
+* [x] `tests/test_board.py` — menu in column 0, uniform grid over boards
+      declared with different sizes, too-small boards are widened, the
+      horizontal option still available. 15 green; the 5 failures in
+      `tests/test_workbench.py` are step 2's business.
 
 ## Step 2 — Workbench deck
 
