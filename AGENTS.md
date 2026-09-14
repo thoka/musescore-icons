@@ -83,19 +83,28 @@ searching the repository first. Five entries, no prose:
 If the repository has moved past the block, the code wins and the block gets
 corrected on the spot.
 
-Each plan is implemented on its own branch, `plan/NNNN-slug`, merged with
-`git merge --no-ff` once the package is complete:
+Each plan is implemented on its own branch, `plan/NNNN-slug`. Finished work
+collects on `alpha`; `main` takes only what is proven. Both targets are
+updated with the same squash procedure behind a tag — the steps live in the
+`merge-to-main` skill (`.claude/skills/merge-to-main/SKILL.md`):
 
-* GitHub Pages builds from `main` at `/`, so everything pushed to `main` is live
-  at once. An unfinished page, or a generated file that no longer matches its
-  generator, does not belong there.
-* Verify a branch against a local `python3 -m http.server`. The site is static,
-  so the local server is representative; the live page gets its screenshot after
-  the merge.
+* **`alpha`** collects finished but unproven work while the project is
+  unstable. The gate applies at every merge; pushes to `alpha` are always
+  safe — GitHub Pages does not serve it, so nothing goes live. A plan may
+  arrive here still `open` and be continued from `alpha` on a new branch.
+* **`main`** is the publish gate: GitHub Pages builds from `main` at `/`, so
+  everything pushed to `main` is live at once. An unfinished page, or a
+  generated file that no longer matches its generator, does not belong there.
+  When `alpha` has proven itself, merging it to `main` is the publication
+  step. A plan that crosses to `main` has its status `done` already.
+* Verify a branch against a local `python3 -m http.server` when the merge
+  touches pages. The site is static, so the local server is representative; the
+  live page gets its screenshot after the merge to `main`.
 * Regenerate `icons/` **once** per branch, in the last commit before the merge.
   It is a large committed tree and repeated rebuilds only produce conflicts.
 * Infrastructure that is not part of a plan — agent rules, `.gitignore`,
-  `mise.toml` — goes straight to `main`.
+  `mise.toml` — takes the same route as everything else: to `alpha` while
+  `main` is frozen, straight to `main` once the project publishes again.
 
 ## Token efficiency
 
