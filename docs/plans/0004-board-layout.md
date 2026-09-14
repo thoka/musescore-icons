@@ -10,6 +10,9 @@
   7×5, 73 buttons (same count as alpha). User feedback since: the Noten
   matrix runs short durations first now (`reversed(rhythm.DURATIONS)`
   at the call site; the accepted rhythm deck keeps long-to-short).
+  Trial size for the device: the boards are declared on a uniform
+  11×7 grid (`GRID_COLUMNS`/`GRID_ROWS` in workbench.py) — content and
+  menu stay where they are, the empty cells stay empty.
 * **Next step**: none in code — the device decides: grid, menu order
   (boards top-down in column 0, root first), accents. Then close the
   plan (status done) and merge per the merge-to-main skill.

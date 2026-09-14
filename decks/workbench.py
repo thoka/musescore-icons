@@ -68,6 +68,12 @@ MENU_ICONS = {
     "Bearbeiten":   "EDIT",
 }
 
+# One grid for all boards -- the declared minimum everywhere; the uniform
+# grid in menu_strip() settles on the maximum over them anyway. 11 x 7 is
+# the trial size for the device (11 wide, 7 tall).
+GRID_COLUMNS = 11
+GRID_ROWS = 7
+
 # Unverified defaults for the two key boards -- see the docstring.
 TRANSPORT = [
     ("Play",     "PLAY",      [("space", ())]),
@@ -99,15 +105,14 @@ def build(glyphs: Glyphs, name: str, target: str, labels: bool,
     root_name = "Noten"
     workbench = BoardDeck(glyphs, name=name, accent=ACCENTS[root_name],
                           icon=Composition([Glyph(MENU_ICONS[root_name])]),
-                          rows=4, columns=7, target=target, svg_dir=svg_dir)
+                          rows=GRID_ROWS, columns=GRID_COLUMNS, target=target,
+                          svg_dir=svg_dir)
     boards = {"Noten": workbench.root}
     for board_name in ("Ergänzungen", "Rhythmen", "Transport", "Bearbeiten"):
-        rows = {"Ergänzungen": 3, "Rhythmen": 3, "Transport": 2,
-                "Bearbeiten": 2}[board_name]
         boards[board_name] = workbench.board(
             board_name, accent=ACCENTS[board_name],
             icon=Composition([Glyph(MENU_ICONS[board_name])]),
-            rows=rows, columns=7)
+            rows=GRID_ROWS, columns=GRID_COLUMNS)
 
     # The content origin: beside the vertical menu column it is (1, 0) --
     # full height to the right of it; under the horizontal strip it is

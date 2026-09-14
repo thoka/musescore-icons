@@ -57,7 +57,7 @@ def test_five_boards_on_one_grid_with_the_menu_in_column_zero(wb):
     assert [b.name for b in wb.boards] == \
         ["Noten", "Ergänzungen", "Rhythmen", "Transport", "Bearbeiten"]
     for board in wb.boards:
-        assert (board.columns, board.rows) == (7, 5)
+        assert (board.columns, board.rows) == (11, 7)
         menu_column = [(p.x, p.y) for p in board.folder.placements if p.x == 0]
         assert menu_column == [(0, i) for i in range(5)]
 
