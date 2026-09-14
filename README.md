@@ -141,8 +141,8 @@ be answered with an upscaled 128 px file. Each variant is written as a plain
 | # | Question | Answer |
 |---|---|---|
 | 1 | Does “Install From File” take the `.zip`? | **Yes**, the `.zip` imports. `.macroPack`, the extension the documentation names, is unknown to the app – its own list of pack archives is `macrodeckiconpack`, `streamdeckiconpack`, `tpi`, `zip`. `make_deck.py` therefore writes a plain `.zip` and nothing else. |
-| 2 | Are **SVG** files accepted in an icon pack? | **Yes** – the SVG pack imports. `svg` is part of the icon extensions the app accepts, next to `png`, `jpg`, `jpeg`, `gif`, `webp`, `lottie`, `ico`, `icns`. |
-| 3 | Which edge length looks good on the device? | still open – the default stays 256 px; 512 px is known to cause [problems](https://github.com/Macro-Deck-App/Macro-Deck/issues/590). |
+| 2 | Are **SVG** files accepted in an icon pack? | **Yes** – the SVG pack imports and renders well on the keys. `svg` is part of the icon extensions the app accepts, next to `png`, `jpg`, `jpeg`, `gif`, `webp`, `lottie`, `ico`, `icns`. |
+| 3 | Which edge length looks good on the device? | **Moot.** A pack holding the same three glyphs as SVG, PNG 256 and PNG 128 showed the SVG keys looking best on the tablet, so SVG is the format of choice and no pixel size has to be picked. |
 | 4 | Can a pack be pulled **by URL** straight from the page? | Not as an archive. But **single icons drag from the page onto a key**, including icons the page generates in the browser – see the next section. |
 
 ### Dragging from the page into Macro Deck

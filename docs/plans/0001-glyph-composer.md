@@ -217,9 +217,20 @@ Folgen fuer die spaeteren Stufen:
   Icon-Picker und an der Icon-Packs-Seite, inkl. Ordnern und Pack-Archiven) —
   fuer viele Icons auf einmal bleibt also der Weg ZIP herunterladen, entpacken,
   Ordner oder Mehrfachauswahl aus dem Dateimanager ziehen.
-* **Schritt 5**: Als Pack-Export genuegt ein `.zip` mit flacher Struktur; eine
-  zweite Endung ist unnoetig. SVG ist als Icon-Format bestaetigt, ein
-  PNG-Preset bleibt trotzdem Standard, solange Frage 3 offen ist.
+* **Schritt 5 — SVG ist das Ausgabeformat.** Ein Vergleichspack mit denselben
+  drei Glyphen als SVG, PNG 256 und PNG 128 hat auf dem Tablet-Client (der
+  Nutzer bedient das Deck ausschliesslich im Browser) die SVG-Variante als beste
+  gezeigt. Damit:
+  * Frage 3 (Kantenlaenge) **entfaellt** — es gibt keine Pixelgroesse mehr zu
+    waehlen, und das 512-px-Problem aus Issue #590 betrifft uns nicht.
+  * Vorschau und Export sind **dieselbe** Datei: der Builder setzt das SVG
+    zusammen und zeigt es in einem `<img>`. Canvas-Rasterizer und PNG-Encoder
+    entfallen, ebenso der in der Verifikation vorgesehene Pixelvergleich gegen
+    den Python-Renderer (Punkt 3) — verglichen wird stattdessen das erzeugte SVG
+    gegen die vorhandenen Einzel-SVGs.
+  * PNG bleibt nur an zwei Stellen: `ExtensionIcon.png` im Pack-Manifest und ein
+    optionaler Nebenexport fuer fremde Ziele (Stream Deck, Touch Portal).
+  * Pack-Export bleibt ein `.zip` mit flacher Struktur.
 
 Beim Umsetzen dazugelernt:
 

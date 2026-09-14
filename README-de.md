@@ -142,8 +142,8 @@ einer hochskalierten 128-px-Datei beantwortet. Jede Variante wird als schlichtes
 | # | Frage | Antwort |
 |---|---|---|
 | 1 | Nimmt „Install From File“ das `.zip`? | **Ja**, das `.zip` wird importiert. `.macroPack`, die Endung aus der Dokumentation, kennt die App nicht – ihre eigene Liste der Pack-Archive lautet `macrodeckiconpack`, `streamdeckiconpack`, `tpi`, `zip`. `make_deck.py` schreibt deshalb nur noch ein schlichtes `.zip`. |
-| 2 | Werden **SVG**-Dateien in einem Icon-Pack akzeptiert? | **Ja** – das SVG-Pack laesst sich importieren. `svg` gehoert zu den Icon-Endungen der App, neben `png`, `jpg`, `jpeg`, `gif`, `webp`, `lottie`, `ico`, `icns`. |
-| 3 | Welche Kantenlaenge sieht auf dem Geraet gut aus? | noch offen – Standard bleibt 256 px; 512 px machen bekanntlich [Probleme](https://github.com/Macro-Deck-App/Macro-Deck/issues/590). |
+| 2 | Werden **SVG**-Dateien in einem Icon-Pack akzeptiert? | **Ja** – das SVG-Pack laesst sich importieren und sieht auf den Tasten gut aus. `svg` gehoert zu den Icon-Endungen der App, neben `png`, `jpg`, `jpeg`, `gif`, `webp`, `lottie`, `ico`, `icns`. |
+| 3 | Welche Kantenlaenge sieht auf dem Geraet gut aus? | **Entfaellt.** Ein Pack mit denselben drei Glyphen als SVG, PNG 256 und PNG 128 zeigte auf dem Tablet die SVG-Tasten am besten – SVG ist damit das Format der Wahl, eine Pixelgroesse muss niemand mehr waehlen. |
 | 4 | Laesst sich ein Pack **per URL** direkt von der Seite ziehen? | Als Archiv nicht. Aber **einzelne Icons lassen sich von der Seite auf eine Taste ziehen**, auch solche, die die Seite erst im Browser erzeugt – siehe naechster Abschnitt. |
 
 ### Von der Seite ins Deck ziehen
