@@ -31,7 +31,9 @@ Rules:
 ## Language elsewhere
 
 * Code comments, docstrings and `argparse` help texts in the Python scripts are
-  German, matching the existing style in `musescore_icons.py`.
+  **English**. Older code is German — it predates this rule. Translate what you
+  touch anyway; leave the rest alone. A sweep through files nobody is working
+  on is not worth the tokens.
 * Commit messages: English.
 * This file and any other agent instructions: English.
 
@@ -51,6 +53,10 @@ sessions and third parties can follow the original brief.
 * Plan prose may be German like the rest of the project documentation; file
   names and the index table stay English.
 
+Work a plan step at a time, and treat each step as a session of its own: read
+the step and its *Stand*, do the work, tick it off, commit, `/clear`. What that
+costs is the subject of *Token efficiency* below.
+
 Each plan is implemented on its own branch, `plan/NNNN-slug`, merged with
 `git merge --no-ff` once the package is complete:
 
@@ -64,6 +70,31 @@ Each plan is implemented on its own branch, `plan/NNNN-slug`, merged with
   It is a large committed tree and repeated rebuilds only produce conflicts.
 * Infrastructure that is not part of a plan — agent rules, `.gitignore`,
   `mise.toml` — goes straight to `main`.
+
+## Token efficiency
+
+A session pays for everything it reads and writes, so the cheapest step is the
+one that does not repeat work an earlier session already did.
+
+* **A check that runs twice becomes a test** (see *Tests*), never a snippet
+  pasted into the session. Ten lines of pytest output beat sixty lines of
+  throwaway Python, and the next session inherits the check.
+* **Measure, do not look.** A bounding box, a checksum or a byte comparison
+  costs a line; a rendered contact sheet costs as much as a few hundred lines
+  of code. Open a picture when a design decision needs an eye — not to confirm
+  that a rerun still works.
+* **Read in parts.** A plan's *Stand* section answers "what is next"; the whole
+  file seldom has to be in context. The same goes for source files — a grep and
+  a line range beat a full read.
+* **Edit in place.** Rewriting a whole file makes the harness put that whole
+  file back into the session; a targeted edit does not.
+* **One plan step per session.** Finish the step, tick it off, commit, then
+  `/clear`. The plan file is the handoff — that is what it is for.
+* **The model is the user's lever.** Claude cannot switch the model of a
+  running session; `/model` is typed by the user. So name the model a step
+  wants before starting it: plans, format archaeology and design decisions are
+  Opus work, while filling in cells, writing a generator against a finished
+  library or adding tests is Sonnet work.
 
 ## Generated content
 
@@ -108,6 +139,12 @@ on the development machine and the directory is trusted.
 * Python for the scripts stays the system interpreter plus `.venv`, as both
   READMEs describe. If that ever moves to mise or `uv`, the install section of
   `README.md` **and** `README-de.md` changes with it.
+
+* Reach for the toolchain you are best trained on. Installing a dependency is
+  cheap; working around a missing one costs tokens, and tokens are the scarce
+  resource — pytest over a hand-rolled runner, a library over a clever
+  workaround. This is about the tools *you* work with. What the shipped scripts
+  may import is a different question, decided under *Dependencies* below.
 
 ## Tests
 
