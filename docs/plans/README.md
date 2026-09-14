@@ -35,3 +35,5 @@ below and this file stay English.
 |---|---|---|---|
 | 0001 | [Glyph composer: macro deck icons from MuseScore glyphs](0001-glyph-composer.md) | done | 2026-09-13 |
 | 0002 | [Deck generator: write complete Macro Deck folders](0002-deck-generator.md) | open | 2026-09-14 |
+| 0003 | [Board system: the workbench deck for note entry](0003-workbench.md) | done | 2026-09-14 |
+| 0004 | [Board layout: uniform grid and vertical menu](0004-board-layout.md) | open | 2026-09-14 |

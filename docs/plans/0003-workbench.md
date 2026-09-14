@@ -2,26 +2,19 @@
 
 ## Entry
 
-* **Status**: branch `plan/0003-workbench`. Steps 1–3 code done: board
-  layer, routines, and `decks/workbench.py` — five boards ("Noten" as root
-  with the duration matrix, "Ergänzungen", "Rhythmen", "Transport",
-  "Bearbeiten"), the menu strip on top of each, 176 tests green.
-  **The deck has not been on the device yet.**
-* **Next step**: device acceptance of `packs/noten.macroDeckFolder` —
-  import it, check the menu strip colours, fire matrix, completion and
-  transport/edit keys; iterate presentation via flags (`--labels --zoom
-  --font-size --label-position --dim`, `--svg DIR` for previews).
+* **Status**: done. Merged to `alpha` behind `merge/plan/0003-workbench`;
+  steps 1–3 code done (board layer, routines, `decks/workbench.py` — five
+  boards, menu strip, 176 tests green) and the deck accepted on the device
+  (2026-09-14).
+* **Next step**: none — the plan is closed. Follow-ups start on a new branch
+  from `alpha`.
 * **Read**: `decks/workbench.py` (boards, key tables, levers),
   `deckgen/routines.py`, `deckgen/board.py`, `tests/test_workbench.py`.
 * **Run**: `.venv/bin/python -m pytest` — 176 tests green.
   `.venv/bin/python decks/workbench.py` writes `packs/noten.macroDeckFolder`
   (5 boards, 69 buttons).
-* **Open**: everything the device decides: the unverified transport keys
-  (space, ctrl+home, ctrl+shift+m, ctrl+shift+l) and whether Macro Deck
-  names non-printables as "space"/"delete"; the triple-dot binding (the
-  whole−16th cell stays empty); which presentation wins — the matrix and
-  the completion grid can be turned with one flag each, but only in code
-  so far (`axis=` parameter, not yet a CLI flag).
+* **Open**: nothing — the device accepted the deck without change
+  requests; the unverified key defaults held up.
 
 ## Context
 
@@ -120,7 +113,7 @@ entry within reach. Decided in discussion on 2026-09-14:
 * Device acceptance decides layout and presentation; the triple-dot binding
   and any unverified shortcut come back from the device with answers.
 
-### Stand: code done, device acceptance open
+### Stand: done
 
 * [x] `decks/workbench.py` — five boards: Noten (root, 6x4: menu + the
       duration matrix), Ergänzungen (6x3: menu + the completion grid,
@@ -135,8 +128,9 @@ entry within reach. Decided in discussion on 2026-09-14:
 * [x] 12 tests (`tests/test_workbench.py`): structure, menu wiring and
       colours, matrix spot checks, the completion cells (incl. the two
       empty ones), key sequences, bit-identity. 176 green.
-* [ ] **Device acceptance** — import, colours, keys; the axis experiment
-      (matrix/completions turned) waits for the device's verdict.
+* [x] **Device acceptance** — imported, colours and keys checked, accepted
+      on the device without change requests (2026-09-14); the axis
+      experiment stays at its current presentation.
 
 ## Verification
 
