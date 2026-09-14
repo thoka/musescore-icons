@@ -109,6 +109,24 @@ on the development machine and the directory is trusted.
   READMEs describe. If that ever moves to mise or `uv`, the install section of
   `README.md` **and** `README-de.md` changes with it.
 
+## Tests
+
+Checks belong in `tests/`, not in a throwaway snippet in the session. Every
+plan step that can be verified from the outside leaves its check behind, so the
+next session runs one command instead of writing the check again:
+
+    .venv/bin/python -m pytest
+
+* pytest is the runner (`requirements-dev.txt`), configured in `pytest.ini`,
+  which puts the repository root on the path — `deckgen`, `tools/` and `decks/`
+  import without an installation step.
+* A test that needs something the machine may not have — the Playwright
+  browser, a real export in `samples/` — skips instead of failing, so a bare
+  checkout still gets a meaningful run.
+* Rendered output is compared by measurement: alpha bounding boxes, checksums,
+  byte-identical archives. Look at a picture when a design decision needs one,
+  not to confirm that a rerun still works.
+
 ## Dependencies
 
 Keep `make_packs.py` standard-library only. `musescore_icons.py` may use the

@@ -1,3 +1,4 @@
-# Werkzeuge fuer die Entwicklung (siehe tools/). Nicht noetig, um die Icons zu
-# rendern -- dafuer genuegt requirements.txt.
+# Werkzeuge fuer die Entwicklung (siehe tools/) und die Tests. Nicht noetig, um
+# die Icons zu rendern -- dafuer genuegt requirements.txt.
 playwright>=1.49
+pytest>=8.0
