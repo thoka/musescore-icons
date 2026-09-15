@@ -28,11 +28,14 @@ def deck(glyphs):
 
 
 def test_grid_is_completely_filled(deck):
+    """Figures run row by row from the top left; only the tail of the last
+    row may stay empty."""
     assert (deck.root.columns, deck.root.rows) == \
         (patterns.COLUMNS, -(-len(patterns.FIGURES) // patterns.COLUMNS))
-    positions = sorted((p.x, p.y) for p in deck.root.placements)
-    assert positions == sorted((x, y) for x in range(deck.root.columns)
-                               for y in range(deck.root.rows))
+    filled = [(p.x, p.y) for p in deck.root.placements]
+    expected = [(x, y) for y in range(deck.root.rows)
+                for x in range(deck.root.columns)][:len(patterns.FIGURES)]
+    assert sorted(filled) == sorted(expected)
 
 
 def test_every_cell_has_its_own_icon(deck):
@@ -74,7 +77,7 @@ def test_labels_name_the_figure(glyphs):
     labelled = patterns.build(glyphs, "F", "MuseScore4", labels=True, svg_dir=None)
     labels = {(p.x, p.y): p.button.label for p in labelled.root.placements}
     assert labels[(0, 0)] == "Halbe"
-    assert labels[(1, 1)] == "Vierteltriole"
+    assert labels[(1, 1)] == "Sextole"
 
 
 def test_target_process_reaches_every_key(glyphs):

@@ -6,9 +6,12 @@ definition -- a duration matrix, a completion row, a key row -- into a
 region of a board, along either axis, so the same content can be presented
 horizontally or vertically and the device decides which wins.
 
-The menu strip is the one constant: the first row of every board holds one
-button per board, its icon, a change_folder behind it. The active board's
-button wears the board's accent colour, the others stay dimmed.
+The menu strip is the one constant: column 0 of every board holds one
+button per board, its icon, a change_folder behind it (along="x" runs
+the strip along a row instead). The active board's button wears the
+board's accent colour, the others stay dimmed. One grid for all boards:
+before writing, menu_strip() settles every folder on the largest
+occupied extent over all boards, plus the menu's own need.
 
 Example:
 
@@ -17,7 +20,7 @@ Example:
     notes = workbench.root
     board("Rhythmen", accent="#10b981", icon=...)
     workbench.menu_strip()
-    notes.line((0, 1), cells, along="x")
+    notes.line((1, 0), cells, along="x")
 """
 
 from __future__ import annotations
@@ -170,17 +173,43 @@ class BoardDeck:
 
     # -- the menu strip -------------------------------------------------------
 
-    def menu_strip(self, *, y: int = 0, dim: str = "#1f2937") -> None:
-        """One button per board in row `y` of every board; the active
-        board's button in its accent colour, the others dimmed."""
-        if any(len(self.boards) > b.columns for b in self.boards):
-            raise ValueError(
-                f"menu strip of {len(self.boards)} boards does not fit a "
-                f"board with fewer columns -- widen the grids")
+    def menu_strip(self, *, along: str = "y", index: int = 0,
+                   dim: str = "#1f2937") -> None:
+        """One button per board along the menu axis: by default the
+        vertical column `index` (0 -- far left comes first, the boards
+        in creation order from the top, root first); along="x" gives
+        the horizontal strip in row `index`. Before writing, every
+        folder of the deck is settled on the uniform grid, so the menu
+        fits by construction. The active board's button wears its
+        accent colour, the others dimmed."""
+        self._settle_uniform_grid(along, index)
         for board in self.boards:
             for i, target in enumerate(self.boards):
+                x, y = (i, index) if along == "x" else (index, i)
                 cell = Cell(label=target.name,
                             name=f"menu-{_slug(target.name)}",
                             comp=target.icon,
                             background=target.accent if target is board else dim)
-                board.place(i, y, cell).on_press = change_folder(target.folder)
+                board.place(x, y, cell).on_press = change_folder(target.folder)
+
+    def _settle_uniform_grid(self, along: str, index: int) -> None:
+        """Every folder of the deck lands on one common grid before the
+        menu is written: the largest occupied extent over all placements
+        of all boards, at least the per-board rows=/columns= minimums and
+        the menu's own need (one button per board along the menu axis,
+        plus the menu row or column itself). Empty cells stay empty."""
+        columns = max(b.columns for b in self.boards)
+        rows = max(b.rows for b in self.boards)
+        for board in self.boards:
+            for p in board.folder.placements:
+                columns = max(columns, p.x + p.w)
+                rows = max(rows, p.y + p.h)
+        if along == "x":
+            columns = max(columns, len(self.boards))
+            rows = max(rows, index + 1)
+        else:
+            columns = max(columns, index + 1)
+            rows = max(rows, len(self.boards))
+        for board in self.boards:
+            board.folder.columns = columns
+            board.folder.rows = rows

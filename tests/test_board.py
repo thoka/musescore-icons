@@ -139,32 +139,56 @@ def test_icon_name_falls_back_to_label_then_position(workbench):
 # -- menu strip ---------------------------------------------------------------
 
 
-def test_menu_strip_on_every_board(workbench):
+def test_menu_strip_in_column_zero(workbench):
     other = _second_board(workbench)
     workbench.menu_strip()
     for board in (workbench.root, other):
         assert [(p.x, p.y) for p in board.folder.placements] == \
-            [(0, 0), (1, 0)]
+            [(0, 0), (0, 1)]
     assert _folder_id(_button_at(other, 0, 0)) == workbench.deck.root.id
-    assert _folder_id(_button_at(workbench.root, 1, 0)) == other.folder.id
+    assert _folder_id(_button_at(workbench.root, 0, 1)) == other.folder.id
 
 
 def test_menu_strip_marks_the_active_board(workbench):
     other = _second_board(workbench)
     workbench.menu_strip(dim="#1f2937")
     assert _button_at(workbench.root, 0, 0).background == workbench.root.accent
-    assert _button_at(workbench.root, 1, 0).background == "#1f2937"
+    assert _button_at(workbench.root, 0, 1).background == "#1f2937"
     assert _button_at(other, 0, 0).background == "#1f2937"
-    assert _button_at(other, 1, 0).background == other.accent
+    assert _button_at(other, 0, 1).background == other.accent
 
 
-def test_menu_strip_needs_room(workbench):
+def test_menu_strip_settles_uneven_boards_on_one_grid(workbench):
+    wide = workbench.board("Breit", accent="#ef4444",
+                           icon=Composition([Glyph("PLAY")]),
+                           rows=3, columns=8)
+    narrow = workbench.board("Schmal", accent="#f59e0b",
+                             icon=Composition([Glyph("STOP")]),
+                             rows=2, columns=2)
+    workbench.menu_strip()
+    for board in (workbench.root, wide, narrow):
+        assert (board.columns, board.rows) == (8, 4)
+    assert [(p.x, p.y) for p in narrow.folder.placements] == \
+        [(0, 0), (0, 1), (0, 2)]
+
+
+def test_menu_strip_widens_boards_that_are_too_small(workbench):
     small = workbench.board("Eng", accent="#ef4444",
                             icon=Composition([Glyph("PLAY")]),
                             rows=4, columns=1)
-    assert small.columns == 1
-    with pytest.raises(ValueError, match="menu strip"):
-        workbench.menu_strip()
+    workbench.menu_strip()
+    assert (small.columns, small.rows) == (6, 4)
+    assert [(p.x, p.y) for p in small.folder.placements] == \
+        [(0, 0), (0, 1)]
+
+
+def test_menu_strip_can_run_horizontally(workbench):
+    other = _second_board(workbench)
+    workbench.menu_strip(along="x")
+    for board in (workbench.root, other):
+        assert [(p.x, p.y) for p in board.folder.placements] == \
+            [(0, 0), (1, 0)]
+    assert _folder_id(_button_at(workbench.root, 1, 0)) == other.folder.id
 
 
 def test_menu_icons_are_shared_not_duplicated(workbench):

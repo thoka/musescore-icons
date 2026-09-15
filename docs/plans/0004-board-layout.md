@@ -2,21 +2,32 @@
 
 ## Entry
 
-* **Status**: branch `plan/0004-board-layout` (cut from the tip of
-  `plan/0003-workbench`, whose board layer this builds on; `main` is still
-  one commit behind). Plan committed, no code yet. Plan 0003 stands: 176
-  tests green, the workbench deck not yet accepted on the device.
-* **Next step**: Step 1 — library (`Model: GLM`).
-* **Read**: `deckgen/board.py` (the whole file, 186 lines) and
-  `tests/test_board.py` (menu tests). Step 2 additionally needs
-  `decks/workbench.py` and `tests/test_workbench.py`. Nothing else — in
-  particular no plan 0003 re-read beyond what the entry blocks say.
-* **Run**: `.venv/bin/python -m pytest` — 176 green. After step 2:
-  `python decks/workbench.py` writes `packs/noten.macroDeckFolder`, five
-  boards of 7×5 each (69 buttons, unchanged).
-* **Open**: nothing — the four questions are decided (grid 7×5, content
-  origin (1, 0), orientation as the only CLI flag, default vertical column
-  0). The round-trip below is a future plan, not part of this one.
+* **Stand**: branch `plan/0004-board-layout`. Both steps in, each
+  committed: library (`menu_strip(*, along="y", index=0, ...)` +
+  `_settle_uniform_grid`) and workbench deck (content at (1, 0),
+  `--menu` flag, uniform 7×5 grid). 179 tests green.
+  `packs/noten.macroDeckFolder` regenerated locally: five boards of
+  7×5, 73 buttons (same count as alpha). User feedback since: the Noten
+  matrix runs short durations first now (`reversed(rhythm.DURATIONS)`
+  at the call site; the accepted rhythm deck keeps long-to-short).
+  Trial size for the device: the boards are declared on a uniform
+  11×7 grid (`GRID_COLUMNS`/`GRID_ROWS` in workbench.py) — content and
+  menu stay where they are, the empty cells stay empty.
+* **Next step**: none in code — the device decides: grid, menu order
+  (boards top-down in column 0, root first), accents. Then close the
+  plan (status done) and merge per the merge-to-main skill.
+* **Read**: nothing for the code. For the device look: import
+  `packs/noten.macroDeckFolder`. If rework is needed, plan step 2 and
+  `decks/workbench.py`.
+* **Run**: `.venv/bin/python -m pytest` — after step 2 all green (179
+  tests). `python decks/workbench.py` writes `packs/noten.macroDeckFolder`,
+  five boards of 7×5 (73 buttons, unchanged from alpha — the plan's old
+  "69" was a miscount); `--menu horizontal` gives the old strip on top
+  (7×4).
+* **Open**: device judgement of grid and menu order. The content origin
+  under `--menu horizontal` is (0, 1) — decided in step 2 (see its
+  Stand); the plan text said (1, 0) flat, which would collide with the
+  strip.
 
 ## Context
 
@@ -76,7 +87,16 @@ it — nothing more:
   uniform grid over boards declared with different sizes, the horizontal
   option still available.
 
-### Stand: open
+### Stand: done
+
+* [x] `deckgen/board.py` — `menu_strip(*, along="y", index=0, dim=...)`
+      plus private `_settle_uniform_grid` (uniform grid over all boards
+      before writing; the old fit check is gone), module docstring
+      corrected (column 0, example content at (1, 0)).
+* [x] `tests/test_board.py` — menu in column 0, uniform grid over boards
+      declared with different sizes, too-small boards are widened, the
+      horizontal option still available. 15 green; the 5 failures in
+      `tests/test_workbench.py` are step 2's business.
 
 ## Step 2 — Workbench deck
 
@@ -87,7 +107,23 @@ it — nothing more:
   positions (e. g. `note-whole` at (1, 0)), 7×5 on every board,
   bit-identity stays.
 
-### Stand: open
+### Stand: done
+
+* [x] `decks/workbench.py` — content origins to (1, 0), the `--menu`
+      flag, docstring; board declarations widened to columns=7 so the
+      content fits before the grid settles.
+* [x] `tests/test_workbench.py` — structure and spot checks onto the
+      moved positions (`note-whole` at (1, 0)), 7×5 on every board,
+      bit-identity stays. 179 green in total.
+* Deviation, decided in step 2: under `--menu horizontal` the content
+  origin is (0, 1) — the row below the strip. (1, 0) flat would put the
+  content under the strip's own buttons. The vertical default is (1, 0)
+  as decided.
+* Measured: `python decks/workbench.py` writes
+  `packs/noten.macroDeckFolder`, five boards of 7×5, **73** buttons —
+  the same count as on alpha (the "69" this plan inherited from plan
+  0003 was miscounted; 73 is the real number). The horizontal build
+  lands on 7×4, same button count.
 
 ## Verification
 

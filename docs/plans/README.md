@@ -19,11 +19,13 @@ below and this file stay English.
 
 ## Working with a plan
 
-* A plan is committed **before** the implementation starts, in its own commit.
+* A plan is committed **before** the implementation starts, in its own commit
+  — the first commit on its `plan/NNNN-slug` branch, cut from `alpha`.
 * The implementation happens on a branch, never on a target branch directly;
   the branch name is pragmatic (`plan/NNNN-slug` for a plan). Commits are made
   freely; `alpha` collects finished but unproven work, `main` takes only what
-  is proven. Both targets are updated on request with the same procedure: tag
+  is proven. Both targets are updated with the same procedure — `alpha`
+  whenever finished work collects, `main` only at the user's request: tag
   the branch tip, squash-merge it into a single commit whose message
   summarizes the work, then delete the branch — the tag keeps the individual
   commits findable. See *Plans* in `AGENTS.md`.
@@ -37,3 +39,4 @@ below and this file stay English.
 | 0002 | [Deck generator: write complete Macro Deck folders](0002-deck-generator.md) | open | 2026-09-14 |
 | 0003 | [Board system: the workbench deck for note entry](0003-workbench.md) | done | 2026-09-14 |
 | 0004 | [Board layout: uniform grid and vertical menu](0004-board-layout.md) | open | 2026-09-14 |
+| 0005 | [Macro Deck → MuseScore plugin bridge](0005-macrodeck-plugin-bruecke.md) | open | 2026-09-15 |
