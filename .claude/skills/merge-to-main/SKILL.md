@@ -1,6 +1,6 @@
 ---
 name: merge-to-main
-description: Squash-merge the current working branch into a target branch (main, or alpha while the project is unstable) as one summarized commit behind a tag, then delete the branch. Use when the user asks to merge or bring a branch's work in — the merge to main is the user's only approval-gated step.
+description: Squash-merge the current working branch into a target branch (main, or alpha while the project is unstable) as one summarized commit behind a tag, then delete the branch. Use when a branch's work is brought in — when the user asks for a merge, or when finished work collects on alpha (no confirmation needed there). The merge to main is the user's only approval-gated step.
 ---
 
 # Merge to main

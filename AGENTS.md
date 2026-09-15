@@ -2,6 +2,10 @@
 
 Instructions for AI coding agents working in this repository.
 Write these rules in English, even though most of the project prose is German.
+The rules serve Claude sessions (Opus, Sonnet) and opencode sessions (GLM)
+alike: where a capability exists on one harness only, the rule says so, and a
+session that cannot act on a rule skips it without thought. Rules about this
+file itself live in the `optimize-agent-rules` skill.
 
 ## Documentation is bilingual
 
@@ -30,6 +34,9 @@ Rules:
 
 ## Language elsewhere
 
+* **The user writes German; the agent thinks and answers in English.** This is
+  fixed, so no reply ever starts with a language decision. Applies to
+  conversation only — project prose follows the rules below.
 * Code comments, docstrings and `argparse` help texts in the Python scripts are
   **English**. Older code is German — it predates this rule. Translate what you
   touch anyway; leave the rest alone. A sweep through files nobody is working
@@ -45,19 +52,23 @@ sessions and third parties can follow the original brief.
 * Plans live in `docs/plans/` as `NNNN-slug.md`, numbered in the order they were
   written — never in the repository root. `docs/plans/README.md` explains the
   convention and indexes every plan.
-* Commit a new plan on its own, before the implementation starts, and add its
-  row to the table in `docs/plans/README.md` in the same commit.
+* Commit a new plan on its own — the first commit on its `plan/NNNN-slug`
+  branch, cut from `alpha` as soon as the plan is written — and add its row to
+  the table in `docs/plans/README.md` in the same commit.
 * Tick off progress inside the plan file itself, not in a separate note. When
   the work is finished, set the plan's status to `done`; never delete a plan and
   never reuse or renumber a number.
 * Plan prose may be German like the rest of the project documentation; file
   names and the index table stay English.
 * **Cutting the work into steps is Opus work, and the cut includes the model.**
-  Every step says which model it is meant to be worked on — a line
-  `Modell: Sonnet` under its heading is enough, with a word on why when it is
-  not obvious. Deciding that once, with the whole plan in view, is cheaper than
-  re-deciding it in every later session. A session that disagrees with the
-  plan's choice says so rather than quietly working on a bigger model.
+  Every step says which model it is meant for — a line `Modell: Sonnet` or
+  `Modell: GLM` under its heading, with a word on why when it is not obvious.
+  The line names the session the step wants, not the session writing the plan;
+  any harness may cut. Deciding that once, with the whole plan in view, is
+  cheaper than re-deciding it in every later session. A session that runs a
+  step on another model than the cut named says so in the handoff rather than
+  quietly deviating — and a session with no model to choose, opencode's GLM,
+  never weighs the line at all.
 
 Work a plan step at a time, and treat each step as a session of its own: read
 the step and its *Stand*, do the work, tick it off, commit, `/clear`. What that
@@ -83,15 +94,28 @@ searching the repository first. Five entries, no prose:
 If the repository has moved past the block, the code wins and the block gets
 corrected on the spot.
 
-Each plan is implemented on its own branch, `plan/NNNN-slug`. Finished work
-collects on `alpha`; `main` takes only what is proven. Both targets are
-updated with the same squash procedure behind a tag — the steps live in the
-`merge-to-main` skill (`.claude/skills/merge-to-main/SKILL.md`):
+**Branches are pragmatic, not ceremonial** — a mental separation of the work
+at hand, nothing more. Development is single-track: there are no parallel
+features, so there is never a "right branch" to work out. A plan gets its
+`plan/NNNN-slug` branch when the plan is committed — the plan commit is its
+first commit, always cut from `alpha`, so plans never stack. Work without a
+plan stays on whatever is checked out, unless that is `alpha` or `main`, in
+which case a branch named after the work is cut first. A research branch,
+should one ever be needed, is simply created. Spend no thought on the choice.
+
+**Work never lands on a target branch**: `alpha` and `main` receive work only
+through the merge procedure. On a feature branch the session acts freely —
+commits, tests, regenerations, even a merge to `alpha` — with no confirmation
+from the user; the merge to `main` is the one step that waits for them.
+
+Finished work collects on `alpha`; `main` takes only what is proven. Both
+targets are updated with the same squash procedure behind a tag — the steps
+live in the `merge-to-main` skill (`.claude/skills/merge-to-main/SKILL.md`):
 
 * **`alpha`** collects finished but unproven work while the project is
-  unstable. The gate applies at every merge; pushes to `alpha` are always
-  safe — GitHub Pages does not serve it, so nothing goes live. A plan may
-  arrive here still `open` and be continued from `alpha` on a new branch.
+  unstable. The same gate applies as for `main`, and pushes to `alpha` are
+  always safe — GitHub Pages does not serve it, so nothing goes live. A plan
+  may arrive here still `open` and be continued from `alpha` on a new branch.
 * **`main`** is the publish gate: GitHub Pages builds from `main` at `/`, so
   everything pushed to `main` is live at once. An unfinished page, or a
   generated file that no longer matches its generator, does not belong there.
@@ -103,8 +127,8 @@ updated with the same squash procedure behind a tag — the steps live in the
 * Regenerate `icons/` **once** per branch, in the last commit before the merge.
   It is a large committed tree and repeated rebuilds only produce conflicts.
 * Infrastructure that is not part of a plan — agent rules, `.gitignore`,
-  `mise.toml` — takes the same route as everything else: to `alpha` while
-  `main` is frozen, straight to `main` once the project publishes again.
+  `mise.toml` — takes the same route as everything else: to `alpha`, or
+  straight to `main` when the push should go live.
 
 ## Token efficiency
 
@@ -150,14 +174,17 @@ one that does not repeat work an earlier session already did.
   and the cut costs nothing. Which is why the model is part of the cut (see
   *Plans*): by the time the question comes up mid-step, it is usually too late
   to be worth it. Working a long, obviously cheap step on the expensive model
-  without saying anything remains the mistake this rule is about.
+  without saying anything remains the mistake this rule is about. Where the
+  harness offers no model to switch — opencode runs GLM alone — the toll
+  cannot arise: carry on, delegate, or cut, and never weigh a model.
 
 ### Subagents
 
-A subagent keeps its tool output in its own context and hands back a report,
-and it can be given a smaller model. That is the one lever Claude can pull
-without the user, so **use one whenever the saving is likely** — this section
-is the standing permission, no need to ask first.
+A subagent keeps its tool output in its own context and hands back a report;
+in Claude it can also be given a smaller model — a lever the session pulls
+without the user, and the only such lever. opencode's GLM has a single model,
+but the context saving remains. **Use one whenever the saving is likely** —
+this section is the standing permission, no need to ask first.
 
 The test is the ratio: **much input, little answer.** Delegate when the work
 has to read far more than it concludes.
@@ -191,7 +218,8 @@ not reach the user — relay what matters.
   rendered set is browsable on GitHub. Regenerate it rather than editing single
   files by hand.
 * `packs/` is generated by `make_packs.py` and is **not** committed
-  (see `.gitignore`). The packs are published as assets of a GitHub release.
+  (see `.gitignore`). The packs are published as assets of a GitHub release;
+  the `release` skill walks through publishing.
 * `decks/*.py` are ordinary scripts against the library; each writes a
   `packs/<name>.macroDeckFolder` (not committed either). Do not verify a
   regenerated deck by re-parsing the artifact: the tests cover the generator
@@ -265,14 +293,3 @@ Keep `make_packs.py` standard-library only. `musescore_icons.py` may use the
 packages listed in `requirements.txt` (fonttools, pillow) and nothing else.
 `make_deck.py` renders through `musescore_icons.Renderer` and therefore
 depends on those two as well — nothing beyond `requirements.txt`.
-
-## Releasing
-
-1. `python3 make_packs.py --clean` — rebuild the ZIP packs.
-2. `gh release create <tag> packs/*.zip` — attach every pack to the release.
-3. `python3 make_pages.py` — refresh the file sizes on the overview page, then
-   commit the regenerated `index.html`.
-
-The download links on the overview page use
-`/releases/latest/download/<pack>.zip`, so they keep working across releases as
-long as the asset names stay the same.
