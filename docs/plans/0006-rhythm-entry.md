@@ -2,20 +2,20 @@
 
 ## Entry
 
-* **Stand**: branch `plan/0006-rhythm-entry`, cut from alpha at `041250f`
-  (plan 0004 squash-merged there as that commit, still open — the device
-  judgement of grid and menu is pending). 179 tests green. The sixteenth
-  figure is gone from the figures deck (own commit on the 0004 branch,
-  now in alpha).
-* **Next step**: step 1 — the library's `action_bar` (Model: GLM).
-* **Read**: `deckgen/board.py` (Cell, menu_strip, _settle_uniform_grid),
-  `tests/test_board.py`. Step 2 then: `decks/workbench.py`,
-  `deckgen/routines.py`, `decks/rhythm.py` (DURATIONS, DOTTINGS),
+* **Stand**: branch `plan/0006-rhythm-entry`. Plan committed
+  (`5f212fe`, cut from alpha at `041250f` — plan 0004 squash-merged
+  there, still open, device judgement pending). Step 1 in: the
+  library's `action_bar(cells)` — same cells bottom-right on every
+  board, settle extracted into `_settle(min_columns=, min_rows=)`,
+  empty list is a no-op. 183 tests green.
+* **Next step**: step 2 — the Eingeben board and the time-signature
+  column (Model: GLM).
+* **Read**: `decks/workbench.py`, `deckgen/routines.py`, `decks/rhythm.py`
+  (DURATIONS, DOTTINGS), `deckgen/notation.py` (REST_GLYPHS, VALUE_KEYS),
   `tests/test_workbench.py`, `tests/test_routines.py`.
 * **Run**: `.venv/bin/python -m pytest` — all green. `python
-  decks/workbench.py` writes `packs/noten.macroDeckFolder` (five boards,
-  73 buttons before this plan; six boards after step 2);
-  `--svg /tmp/vorschau` for the icons.
+  decks/workbench.py` writes `packs/noten.macroDeckFolder` (five
+  boards, 73 buttons until step 2).
 * **Open**: the generic action bar's content — it comes gradually, one
   step each; the time-signature keys are a proposal until the user's
   import file arrives; the device judgement from plan 0004 still
@@ -82,7 +82,17 @@ time signatures: 2/4, C, ¢ (alla breve), 6/8, 12/8.
   boards (same name, same composition — the library's cache, no
   re-render).
 
-### Stand: open
+### Stand: done
+
+* [x] `deckgen/board.py` — `BoardDeck.action_bar(cells)`: the same
+      cells on every board, bottom row, anchored right; the settle
+      logic extracted into `_settle(min_columns=, min_rows=)` and
+      reused by `menu_strip`; an empty list is a no-op. Module
+      docstring names both constants.
+* [x] `tests/test_board.py` — the bar lands bottom-right on every
+      board and moves nothing else; icons shared across boards; empty
+      list a no-op; after a menu that grows the grid the bar still
+      lands on the final bottom row. 183 green in total.
 
 ## Step 2 — Workbench: the Eingeben board and the time-signature column
 
