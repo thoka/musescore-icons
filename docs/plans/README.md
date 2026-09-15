@@ -37,3 +37,4 @@ below and this file stay English.
 | 0002 | [Deck generator: write complete Macro Deck folders](0002-deck-generator.md) | open | 2026-09-14 |
 | 0003 | [Board system: the workbench deck for note entry](0003-workbench.md) | done | 2026-09-14 |
 | 0004 | [Board layout: uniform grid and vertical menu](0004-board-layout.md) | open | 2026-09-14 |
+| 0005 | [Macro Deck → MuseScore plugin bridge](0005-macrodeck-plugin-bruecke.md) | open | 2026-09-15 |
