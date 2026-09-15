@@ -10,12 +10,13 @@ from fractions import Fraction
 from deckgen.board import BoardDeck
 from deckgen.compose import Composition, Glyph
 from deckgen.routines import (DOT_Y, Dotting, Duration, Length, _dotted,
-                              completions, duration_matrix, key_cell)
+                              completions, duration_matrix, entry_matrix,
+                              key_cell)
 
 # kleine Tabellen -- gross genug fuer die Achsen, klein im Rendern
 DURATIONS = [
-    Duration("whole", "1/1", "NOTE_WHOLE", "7", "#6366f1"),
-    Duration("8th",   "1/8", "NOTE_8TH",   "4", "#10b981"),
+    Duration("whole", "1/1", "NOTE_WHOLE", "7", "#6366f1", 1),
+    Duration("8th",   "1/8", "NOTE_8TH",   "4", "#10b981", 8),
 ]
 DOTTINGS = [
     Dotting("", "", []),
@@ -91,6 +92,37 @@ def test_matrix_shares_one_scale(board):
     duration_matrix(board, (0, 0), DURATIONS, DOTTINGS, axis="x")
     widths = {round(p.button.icon.width, 6) for p in board.folder.placements}
     assert len(widths) == 1   # master size; die Skala steckt im Ausschnitt
+
+
+# -- entry_matrix -----------------------------------------------------------------
+
+
+def test_entry_matrix_types_the_letter_after_duration_and_dots(board):
+    entry_matrix(board, (0, 0), DURATIONS, DOTTINGS, axis="x")
+    assert _button_at(board, 1, 1).icon.name == "enter-8th-dotted"
+    assert _keys(_button_at(board, 1, 1)) == \
+        [((), "4"), ((), "."), ((), "c")]      # dotted eighth, middle C
+
+
+def test_entry_matrix_rest_sends_zero_and_names_the_rest_cells(board):
+    entry_matrix(board, (0, 0), DURATIONS, DOTTINGS, axis="x", rest=True,
+                 prefix="enter-rest")
+    button = _button_at(board, 0, 0)
+    assert button.icon.name == "enter-rest-whole"
+    assert _keys(button) == [((), "7"), ((), "0")]
+    # dotted eighth rest below the plain one -- 0 inserts a rest of the
+    # selected duration
+    assert _keys(_button_at(board, 1, 1)) == \
+        [((), "4"), ((), "."), ((), "0")]
+
+
+def test_entry_matrix_rest_shares_the_matrix_scale(board):
+    entry_matrix(board, (0, 0), DURATIONS, DOTTINGS, axis="x")
+    entry_matrix(board, (3, 0), DURATIONS, DOTTINGS, axis="x", rest=True,
+                 prefix="enter-rest")
+    note = _button_at(board, 0, 0).icon
+    rest = _button_at(board, 3, 0).icon
+    assert (note.width, note.height) == (rest.width, rest.height)
 
 
 # -- completions ----------------------------------------------------------------

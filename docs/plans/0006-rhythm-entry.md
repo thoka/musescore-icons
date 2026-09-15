@@ -2,24 +2,31 @@
 
 ## Entry
 
-* **Stand**: branch `plan/0006-rhythm-entry`. Plan committed
-  (`5f212fe`, cut from alpha at `041250f` — plan 0004 squash-merged
-  there, still open, device judgement pending). Step 1 in: the
-  library's `action_bar(cells)` — same cells bottom-right on every
-  board, settle extracted into `_settle(min_columns=, min_rows=)`,
-  empty list is a no-op. 183 tests green.
-* **Next step**: step 2 — the Eingeben board and the time-signature
-  column (Model: GLM).
-* **Read**: `decks/workbench.py`, `deckgen/routines.py`, `decks/rhythm.py`
-  (DURATIONS, DOTTINGS), `deckgen/notation.py` (REST_GLYPHS, VALUE_KEYS),
-  `tests/test_workbench.py`, `tests/test_routines.py`.
+* **Stand**: branch `plan/0006-rhythm-entry`. Steps 1 and 2 in, each
+  committed: the library's `action_bar(cells)` (same cells bottom-right
+  on every board, settle extracted into `_settle(min_columns=,
+  min_rows=)`), and the workbench's **Eingeben** board — the matrix
+  entering middle C, below it the same values as rests ("0";
+  `entry_matrix(..., rest=)` in deckgen.routines, `Duration` carries
+  its `value`) — plus the time-signature column (2/4, C, ¢, 6/8, 12/8
+  on Ctrl+Alt+5..9) in column 1 of Noten and Eingeben, their content
+  shifted to column 2. The generic bar is wired with an empty list.
+  187 tests green. `packs/noten.macroDeckFolder` regenerated: six
+  boards of 11x7 — Noten 29, Eingeben 47, Ergänzungen 14, Rhythmen 17,
+  Transport 10, Bearbeiten 12 buttons.
+* **Next step**: step 3 — documentation and the import file (Model:
+  GLM). The import file itself arrives from the user.
+* **Read**: `docs/taktarten-kuerzel.md` (to be written),
+  `decks/workbench.py` (TIME_SIGNATURES, BAR_COLOR) for the mapping
+  table. Nothing else.
 * **Run**: `.venv/bin/python -m pytest` — all green. `python
-  decks/workbench.py` writes `packs/noten.macroDeckFolder` (five
-  boards, 73 buttons until step 2).
+  decks/workbench.py --labels --svg /tmp/vorschau` for a look at the
+  new icons and text buttons.
 * **Open**: the generic action bar's content — it comes gradually, one
   step each; the time-signature keys are a proposal until the user's
-  import file arrives; the device judgement from plan 0004 still
-  pending and may rework what this plan builds on.
+  import file arrives (`musescore/shortcuts.xml`); the device
+  judgement from plan 0004 still pending and may rework what this
+  plan builds on.
 
 ## Context
 
@@ -118,7 +125,27 @@ time signatures: 2/4, C, ¢ (alla breve), 6/8, 12/8.
   proposed keys; six boards, menu in creation order; bit-identity of
   the deck.
 
-### Stand: open
+### Stand: done
+
+* [x] `deckgen/routines.py` — `entry_matrix(board, origin, durations,
+      dottings, *, rest=False, ...)`: the matrix with the entry tail
+      ("c", rest "0") via `duration_matrix(..., tail=)`; the rest block
+      sits on the rest glyphs (`notation.REST_GLYPHS`). `Duration`
+      carries its `value` (denominator).
+* [x] `decks/rhythm.py` — DURATIONS gain `value=1..32`; the accepted
+      deck's archive stays bit-identical (test).
+* [x] `decks/workbench.py` — board **Eingeben** second in the menu
+      (accent `#14b8a6`, icon `NOTE_QUARTER`): notes at (2, 0), rests
+      at (2, 3); the five time-signature text buttons at (1, 0)..(1, 4)
+      on Noten and Eingeben, their content shifted to column 2 (under
+      `--menu horizontal` the signatures take column 0 of the row
+      below the strip); `BAR_COLOR` marks the fixed furniture; the
+      generic bar wired with an empty list.
+* [x] `tests/test_routines.py` + `tests/test_workbench.py` — entry
+      cells' key sequences (4 . c / 4 . 0), rest cell names and shared
+      scale, the TSG column's labels/keys/background, six boards in
+      menu order, horizontal menu, bit-identity. 187 green in total;
+      `packs/noten.macroDeckFolder` regenerated (button counts above).
 
 ## Step 3 — Documentation and the import file
 
