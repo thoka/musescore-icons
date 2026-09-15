@@ -197,3 +197,51 @@ def test_menu_icons_are_shared_not_duplicated(workbench):
     menu_icons = [i for i in workbench.deck.icons.icons
                   if i.name.startswith("menu-")]
     assert sorted(i.name for i in menu_icons) == ["menu-noten", "menu-rhythmen"]
+
+
+# -- action bar ----------------------------------------------------------------
+
+
+def test_action_bar_sits_bottom_right_on_every_board(workbench):
+    other = _second_board(workbench)
+    workbench.menu_strip()
+    cells = [Cell(name=f"bar-{i}", comp=Composition([Glyph("NOTE_QUARTER")]),
+                  presses=[("5", ())])
+             for i in range(2)]
+    workbench.action_bar(cells)
+    for board in (workbench.root, other):
+        assert (board.columns, board.rows) == (6, 4)
+        assert _button_at(board, 4, 3).icon.name == "bar-0"
+        assert _button_at(board, 5, 3).icon.name == "bar-1"
+    assert _combos(_button_at(other, 5, 3)) == [{"modifiers": [], "key": "5"}]
+
+
+def test_action_bar_icons_are_shared_not_duplicated(workbench):
+    _second_board(workbench)
+    workbench.menu_strip()
+    workbench.action_bar([Cell(name="bar-x",
+                               comp=Composition([Glyph("NOTE_QUARTER")]))])
+    names = [i.name for i in workbench.deck.icons.icons
+             if i.name.startswith("bar-")]
+    assert names == ["bar-x"]
+
+
+def test_empty_action_bar_is_a_noop(workbench):
+    other = _second_board(workbench)
+    workbench.menu_strip()
+    workbench.action_bar([])
+    for board in (workbench.root, other):
+        assert [(p.x, p.y) for p in board.folder.placements] == \
+            [(0, 0), (0, 1)]
+
+
+def test_action_bar_after_a_growing_menu_lands_on_the_final_grid(workbench):
+    for i in range(4):
+        workbench.board(f"B{i}", accent="#ef4444",
+                        icon=Composition([Glyph("PLAY")]),
+                        rows=2, columns=2)
+    workbench.menu_strip()             # five boards grow the grid to 5 rows
+    workbench.action_bar([Cell(name="bar-x",
+                               comp=Composition([Glyph("NOTE_QUARTER")]))])
+    assert workbench.root.rows == 5
+    assert _button_at(workbench.root, 5, 4).icon.name == "bar-x"

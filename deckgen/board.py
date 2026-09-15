@@ -6,12 +6,14 @@ definition -- a duration matrix, a completion row, a key row -- into a
 region of a board, along either axis, so the same content can be presented
 horizontally or vertically and the device decides which wins.
 
-The menu strip is the one constant: column 0 of every board holds one
-button per board, its icon, a change_folder behind it (along="x" runs
-the strip along a row instead). The active board's button wears the
-board's accent colour, the others stay dimmed. One grid for all boards:
-before writing, menu_strip() settles every folder on the largest
-occupied extent over all boards, plus the menu's own need.
+The menu strip and the action bar are the constants: column 0 of every
+board holds one button per board, its icon, a change_folder behind it
+(along="x" runs the strip along a row instead); the bottom row of every
+board holds the action bar, anchored right (bottom right corner). The
+active board's button wears the board's accent colour, the others stay
+dimmed. One grid for all boards: before writing, both routines settle
+every folder on the largest occupied extent over all boards, plus the
+menu's or the bar's own need.
 
 Example:
 
@@ -20,6 +22,7 @@ Example:
     notes = workbench.root
     board("Rhythmen", accent="#10b981", icon=...)
     workbench.menu_strip()
+    workbench.action_bar([])
     notes.line((1, 0), cells, along="x")
 """
 
@@ -182,7 +185,9 @@ class BoardDeck:
         folder of the deck is settled on the uniform grid, so the menu
         fits by construction. The active board's button wears its
         accent colour, the others dimmed."""
-        self._settle_uniform_grid(along, index)
+        columns, rows = (len(self.boards), index + 1) if along == "x" \
+            else (index + 1, len(self.boards))
+        self._settle(min_columns=columns, min_rows=rows)
         for board in self.boards:
             for i, target in enumerate(self.boards):
                 x, y = (i, index) if along == "x" else (index, i)
@@ -192,24 +197,34 @@ class BoardDeck:
                             background=target.accent if target is board else dim)
                 board.place(x, y, cell).on_press = change_folder(target.folder)
 
-    def _settle_uniform_grid(self, along: str, index: int) -> None:
-        """Every folder of the deck lands on one common grid before the
-        menu is written: the largest occupied extent over all placements
-        of all boards, at least the per-board rows=/columns= minimums and
-        the menu's own need (one button per board along the menu axis,
-        plus the menu row or column itself). Empty cells stay empty."""
+    # -- the action bar -------------------------------------------------------
+
+    def action_bar(self, cells: list[Cell]) -> None:
+        """The same cells on every board, in the bottom row, anchored
+        right -- the bottom right corner, horizontal. The uniform grid
+        is settled first (one row, len(cells) columns from the right);
+        an empty list settles nothing and writes nothing. The content
+        is decided step by step -- what belongs here grows over time."""
+        if not cells:
+            return
+        self._settle(min_columns=len(cells), min_rows=1)
+        for board in self.boards:
+            for i, cell in enumerate(cells):
+                board.place(board.columns - len(cells) + i,
+                            board.rows - 1, cell)
+
+    def _settle(self, *, min_columns: int, min_rows: int) -> None:
+        """Every folder of the deck lands on one common grid: the
+        largest occupied extent over all placements of all boards, at
+        least the caller's own need. Empty cells stay empty; the same
+        need twice is a no-op, so the routines may settle in any
+        order."""
         columns = max(b.columns for b in self.boards)
         rows = max(b.rows for b in self.boards)
         for board in self.boards:
             for p in board.folder.placements:
                 columns = max(columns, p.x + p.w)
                 rows = max(rows, p.y + p.h)
-        if along == "x":
-            columns = max(columns, len(self.boards))
-            rows = max(rows, index + 1)
-        else:
-            columns = max(columns, index + 1)
-            rows = max(rows, len(self.boards))
         for board in self.boards:
-            board.folder.columns = columns
-            board.folder.rows = rows
+            board.folder.columns = max(columns, min_columns)
+            board.folder.rows = max(rows, min_rows)

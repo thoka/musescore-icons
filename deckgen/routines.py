@@ -15,7 +15,7 @@ figures and completions at zoom 100 / font 8 / label at the bottom
 
 from __future__ import annotations
 
-from dataclasses import dataclass
+from dataclasses import dataclass, replace
 from fractions import Fraction
 
 from . import notation
@@ -37,6 +37,7 @@ class Duration:
     glyph: str       # glyph of the UI font
     key: str         # shortcut in MuseScore
     color: str       # button background
+    value: int       # note value as denominator: 8 is an eighth
 
 
 @dataclass(frozen=True)
@@ -71,22 +72,27 @@ def duration_matrix(board: Board, origin: tuple[int, int],
                     durations: list[Duration], dottings: list[Dotting], *,
                     axis: str = "x", labels: bool = False, prefix: str = "note",
                     zoom: int = 70, font_size: int = 14,
-                    label_position: str = "center") -> None:
+                    label_position: str = "center",
+                    tail: str | None = None) -> None:
     """The duration x dotting matrix at one spot, one shared scale over all
     cells. axis="x" runs the durations to the right and stacks the dottings
     downwards -- the accepted rhythm deck; axis="y" is the same definition,
-    turned."""
+    turned. `tail` appends one more keystroke per cell -- the entry_matrix
+    uses it for the note letter."""
     glyphs = board.owner.glyphs
     side = matrix_side(glyphs, durations, dottings)
 
     def cell(d: Duration, n: int) -> Cell:
         dotting = dottings[n]
+        presses = [(d.key, ()), *dotting.keys]
+        if tail:
+            presses.append((tail, ()))
         return Cell(
             label=f"{d.label}{dotting.label}" if labels else "",
             name=f"{prefix}-{d.slug}{dotting.suffix}",
             comp=matrix_cell(glyphs, d, n, side=side),
             background=d.color,
-            presses=[(d.key, ()), *dotting.keys],
+            presses=presses,
             zoom=zoom, font_size=font_size, label_position=label_position)
 
     if axis == "x":
@@ -94,6 +100,26 @@ def duration_matrix(board: Board, origin: tuple[int, int],
     else:
         rows = [[cell(d, n) for n in range(len(dottings))] for d in durations]
     board.grid(origin, rows, along="y")
+
+
+def entry_matrix(board: Board, origin: tuple[int, int],
+                 durations: list[Duration], dottings: list[Dotting], *,
+                 rest: bool = False, axis: str = "x", labels: bool = False,
+                 prefix: str = "enter", zoom: int = 100, font_size: int = 8,
+                 label_position: str = "bottom") -> None:
+    """The duration matrix that enters what it shows: duration key, dots,
+    then the letter -- middle C ("c"), or for a rest "0" (MuseScore inserts
+    a rest of the selected duration). The icons are the matrix cells; the
+    rest block draws the rest glyphs, finer rests borrow the eighth's shape
+    until Leland supplies them (deckgen.notation)."""
+    if rest:
+        durations = [replace(d, glyph=notation.REST_GLYPHS[d.value])
+                     for d in durations]
+    duration_matrix(board, origin, durations, dottings, axis=axis,
+                    labels=labels, prefix=prefix,
+                    tail=notation.REST_KEY if rest else "c",
+                    zoom=zoom, font_size=font_size,
+                    label_position=label_position)
 
 
 # -- ABC figures ---------------------------------------------------------------

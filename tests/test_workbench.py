@@ -1,5 +1,5 @@
 """decks/workbench.py -- the workbench deck (plan 0003, step 3;
-layout per plan 0004)."""
+layout per plan 0004, entry board and bars per plan 0006)."""
 
 from __future__ import annotations
 
@@ -53,13 +53,16 @@ def _folder_id(button) -> str:
 # -- structure --------------------------------------------------------------------
 
 
-def test_five_boards_on_one_grid_with_the_menu_in_column_zero(wb):
+def test_six_boards_on_one_grid_with_the_menu_in_column_zero(wb):
     assert [b.name for b in wb.boards] == \
-        ["Noten", "Ergänzungen", "Rhythmen", "Transport", "Bearbeiten"]
+        ["Noten", "Eingeben", "Ergänzungen", "Rhythmen", "Transport",
+         "Bearbeiten"]
     for board in wb.boards:
         assert (board.columns, board.rows) == (11, 7)
         menu_column = [(p.x, p.y) for p in board.folder.placements if p.x == 0]
-        assert menu_column == [(0, i) for i in range(5)]
+        assert menu_column == [(0, i) for i in range(6)]
+        # the action bar is wired but empty: the bottom row stays free
+        assert all(p.y < 6 for p in board.folder.placements)
 
 
 def test_menu_buttons_navigate(wb):
@@ -75,27 +78,61 @@ def test_active_board_wears_its_accent(wb):
             assert _button_at(board, 0, i).background == expected
 
 
-# -- Noten: the matrix beside the menu column -------------------------------------
+# -- the time-signature column ----------------------------------------------------
+
+
+def test_time_signature_column_before_the_content(wb):
+    """Five text buttons in column 1 of Noten and Eingeben -- the keys are
+    the proposed assignment (docs/taktarten-kuerzel.md), no icon: the UI
+    font has no 2/4, C, cent glyphs."""
+    for board in (wb.root, wb.boards[1]):
+        for i, (label, key, mods) in enumerate(workbench.TIME_SIGNATURES):
+            button = _button_at(board, 1, i)
+            assert button is not None
+            assert button.label == label
+            assert button.icon is None
+            assert button.background == workbench.BAR_COLOR
+            assert _keys(button) == [(mods, key)]
+
+
+# -- Noten: the matrix beside the signature column --------------------------------
 
 
 def test_root_holds_the_duration_matrix(wb):
-    for x in range(1, 7):
+    for x in range(2, 8):
         for y in range(0, 3):
             button = _button_at(wb.root, x, y)
             assert button is not None and button.icon is not None
-    assert _button_at(wb.root, 1, 0).icon.name == "note-32nd"
-    assert _button_at(wb.root, 6, 2).icon.name == "note-whole-double-dotted"
+    assert _button_at(wb.root, 2, 0).icon.name == "note-32nd"
+    assert _button_at(wb.root, 7, 2).icon.name == "note-whole-double-dotted"
 
 
 def test_matrix_cell_sends_duration_then_dotting(wb):
-    assert _keys(_button_at(wb.root, 4, 1)) == [((), "5"), ((), ".")]
+    assert _keys(_button_at(wb.root, 5, 1)) == [((), "5"), ((), ".")]
+
+
+# -- Eingeben: the same matrix, entering middle C -- or a rest --------------------
+
+
+def test_entry_cells_type_middle_c_after_duration_and_dots(wb):
+    board = wb.boards[1]
+    assert _button_at(board, 2, 0).icon.name == "enter-note-32nd"
+    assert _keys(_button_at(board, 4, 1)) == \
+        [((), "4"), ((), "."), ((), "c")]      # dotted eighth
+
+
+def test_rest_cells_send_zero_and_sit_below_the_notes(wb):
+    board = wb.boards[1]
+    assert _button_at(board, 2, 3).icon.name == "enter-rest-32nd"
+    assert _keys(_button_at(board, 4, 4)) == \
+        [((), "4"), ((), "."), ((), "0")]      # dotted eighth rest
 
 
 # -- Ergänzungen ------------------------------------------------------------------
 
 
 def test_completions_fill_two_rows(wb):
-    board = wb.boards[1]
+    board = wb.boards[2]
     # 16tel: Viertel und Halbe in beiden Lagen, Ganze bleibt leer (3 Punkte)
     assert _button_at(board, 1, 0).icon.name == "complement-16-Viertel-end"
     assert _button_at(board, 4, 0).icon.name == "complement-16-Halbe-start"
@@ -107,7 +144,7 @@ def test_completions_fill_two_rows(wb):
 
 
 def test_the_dotted_eighth_sixteenth_button_types_the_whole_figure(wb):
-    board = wb.boards[1]
+    board = wb.boards[2]
     assert _keys(_button_at(board, 1, 0)) == \
         [((), "4"), ((), "."), ((), "c"), ((), "3"), ((), "c")]
 
@@ -116,20 +153,20 @@ def test_the_dotted_eighth_sixteenth_button_types_the_whole_figure(wb):
 
 
 def test_rhythmen_hold_the_accepted_figures(wb):
-    board = wb.boards[2]
+    board = wb.boards[3]
     buttons = [p for p in board.folder.placements if p.x > 0]
     assert len(buttons) == len(patterns.FIGURES) == 11
     assert _button_at(board, 1, 0).icon.name == "figure-halbe"
 
 
 def test_transport_and_edit_send_their_keys(wb):
-    assert _keys(_button_at(wb.boards[3], 1, 0)) == [((), "space")]
-    assert _keys(_button_at(wb.boards[4], 1, 0)) == [(("ctrl",), "z")]
-    assert _button_at(wb.boards[4], 1, 0).label == "Rückgängig"
+    assert _keys(_button_at(wb.boards[4], 1, 0)) == [((), "space")]
+    assert _keys(_button_at(wb.boards[5], 1, 0)) == [(("ctrl",), "z")]
+    assert _button_at(wb.boards[5], 1, 0).label == "Rückgängig"
 
 
 def test_key_boards_are_labelled_even_without_labels_flag(wb):
-    for board in wb.boards[3:]:
+    for board in wb.boards[4:]:
         for p in board.folder.placements:
             if p.x > 0:
                 assert p.button.label
@@ -139,8 +176,10 @@ def test_horizontal_menu_keeps_the_content_below_the_strip(glyphs):
     deck = workbench.build(glyphs, "Noten", "MuseScore4", False, None,
                            menu="horizontal")
     menu_row = [(p.x, p.y) for p in deck.root.folder.placements if p.y == 0]
-    assert menu_row == [(i, 0) for i in range(5)]
-    assert _button_at(deck.root, 0, 1).icon.name == "note-32nd"
+    assert menu_row == [(i, 0) for i in range(6)]
+    # the signatures take the column before the content, one row down
+    assert _button_at(deck.root, 0, 1).label == "2/4"
+    assert _button_at(deck.root, 1, 1).icon.name == "note-32nd"
 
 
 # -- bit identity ----------------------------------------------------------------

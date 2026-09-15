@@ -39,13 +39,15 @@ from deckgen.routines import (Duration, Dotting, duration_matrix,  # noqa: E402
 
 
 # Von lang nach kurz -- dieselbe Richtung wie die Werkzeugleiste in MuseScore.
+# value ist der Notenwert als Nenner -- die Routine fuer die Pausen-Ikonen
+# braucht ihn (deckgen.routines.entry_matrix).
 DURATIONS = [
-    Duration("whole",   "1/1",  "NOTE_WHOLE",   "7", "#6366f1"),
-    Duration("half",    "1/2",  "NOTE_HALF",    "6", "#3b82f6"),
-    Duration("quarter", "1/4",  "NOTE_QUARTER", "5", "#0ea5e9"),
-    Duration("8th",     "1/8",  "NOTE_8TH",     "4", "#10b981"),
-    Duration("16th",    "1/16", "NOTE_16TH",    "3", "#f59e0b"),
-    Duration("32nd",    "1/32", "NOTE_32ND",    "2", "#ef4444"),
+    Duration("whole",   "1/1",  "NOTE_WHOLE",   "7", "#6366f1", value=1),
+    Duration("half",    "1/2",  "NOTE_HALF",    "6", "#3b82f6", value=2),
+    Duration("quarter", "1/4",  "NOTE_QUARTER", "5", "#0ea5e9", value=4),
+    Duration("8th",     "1/8",  "NOTE_8TH",     "4", "#10b981", value=8),
+    Duration("16th",    "1/16", "NOTE_16TH",    "3", "#f59e0b", value=16),
+    Duration("32nd",    "1/32", "NOTE_32ND",    "2", "#ef4444", value=32),
 ]
 
 # Die Zeilennummer ist zugleich die Zahl der Punkte.

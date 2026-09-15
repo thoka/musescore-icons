@@ -40,3 +40,4 @@ below and this file stay English.
 | 0003 | [Board system: the workbench deck for note entry](0003-workbench.md) | done | 2026-09-14 |
 | 0004 | [Board layout: uniform grid and vertical menu](0004-board-layout.md) | open | 2026-09-14 |
 | 0005 | [Macro Deck → MuseScore plugin bridge](0005-macrodeck-plugin-bruecke.md) | open | 2026-09-15 |
+| 0006 | [Rhythm entry: the Eingeben board and the fixed bars](0006-rhythm-entry.md) | open | 2026-09-15 |
