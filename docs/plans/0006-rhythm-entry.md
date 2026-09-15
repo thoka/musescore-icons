@@ -2,31 +2,27 @@
 
 ## Entry
 
-* **Stand**: branch `plan/0006-rhythm-entry`. Steps 1 and 2 in, each
-  committed: the library's `action_bar(cells)` (same cells bottom-right
-  on every board, settle extracted into `_settle(min_columns=,
-  min_rows=)`), and the workbench's **Eingeben** board — the matrix
-  entering middle C, below it the same values as rests ("0";
-  `entry_matrix(..., rest=)` in deckgen.routines, `Duration` carries
-  its `value`) — plus the time-signature column (2/4, C, ¢, 6/8, 12/8
-  on Ctrl+Alt+5..9) in column 1 of Noten and Eingeben, their content
-  shifted to column 2. The generic bar is wired with an empty list.
-  187 tests green. `packs/noten.macroDeckFolder` regenerated: six
-  boards of 11x7 — Noten 29, Eingeben 47, Ergänzungen 14, Rhythmen 17,
-  Transport 10, Bearbeiten 12 buttons.
-* **Next step**: step 3 — documentation and the import file (Model:
-  GLM). The import file itself arrives from the user.
-* **Read**: `docs/taktarten-kuerzel.md` (to be written),
-  `decks/workbench.py` (TIME_SIGNATURES, BAR_COLOR) for the mapping
-  table. Nothing else.
+* **Stand**: branch `plan/0006-rhythm-entry`. All three steps in,
+  each committed: the library's `action_bar(cells)` (same cells
+  bottom-right on every board), the workbench's **Eingeben** board
+  (matrix entering middle C, rests below, via `entry_matrix(...,
+  rest=)`), the time-signature column (2/4, C, ¢, 6/8, 12/8 on
+  Ctrl+Alt+5..9) in column 1 of Noten and Eingeben, and the mapping
+  doc `docs/taktarten-kuerzel.md`. 187 tests green.
+  `packs/noten.macroDeckFolder` regenerated: six boards of 11x7.
+* **Next step**: none in code — the import file
+  (`musescore/shortcuts.xml`) arrives from the user, the keys move if
+  it differs; the device judges the rest. Then merge per the
+  merge-to-main skill (alpha already has the work, see below).
+* **Read**: `docs/taktarten-kuerzel.md` for the key mapping,
+  `decks/workbench.py` (TIME_SIGNATURES, BAR_COLOR) for the buttons.
 * **Run**: `.venv/bin/python -m pytest` — all green. `python
   decks/workbench.py --labels --svg /tmp/vorschau` for a look at the
   new icons and text buttons.
 * **Open**: the generic action bar's content — it comes gradually, one
-  step each; the time-signature keys are a proposal until the user's
-  import file arrives (`musescore/shortcuts.xml`); the device
-  judgement from plan 0004 still pending and may rework what this
-  plan builds on.
+  step each; the time-signature keys are a proposal until the import
+  file arrives; the device judgement from plan 0004 still pending and
+  may rework what this plan builds on.
 
 ## Context
 
@@ -161,7 +157,16 @@ time signatures: 2/4, C, ¢ (alla breve), 6/8, 12/8.
   untouched. (A README section comes with the import file, if the flow
   needs one — then in both languages.)
 
-### Stand: open
+### Stand: done
+
+* [x] `docs/taktarten-kuerzel.md` — the mapping table (Ctrl+Alt+5..9,
+      proposal standing), why these keys (voices, intervals, the ":"
+      lesson), how the assignment reaches the device (palette cell →
+      export → `musescore/shortcuts.xml` → import), and that
+      `TIME_SIGNATURES` follows the file when it lands.
+* The import file is not there yet — it is committed when it arrives,
+  and this step's doc moves with it. No README change: device-internal
+  matter, the generated pages are untouched.
 
 ## Verification
 
