@@ -23,9 +23,10 @@ below and this file stay English.
   — the first commit on its `plan/NNNN-slug` branch, cut from `alpha`.
 * The implementation happens on a branch, never on a target branch directly;
   the branch name is pragmatic (`plan/NNNN-slug` for a plan). Commits are made
-  freely; `alpha` collects finished but unproven work, `main` takes only what
-  is proven. Both targets are updated with the same procedure — `alpha`
-  whenever finished work collects, `main` only at the user's request: tag
+  freely; a branch is merged when the user asks for it — `alpha` collects
+  finished but unproven work, `main` takes only what is proven, and neither
+  merge runs on the session's own initiative. Both targets are updated with
+  the same procedure: tag
   the branch tip, squash-merge it into a single commit whose message
   summarizes the work, then delete the branch — the tag keeps the individual
   commits findable. See *Plans* in `AGENTS.md`.

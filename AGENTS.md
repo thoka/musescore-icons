@@ -104,18 +104,21 @@ which case a branch named after the work is cut first. A research branch,
 should one ever be needed, is simply created. Spend no thought on the choice.
 
 **Work never lands on a target branch**: `alpha` and `main` receive work only
-through the merge procedure. On a feature branch the session acts freely —
-commits, tests, regenerations, even a merge to `alpha` — with no confirmation
-from the user; the merge to `main` is the one step that waits for them.
+through the merge procedure, and the procedure runs only when the user asks
+for it — both targets, every time. On a feature branch the session acts
+freely — commits, tests, regenerations — but it does not merge on its own
+initiative; when it believes a branch is ready to collect, it says so and
+waits for the user's word ("merge it", "bring it in").
 
 Finished work collects on `alpha`; `main` takes only what is proven. Both
 targets are updated with the same squash procedure behind a tag — the steps
 live in the `merge-to-main` skill (`.claude/skills/merge-to-main/SKILL.md`):
 
-* **`alpha`** collects finished but unproven work while the project is
-  unstable. The same gate applies as for `main`, and pushes to `alpha` are
-  always safe — GitHub Pages does not serve it, so nothing goes live. A plan
-  may arrive here still `open` and be continued from `alpha` on a new branch.
+* **`alpha`** collects finished but unproven work — on the user's request,
+  never automatically. It is not served by GitHub Pages, so nothing goes
+  live, but the merge still rewrites how `alpha` reads — and the device
+  may be mid-test on an earlier import. A plan may arrive here still
+  `open` and be continued from `alpha` on a new branch.
 * **`main`** is the publish gate: GitHub Pages builds from `main` at `/`, so
   everything pushed to `main` is live at once. An unfinished page, or a
   generated file that no longer matches its generator, does not belong there.
