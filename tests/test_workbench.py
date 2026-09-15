@@ -118,7 +118,7 @@ def test_the_dotted_eighth_sixteenth_button_types_the_whole_figure(wb):
 def test_rhythmen_hold_the_accepted_figures(wb):
     board = wb.boards[2]
     buttons = [p for p in board.folder.placements if p.x > 0]
-    assert len(buttons) == len(patterns.FIGURES) == 12
+    assert len(buttons) == len(patterns.FIGURES) == 11
     assert _button_at(board, 1, 0).icon.name == "figure-halbe"
 
 

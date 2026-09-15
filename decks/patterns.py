@@ -43,7 +43,6 @@ FIGURES = [
     Figure("Halbe",         "c2 c2",                                        "#6366f1"),
     Figure("Viertel",       "c4 c4 c4 c4",                                  "#3b82f6"),
     Figure("Achtel",        "c8 c8 c8 c8",                                  "#0ea5e9"),
-    Figure("Sechzehntel",   "c16 c16 c16 c16 c16 c16 c16 c16",              "#10b981"),
     Figure("Achteltriole",  "(3 c8 c8 c8",                                  "#14b8a6"),
     Figure("Vierteltriole", "(3 c4 c4 c4",                                  "#f59e0b"),
     Figure("Sextole",       "(6 c32 c32 c32 c32 c32 c32",                   "#ef4444"),
