@@ -72,7 +72,9 @@ sessions and third parties can follow the original brief.
 
 Work a plan step at a time, and treat each step as a session of its own: read
 the step and its *Stand*, do the work, tick it off, commit, `/clear`. What that
-costs is the subject of *Token efficiency* below.
+costs is the subject of *Token efficiency* below. A thread that only wants to
+know what stands open — active, parked, empty — runs `python3 tools/pending.py`
+(the `whats-next` skill).
 
 **Every plan opens with an `Einstieg` block**, directly under the title, and the
 session that finishes a step rewrites it before committing. The handoff is
