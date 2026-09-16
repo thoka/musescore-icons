@@ -2,32 +2,32 @@
 
 ## Entry
 
-* **Stand**: branch `plan/0004-board-layout`. Both steps in, each
-  committed: library (`menu_strip(*, along="y", index=0, ...)` +
-  `_settle_uniform_grid`) and workbench deck (content at (1, 0),
-  `--menu` flag, uniform 7×5 grid). 179 tests green.
-  `packs/noten.macroDeckFolder` regenerated locally: five boards of
-  7×5, 73 buttons (same count as alpha). User feedback since: the Noten
-  matrix runs short durations first now (`reversed(rhythm.DURATIONS)`
-  at the call site; the accepted rhythm deck keeps long-to-short).
-  Trial size for the device: the boards are declared on a uniform
-  11×7 grid (`GRID_COLUMNS`/`GRID_ROWS` in workbench.py) — content and
-  menu stay where they are, the empty cells stay empty.
-* **Next step**: none in code — the device decides: grid, menu order
-  (boards top-down in column 0, root first), accents. Then close the
-  plan (status done) and merge per the merge-to-main skill.
-* **Read**: nothing for the code. For the device look: import
-  `packs/noten.macroDeckFolder`. If rework is needed, plan step 2 and
-  `decks/workbench.py`.
-* **Run**: `.venv/bin/python -m pytest` — after step 2 all green (179
-  tests). `python decks/workbench.py` writes `packs/noten.macroDeckFolder`,
-  five boards of 7×5 (73 buttons, unchanged from alpha — the plan's old
-  "69" was a miscount); `--menu horizontal` gives the old strip on top
-  (7×4).
-* **Open**: device judgement of grid and menu order. The content origin
-  under `--menu horizontal` is (0, 1) — decided in step 2 (see its
-  Stand); the plan text said (1, 0) flat, which would collide with the
-  strip.
+* **Stand**: branch `fix/manifest-size` (aus alpha geschnitten). Der
+  erste Import von `packs/noten.macroDeckFolder` am Gerät wurde abgelehnt
+  ("The file is not a valid Macro Deck archive"). Gemessen gegen den Fork:
+  Macro Deck liest `manifest.json` nur bis 64 KiB
+  (`MaxManifestBytes`, PortableArchive.cs); das eingerückte Manifest des
+  Noten-Decks (89 Icons, 357 Dateieinträge) lag mit 69285 Bytes darüber
+  und wurde als null gelesen — daher die generische Fehlermeldung. Behoben
+  (Schritt 3 unten): `deckgen` schreibt das Manifest jetzt kompakt,
+  59179 Bytes. `packs/noten.macroDeckFolder` ist mit dem gegenwärtigen
+  Stand neu erzeugt: sechs Boards auf dem Versuchsraster 11×7, 129 Tasten,
+  89 Icons (der Stand seit Plan 0006 — die "fünf Boards, 73 Tasten" aus
+  Schritt 2 sind überholt). 184 Tests grün.
+* **Next step**: Gerät — `packs/noten.macroDeckFolder` erneut
+  importieren; Raster, Menü-Ordnung (Boards von oben nach unten in
+  Spalte 0, root zuerst), Akzente beurteilen. Dann den Plan schließen
+  (status done) und nach dem merge-to-main-Skill zusammenführen.
+* **Read**: `docs/plans/0004-board-layout.md`, Abschnitt Schritt 3;
+  `deckgen/archive.py` (`_manifest_bytes`). Für nichts weiter.
+* **Run**: `.venv/bin/python -m pytest` — 184 grün.
+  `python decks/workbench.py` schreibt `packs/noten.macroDeckFolder`
+  (Manifest < 64 KiB, Prüfsummen im Manifest geprüft).
+* **Open**: Gerät-Ortung von Raster und Menü-Ordnung. Gemessene Grenze:
+  auch kompakt passen nur ~98 Icons unter das 64-KiB-Limit — das
+  Noten-Deck sitzt bei 89 Icons mit ~6 KiB Luft. Decks wachsen jetzt in
+  Tasten, nicht mehr in Icons; wer mehr braucht, muss das Format
+  angreifen (nicht hier).
 
 ## Context
 
@@ -124,6 +124,38 @@ it — nothing more:
   the same count as on alpha (the "69" this plan inherited from plan
   0003 was miscounted; 73 is the real number). The horizontal build
   lands on 7×4, same button count.
+
+## Step 3 — The import rejected the Noten deck
+
+**Model: GLM** (small, measured fix; the reader contract came straight
+out of the fork in `vendor/macro-deck`).
+
+Device feedback 2026-09-16: importing `packs/noten.macroDeckFolder`
+failed with "The file is not a valid Macro Deck archive". Measured
+against the fork: Macro Deck reads `manifest.json` only up to 64 KiB
+(`MaxManifestBytes`, `PortableArchive.cs`); `ReadEntry` returns null past
+it, the manifest reads as null, and every such archive maps to
+`InvalidArchive` — the generic message, whatever the true cause. The
+indented manifest of the Noten deck (89 icons → 357 declared files) was
+69285 bytes. Smaller decks (rhythmus, probe) never came near the limit,
+which is why they imported.
+
+* `deckgen/archive.py`: the manifest is written compact (`Deck.manifest`
+  holds the dict, `_manifest_bytes` serializes it without indent) —
+  59179 bytes for the Noten deck. `content.json` stays indented; its
+  limit is 64 MiB.
+* `tests/test_archive.py`: 360 synthetic manifest entries (90 icons)
+  stay under 64 KiB compact and would break indented — the regression
+  the writer must not re-introduce.
+* `tests/test_workbench.py`: the real Noten deck's manifest stays within
+  64 KiB.
+
+### Stand: done
+
+* [x] Fix, both tests, regeneration of `packs/noten.macroDeckFolder`.
+      184 tests green. Measured: even compact, ~98 icons is the ceiling
+      under the 64-KiB limit; the Noten deck sits at 89 icons with
+      ~6 KiB headroom.
 
 ## Verification
 

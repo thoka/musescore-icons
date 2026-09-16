@@ -118,6 +118,19 @@ def test_place_outside_the_grid_is_refused():
         deck.root.place(Button(label="x"), x=3, y=0)
 
 
+def test_manifest_stays_under_macro_decks_64k_limit():
+    """Macro Deck liest Manifeste nur bis 64 KiB (MaxManifestBytes im
+    Importeur). 90 Icons -- 360 Eintraege -- passen nur, wenn das
+    Manifest nicht eingerueckt ist; das Noten-Deck lag mit 89 Icons
+    eingerueckt darueber und der Import lehnte das Archiv ab."""
+    import uuid
+
+    deck = build_deck()
+    files = {f"icons/{uuid.UUID(int=0x400 + n)}/128.webp": b"x" * 2000
+             for n in range(360)}
+    assert len(deck._manifest_bytes(files)) <= 65536
+
+
 # -- Abgleich mit einem echten Export ---------------------------------------
 
 def press_key_block(content: dict) -> dict:

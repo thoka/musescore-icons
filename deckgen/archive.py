@@ -8,7 +8,10 @@ Einzelheiten in docs/plans/0002-deck-generator.md, Anhang A):
     content.json      Ordner, Tasten, Icons
     icons/<guid>/     master.webp (1024) + 128/256/512.webp
 
-Signiert wird nichts -- die Pruefsummen im Manifest genuegen.
+Signiert wird nichts -- die Pruefsummen im Manifest genuegen. Das Manifest
+bleibt komprimiert (ein Zeilenumbruch pro Feld wuerde bei groesseren Decks
+ueber Macro Decks Manifest-Limit von 64 KiB steigen, dann lehnt der Import
+das Archiv ab).
 
 Beispiel:
     deck = Deck("Rhythmus")
@@ -241,26 +244,8 @@ class Deck:
                         used[a.integration_id] = INTEGRATIONS[a.integration_id]
         return [used[k] for k in sorted(used)]
 
-    def write(self, path: str | Path) -> Path:
-        path = Path(path)
-        content = {
-            "kind": "Folder",
-            "profile": None,
-            "folders": [f.record() for f in self.folders],
-            "widgets": None,
-            "icons": [i.record() for i in self.icons.icons],
-            "scripts": [],
-            "secrets": [],
-            "variables": [],
-        }
-        files: dict[str, bytes] = {
-            "content.json": json.dumps(content, ensure_ascii=False, indent=2).encode()
-        }
-        for icon in self.icons.icons:
-            for label, blob in icon.files.items():
-                files[f"icons/{icon.id}/{label}.webp"] = blob
-
-        manifest = {
+    def manifest(self, files: dict[str, bytes]) -> dict:
+        return {
             "formatVersion": FORMAT_VERSION,
             "kind": "Folder",
             "appVersion": APP_VERSION,
@@ -280,8 +265,32 @@ class Deck:
             "files": [{"path": name, "sha256": _sha256(blob), "size": len(blob)}
                       for name, blob in sorted(files.items())],
         }
-        files["manifest.json"] = json.dumps(manifest, ensure_ascii=False,
-                                            indent=2).encode()
+
+    def _manifest_bytes(self, files: dict[str, bytes]) -> bytes:
+        # Macro Deck liest Manifeste nur bis 64 KiB (PortableArchive.MaxManifestBytes);
+        # eingerueckt wuerde das Noten-Deck mit ~350 Eintraegen darueber liegen.
+        return json.dumps(self.manifest(files), ensure_ascii=False).encode()
+
+    def write(self, path: str | Path) -> Path:
+        path = Path(path)
+        content = {
+            "kind": "Folder",
+            "profile": None,
+            "folders": [f.record() for f in self.folders],
+            "widgets": None,
+            "icons": [i.record() for i in self.icons.icons],
+            "scripts": [],
+            "secrets": [],
+            "variables": [],
+        }
+        files: dict[str, bytes] = {
+            "content.json": json.dumps(content, ensure_ascii=False, indent=2).encode()
+        }
+        for icon in self.icons.icons:
+            for label, blob in icon.files.items():
+                files[f"icons/{icon.id}/{label}.webp"] = blob
+
+        files["manifest.json"] = self._manifest_bytes(files)
 
         path.parent.mkdir(parents=True, exist_ok=True)
         with zipfile.ZipFile(path, "w", zipfile.ZIP_DEFLATED, compresslevel=9) as zf:

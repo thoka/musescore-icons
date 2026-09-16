@@ -193,6 +193,16 @@ def test_two_runs_are_bit_identical(glyphs, tmp_path):
     assert a.read_bytes() == b.read_bytes()
 
 
+def test_the_manifest_stays_within_macro_decks_64k_limit(wb, tmp_path):
+    """Macro Deck liest Manifeste nur bis 64 KiB -- das Noten-Deck war das
+    erste Deck, an dem das zerbrach (Import lehnte das Archiv ab)."""
+    import zipfile
+
+    path = wb.deck.write(tmp_path / "noten.macroDeckFolder")
+    with zipfile.ZipFile(path) as z:
+        assert len(z.read("manifest.json")) <= 65536
+
+
 def test_boarddeck_is_what_build_returns(wb):
     assert isinstance(wb, BoardDeck)
     assert wb.deck.root.name == "Noten"
