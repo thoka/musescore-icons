@@ -292,7 +292,14 @@ next session runs one command instead of writing the check again:
 
 ## Dependencies
 
-Keep `make_packs.py` standard-library only. `musescore_icons.py` may use the
-packages listed in `requirements.txt` (fonttools, pillow) and nothing else.
-`make_deck.py` renders through `musescore_icons.Renderer` and therefore
-depends on those two as well — nothing beyond `requirements.txt`.
+Building on other projects' work is welcome; **"no dependencies" is an
+anti-pattern here, not a virtue.** Reach for an established library before
+hand-rolling — a hand-rolled parser, archive writer or format subset is a
+maintenance cost, not an achievement. The discipline that comes with it:
+
+* A dependency is declared before it is imported: `requirements.txt` for
+  runtime, `requirements-dev.txt` for development. When that changes how a
+  checkout is set up, the install section of `README.md` **and**
+  `README-de.md` changes with it.
+* A new dependency says in its commit which library it chose and why — the
+  weigh-in happens once, in writing, not silently in the code.
