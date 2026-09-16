@@ -1,29 +1,40 @@
 #!/usr/bin/env python3
 """Overview of pending work: what stands open, what is parked, what is next.
 
-Read-only. Looks at three places and reports them as three drawers:
+Read-only unless ``--write-index`` is given. Looks at three places and
+reports them as three drawers:
 
 * **Active** -- the checked-out branch and, if it carries a plan, the
   plan's next step from its entry block.
 * **Parked** -- local branches (other than ``alpha``/``main``) that have
   no ``merge/<branch>`` tag on ``alpha`` yet: half-done work that is
   waiting and blocks nothing.
-* **Open plans** -- every plan the index in ``docs/plans/README.md``
-  lists as ``open``, with where its work lives (on ``alpha`` behind a
-  merge tag, parked on a branch, or not started) and its next step.
+* **Open plans** -- every plan whose frontmatter says ``open``, with
+  where its work lives (on ``alpha`` behind a merge tag, parked on a
+  branch, or not started) and its next step.
 
-Stdlib only; the only side effects are git queries.
+``--write-index`` regenerates the plans index table in
+``docs/plans/README.md`` from the plans' frontmatter and exits.
+
+The only side effects are git queries and, with ``--write-index``, the
+index table.
 """
 
 from __future__ import annotations
 
+import argparse
 import re
 import subprocess
 import sys
 from pathlib import Path
 
+import yaml
+
 REPO = Path(__file__).resolve().parent.parent
-PLANS_INDEX = REPO / "docs" / "plans" / "README.md"
+PLANS_DIR = REPO / "docs" / "plans"
+PLANS_README = PLANS_DIR / "README.md"
+TABLE_BEGIN = "<!-- table:begin -->"
+TABLE_END = "<!-- table:end -->"
 TARGETS = {"alpha", "main"}
 
 
@@ -55,25 +66,72 @@ def short(text: str, limit: int = 160) -> str:
     return cut + " …"
 
 
-ROW = re.compile(
-    r"^\| (\d{4}) \| \[([^]]+)\]\(([^)]+)\) \| (\S+) \| (\d{4}-\d{2}-\d{2}) \|",
-    re.M,
-)
+FRONTMATTER = re.compile(r"\A---\s*\n(.*?)\n---\s*\n", re.S)
+H1 = re.compile(r"^# (.+)$", re.M)
+PLAN_NUM = re.compile(r"(\d{4})")
+
+
+def read_frontmatter(text: str) -> dict:
+    """The YAML frontmatter under the title, or {} when absent or broken."""
+    m = FRONTMATTER.match(text)
+    if not m:
+        return {}
+    try:
+        data = yaml.safe_load(m.group(1))
+    except yaml.YAMLError:
+        return {}
+    return data if isinstance(data, dict) else {}
 
 
 def plans_index() -> list[dict[str, str]]:
+    """Every plan file, as an index row read from its frontmatter."""
     rows = []
-    for m in ROW.finditer(PLANS_INDEX.read_text(encoding="utf-8")):
+    for path in sorted(PLANS_DIR.glob("*.md")):
+        if path.name == "README.md":
+            continue
+        text = path.read_text(encoding="utf-8")
+        meta = read_frontmatter(text)
+        num = PLAN_NUM.search(path.name).group(1)
+        h1 = H1.search(text)
         rows.append(
             {
-                "num": m.group(1),
-                "title": m.group(2),
-                "file": m.group(3),
-                "status": m.group(4),
-                "written": m.group(5),
+                "num": num,
+                "title": str(meta.get("Title") or (h1.group(1) if h1 else path.stem)),
+                "file": path.name,
+                "status": str(meta.get("Status", "unknown")).lower(),
+                "written": str(meta.get("Written", "")),
             }
         )
     return rows
+
+
+def index_table(rows: list[dict[str, str]]) -> str:
+    lines = ["| # | Plan | Status | Written |", "|---|---|---|---|"]
+    for p in rows:
+        lines.append(
+            f"| {p['num']} | [{p['title']}]({p['file']}) | {p['status']} "
+            f"| {p['written']} |"
+        )
+    return "\n".join(lines)
+
+
+def replace_table(readme: str, table: str) -> str:
+    """Swap the marked table block in the plans README for ``table``."""
+    begin = readme.find(TABLE_BEGIN)
+    end = readme.find(TABLE_END)
+    if begin == -1 or end == -1 or end < begin:
+        raise SystemExit(
+            f"{PLANS_README.relative_to(REPO)} lacks its "
+            f"{TABLE_BEGIN}/{TABLE_END} markers"
+        )
+    return readme[: begin + len(TABLE_BEGIN)] + "\n\n" + table + "\n\n" + readme[end:]
+
+
+def write_index() -> None:
+    readme = PLANS_README.read_text(encoding="utf-8")
+    PLANS_README.write_text(
+        replace_table(readme, index_table(plans_index())), encoding="utf-8"
+    )
 
 
 ENTRY = re.compile(r"^\* \*\*(.+?)\*\*\s*[:—–-]\s*(.*)$")
@@ -121,7 +179,7 @@ def next_step_key(entries: dict[str, str]) -> str | None:
 
 
 def plan_path(plan: dict[str, str]) -> Path:
-    return PLANS_INDEX.parent / plan["file"]
+    return PLANS_DIR / plan["file"]
 
 
 def plan_next(plan: dict[str, str]) -> str | None:
@@ -140,6 +198,17 @@ def branch_plan_num(branch: str) -> str | None:
 
 
 def main() -> int:
+    parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
+    parser.add_argument(
+        "--write-index",
+        action="store_true",
+        help="regenerate the plans index table in docs/plans/README.md and exit",
+    )
+    args = parser.parse_args()
+    if args.write_index:
+        write_index()
+        return 0
+
     current = git("rev-parse", "--abbrev-ref", "HEAD")
     dirty = git("status", "--porcelain").splitlines()
     branches = [b for b in local_branches() if b not in TARGETS]
@@ -170,12 +239,14 @@ def main() -> int:
             else:
                 mark = f" (plan {num}, {index[num]['status']})"
         elif num:
-            mark = f" (plan {num} not indexed in docs/plans/README.md)"
+            mark = f" (plan {num}: its file is not on this checkout)"
         print(f"  {branch:<28} {last_commit(branch)[:96]}{mark}")
     if not parked:
         print("  none")
 
-    open_plans = [p for p in index.values() if p["status"] == "open"]
+    open_plans = [
+        p for p in index.values() if p["status"] not in ("done", "abandoned")
+    ]
     print(f"\n== Open plans ({len(open_plans)})")
     for plan in open_plans:
         branch = f"plan/{plan['num']}-"

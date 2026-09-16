@@ -34,12 +34,51 @@ def test_entry_block_sections():
     assert "Stand" in block and "Context" not in block
 
 
-def test_plans_index_reads_the_table():
+def test_read_frontmatter():
+    text = "---\nTitle: t\nStatus: open\nWritten: 2026-09-16\n---\n\n# Title\n"
+    meta = pending.read_frontmatter(text)
+    assert meta["Title"] == "t" and meta["Status"] == "open"
+    assert pending.read_frontmatter("# No frontmatter\n") == {}
+    assert pending.read_frontmatter("---\nnot: [closed\n---\n") == {}
+
+
+def test_plans_index_reads_frontmatter():
     rows = pending.plans_index()
-    nums = [r["num"] for r in rows]
-    assert "0001" in nums and "0006" in nums
+    by_num = {r["num"]: r for r in rows}
+    assert "0001" in by_num and "0009" in by_num
+    assert by_num["0001"]["status"] == "done"
+    assert by_num["0001"]["title"] == "Glyph composer: macro deck icons from MuseScore glyphs"
     assert all(r["status"] in {"open", "done", "abandoned"} for r in rows)
     assert all(r["file"].endswith(".md") for r in rows)
+
+
+def test_index_table_and_markers():
+    rows = [
+        {
+            "num": "0001",
+            "title": "Example",
+            "file": "0001-example.md",
+            "status": "done",
+            "written": "2026-09-16",
+        }
+    ]
+    readme = (
+        "prose\n\n<!-- table:begin -->\n\n| old |\n\n<!-- table:end -->\n\nmore prose\n"
+    )
+    out = pending.replace_table(readme, pending.index_table(rows))
+    assert out.startswith("prose\n\n<!-- table:begin -->\n\n| # | Plan |")
+    assert "| 0001 | [Example](0001-example.md) | done | 2026-09-16 |" in out
+    assert out.endswith("more prose\n")
+    assert "| old |" not in out
+
+
+def test_replace_table_needs_markers():
+    try:
+        pending.replace_table("no markers here", "| x |")
+    except SystemExit as exc:
+        assert "table:begin" in str(exc)
+    else:
+        raise AssertionError("missing markers must exit")
 
 
 def test_short_truncates_at_word_boundary():

@@ -1,3 +1,9 @@
+---
+Title: "Deck generator: write complete Macro Deck folders"
+Status: open
+Written: 2026-09-14
+---
+
 # Deck-Generator: vollständige Macro-Deck-Ordner erzeugen
 
 ## Einstieg

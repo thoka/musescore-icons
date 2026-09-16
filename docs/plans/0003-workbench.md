@@ -1,3 +1,9 @@
+---
+Title: "Board system: the workbench deck for note entry"
+Status: done
+Written: 2026-09-14
+---
+
 # Board system: the workbench deck for note entry
 
 ## Entry

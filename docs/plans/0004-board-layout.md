@@ -1,3 +1,9 @@
+---
+Title: "Board layout: uniform grid and vertical menu"
+Status: open
+Written: 2026-09-14
+---
+
 # Board layout: uniform grid and vertical menu
 
 ## Entry

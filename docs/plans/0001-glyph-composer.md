@@ -1,3 +1,9 @@
+---
+Title: "Glyph composer: macro deck icons from MuseScore glyphs"
+Status: done
+Written: 2026-09-13
+---
+
 # Glyph-Composer: Macro-Deck-Icons aus MuseScore-Glyphen
 
 > **Für die umsetzende Session**: Dieser Plan ist als vollständige Bestellung

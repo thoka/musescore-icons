@@ -1,3 +1,9 @@
+---
+Title: "Rhythm entry: the Eingeben board and the fixed bars"
+Status: open
+Written: 2026-09-15
+---
+
 # Rhythm entry: the Eingeben board and the fixed bars
 
 ## Entry
