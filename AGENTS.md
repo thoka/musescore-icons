@@ -96,12 +96,25 @@ corrected on the spot.
 
 **Branches are pragmatic, not ceremonial** — a mental separation of the work
 at hand, nothing more. Development is single-track: there are no parallel
-features, so there is never a "right branch" to work out. A plan gets its
-`plan/NNNN-slug` branch when the plan is committed — the plan commit is its
-first commit, always cut from `alpha`, so plans never stack. Work without a
-plan stays on whatever is checked out, unless that is `alpha` or `main`, in
-which case a branch named after the work is cut first. A research branch,
-should one ever be needed, is simply created. Spend no thought on the choice.
+features, so there is never a "right branch" to work out. The whole model is
+two questions:
+
+* **At session start — is the checked-out branch mine for this task?** If yes,
+  stay on it. If no, cut a fresh one from `alpha`: a plan gets its
+  `plan/NNNN-slug` branch when the plan is committed (the plan commit is its
+  first commit, so plans never stack), work without a plan gets a branch named
+  after the work. Never start from another feature branch and never from
+  `main`; work that builds on half-done work happens on that work's branch
+  instead of dragging its commits across. A research branch, should one ever
+  be needed, is simply created. Spend no thought on the choice.
+* **After a merge — does the branch have its squash commit and tag on
+  `alpha`?** Then it is disposable: the merge procedure deletes it, and nothing
+  is lost, because the squash carries the whole diff and the tag keeps the
+  individual commits findable. Any follow-up — a bug in an earlier plan noticed
+  while working on a later one, a plan that arrived on `alpha` still `open` —
+  starts as a new branch from `alpha`, never by resurrecting the old one. A
+  branch without its tag yet is parked work: it blocks nothing and waits until
+  its work is collected.
 
 **Work never lands on a target branch**: `alpha` and `main` receive work only
 through the merge procedure, and the procedure runs only when the user asks
