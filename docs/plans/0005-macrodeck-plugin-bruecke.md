@@ -1,6 +1,10 @@
-# 0005 — Macro Deck → MuseScore plugin bridge
+---
+Title: "Macro Deck → MuseScore plugin bridge"
+Status: open
+Written: 2026-09-15
+---
 
-Status: **open** · Written: 2026-09-15
+# 0005 — Macro Deck → MuseScore plugin bridge
 
 ## Einstieg
 

@@ -31,8 +31,16 @@ below and this file stay English.
   summarizes the work, then delete the branch — the tag keeps the individual
   commits findable. See *Plans* in `AGENTS.md`.
 * Progress is ticked off inside the plan file itself, not in a separate note.
-* When the work is done, set the status to `done`; do not delete the file.
-* This table is the index — add a row in the same commit that adds a plan.
+* Each plan file carries its metadata as YAML frontmatter at the top, before
+  the title: `Title` (English, for the table — the H1 prose may be German),
+  `Status` (`open` / `done` / `abandoned`) and `Written` (the date).
+* When the work is done, set the plan's frontmatter `Status` to `done` and
+  regenerate the table; do not delete the file.
+* The table below is generated from that frontmatter — never edit it by
+  hand; run `python3 tools/pending.py --write-index` in the same commit as
+  the change that requires it.
+
+<!-- table:begin -->
 
 | # | Plan | Status | Written |
 |---|---|---|---|
@@ -42,4 +50,6 @@ below and this file stay English.
 | 0004 | [Board layout: uniform grid and vertical menu](0004-board-layout.md) | open | 2026-09-14 |
 | 0005 | [Macro Deck → MuseScore plugin bridge](0005-macrodeck-plugin-bruecke.md) | open | 2026-09-15 |
 | 0006 | [Rhythm entry: the Eingeben board and the fixed bars](0006-rhythm-entry.md) | open | 2026-09-15 |
-| 0009 | [Plan frontmatter: metadata in files, table generated](0009-plan-frontmatter.md) | open | 2026-09-16 |
+| 0009 | [Plan frontmatter: metadata in files, table generated](0009-plan-frontmatter.md) | done | 2026-09-16 |
+
+<!-- table:end -->
